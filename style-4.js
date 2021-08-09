@@ -857,7 +857,7 @@ function getFieldsLabels(isPosLeft){
 }
 
 function toggleNavigation() {
-	$("#dform_controls").hide();
+	//$("#dform_controls").hide();
 	KDF.hideNav();
 	
 	// Show save controls for agent
