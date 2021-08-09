@@ -376,6 +376,13 @@ function do_KDF_Custom_Individual(event, kdf, response, action) {
             $('#dform_widget_txta_cust_info_address').prop('readonly', true);
         } else if (action === 'person-retrieve-new' && actionedBySource == 'update-individual') {
             console.log('custom action point 2');
+            
+            KDF.setVal('txt_cust_info_uprn', KDF.getVal('txt_logic_uprn'));
+            KDF.setVal('txt_cust_info_street_number', KDF.getVal('txt_logic_streetnumber'));
+            KDF.setVal('txt_cust_info_street_name', KDF.getVal('txt_logic_streetname'));
+            KDF.setVal('txt_cust_info_town', KDF.getVal('txt_logic_town'));
+            KDF.setVal('txt_cust_info_postcode', KDF.getVal('txt_logic_postcode'));
+            
             KDF.gotoNextPage();
 
         } else if (action === 'person-retrieve-new' && actionedBySource == 'create-individual') {
