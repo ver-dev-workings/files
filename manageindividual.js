@@ -383,6 +383,16 @@ function do_KDF_Custom_Individual(event, kdf, response, action) {
             KDF.setVal('txt_cust_info_town', KDF.getVal('txt_logic_town'));
             KDF.setVal('txt_cust_info_postcode', KDF.getVal('txt_logic_postcode'));
             
+            // Update billing address as well
+            if (KDF.getVal('rad_same_billing_address') === 'Yes') {
+                KDF.setVal('txt_billing_name', KDF.getVal('txt_cust_info_first_name') + ' ' + KDF.getVal('txt_cust_info_last_name'))
+                KDF.setVal('txt_billing_street_number', KDF.getVal('txt_cust_info_street_number'));
+                KDF.setVal('txt_billing_street_name', KDF.getVal('txt_cust_info_street_name'));
+                KDF.setVal('txt_billing_town', KDF.getVal('txt_cust_info_town'));
+                KDF.setVal('txt_billing_postcode', KDF.getVal('txt_cust_info_postcode'));
+                KDF.setVal('txta_billing_full_address', KDF.getVal('txta_cust_info_address'));
+            }
+            
             KDF.gotoNextPage();
 
         } else if (action === 'person-retrieve-new' && actionedBySource == 'create-individual') {
