@@ -96,6 +96,16 @@ function do_KDF_Ready_Individual(event, kdf) {
     // Button "Continue" on Your Details page click event.
     $('#dform_widget_button_but_customer_detail_continue').off('click').on('click', function() {
         KDF.setVal('eml_subscriber', KDF.getVal('eml_cust_info_email'));
+        
+        // Update billing address as well
+        if (KDF.getVal('rad_same_billing_address') === 'Yes') {
+            KDF.setVal('txt_billing_name', KDF.getVal('txt_cust_info_first_name') + ' ' + KDF.getVal('txt_cust_info_last_name'))
+            KDF.setVal('txt_billing_street_number', KDF.getVal('txt_cust_info_street_number'));
+            KDF.setVal('txt_billing_street_name', KDF.getVal('txt_cust_info_street_name'));
+            KDF.setVal('txt_billing_town', KDF.getVal('txt_cust_info_town'));
+            KDF.setVal('txt_billing_postcode', KDF.getVal('txt_cust_info_postcode'));
+            KDF.setVal('txta_billing_full_address', KDF.getVal('txta_cust_info_address'));
+        }
 
         if ($('#dform_widget_chk_anonymous').length > 0) {
             var remainAnonymous = $('#dform_widget_chk_anonymous')[0].checked ? $('#dform_widget_chk_anonymous')[0].value : $('#dform_widget_chk_anonymous').data('unchecked-value');
