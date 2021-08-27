@@ -455,6 +455,14 @@ function do_KDF_objectdataLoaded_Individual(event, kdf, response, type, id) {
 } //end do_KDF_objectdataLoaded_Individual
 
 function do_KDF_optionSelected_Individual(event, kdf, field, label, val) {
+    var required_on = $('[name='+field+'][value='+val+']').data('required-on');
+    var required_off = $('[name='+field+'][value='+val+']').data('required-off');
+
+    // Update the styling for required field
+    if (required_on != '' || required_off != '') {
+        defaultNewStyle(['highlightRequired']);
+    }
+    
     if (field === 'rad_confirm_address') {
         if (val === 'Yes') {
             KDF.hideSection('area_your_details_addressdetails');
