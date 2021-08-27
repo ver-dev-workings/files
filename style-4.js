@@ -1046,23 +1046,44 @@ function requiredColorCheck(jQueryObject, defaultColor, altColor){
 
 function highlightRequired() {
 	//KS: more compact and expandable to place within [selector, checkForBeingRequired]
+// 	var eligible = [
+// 		[$('.rad-gov'),function(val){if (val.find('input[required]').length > 0){return val.find('legend')}else{return null}}],
+// 		[$('.mchk-gov'),function(val){if (val.find('input[required]').length > 0){return val.find('legend')}else{return null}}],
+// 		[$('.chk-gov'), function(val){if (val.find('input[required]').length > 0){return val.find('label')}else{return null}}],
+// 		[$('.txt-gov,.dt-gov,.eml-gov,.num-gov,.pas-gov,.tel-gov,.time-gov,.txta-gov'), function(val){if (val.find('input[required], textarea[required]').length > 0){return val.find('label')}else{return null}}],
+// 		[$('.cs-gov, .ss-gov, .ps-gov, .os-gov, .search-gov'), function (val){if (val.find('fieldset[required="true"]') ){return val.find('fieldset > legend')}else{return null}}],
+// 		[$('.sel-gov'), function(val){if (val.find('select[required]').length > 0){return val.find('label')}else{return null}}],
+// 		[$('.highlightRequired'),function(val){return val}],
+// 	]
+
 	var eligible = [
-		[$('.rad-gov'),function(val){if (val.find('input[required]').length > 0){return val.find('legend')}else{return null}}],
-		[$('.mchk-gov'),function(val){if (val.find('input[required]').length > 0){return val.find('legend')}else{return null}}],
-		[$('.chk-gov'), function(val){if (val.find('input[required]').length > 0){return val.find('label')}else{return null}}],
-		[$('.txt-gov,.dt-gov,.eml-gov,.num-gov,.pas-gov,.tel-gov,.time-gov,.txta-gov'), function(val){if (val.find('input[required], textarea[required]').length > 0){return val.find('label')}else{return null}}],
-		[$('.cs-gov, .ss-gov, .ps-gov, .os-gov, .search-gov'), function (val){if (val.find('fieldset[required="true"]') ){return val.find('fieldset > legend')}else{return null}}],
-		[$('.sel-gov'), function(val){if (val.find('select[required]').length > 0){return val.find('label')}else{return null}}],
+		[$('.rad-gov'),function(val){return val.find('legend')}],
+		[$('.mchk-gov'),function(val){return val.find('legend')}],
+		[$('.chk-gov'), function(val){return val.find('label')}],
+		[$('.txt-gov,.dt-gov,.eml-gov,.num-gov,.pas-gov,.tel-gov,.time-gov,.txta-gov'), function(val){return val.find('label')}],
+		[$('.cs-gov, .ss-gov, .ps-gov, .os-gov, .search-gov'), function (val){return val.find('fieldset > legend')}],
+		[$('.sel-gov'), function(val){return val.find('label')}],
 		[$('.highlightRequired'),function(val){return val}],
 	]
 	
 	var textFields = [];
+	var notRequiredField = [];
 	
+// 	eligible.forEach(function(element){
+// 		element[0].each(function(i, val){
+// 			//KS checks the elements in their selector for being requires, then adds them to array if they are
+// 			var reqElement = element[1]($(val));
+// 			if (reqElement != null)  textFields.push(reqElement);
+// 			else notRequiredField.push(reqElement);
+// 		});
+// 	});
+
 	eligible.forEach(function(element){
 		element[0].each(function(i, val){
 			//KS checks the elements in their selector for being requires, then adds them to array if they are
 			var reqElement = element[1]($(val));
-			if (reqElement != null) textFields.push(reqElement);
+			if (element[1]($(val)).closest('.dform_widget').find('[required]').length > 0)  textFields.push(reqElement);
+			else notRequiredField.push(reqElement);
 		});
 	});
 	
@@ -1082,8 +1103,15 @@ function highlightRequired() {
 		}//KS else would be for when there is already one there
 	});
 	
-	//KS only works for adding required star - will develop ability to remove on request
-	
+	//AS remove required stars
+	notRequiredField.forEach(function(element){
+		if (!reqFun.isEligible(element)) {
+			//KS checks that the required-HTML hasn't already been added - only adds if it isn't
+			element.find('span[title="required"]').remove()
+		}//KS else would be for when there is already one there
+	});
+
+
 	//KS: trigger: '_style_highlightRequired, [textFields]'
 	$(formName()).trigger('_style_highlightRequired',[textFields]);
 }
