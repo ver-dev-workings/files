@@ -221,7 +221,7 @@ var _app={
     	_app.funnelBack.init();
     },
 	addFavicons:function(){
-		var c='#c41508',d='document';
+		var c='#c41508',d=document;
 		var _arr=[{r:'shortcut icon',t:'image/x-icon',s:'',h:'/__data/assets/file/0022/1957/favicon.ico'},{r:'apple-touch-icon',t:'image/png',s:'',h:'/__data/assets/image/0016/1951/apple-touch-icon.png'},{r:'icon',t:'image/png',s:'32x32',h:'/__data/assets/image/0019/1954/favicon-32x32.png'},{r:'icon',t:'image/png',s:'16x16',h:'/__data/assets/image/0018/1953/favicon-16x16.png'},{r:'mask-icon',t:'image/svg+xml',s:'',h:'/__data/assets/file/0021/1956/safari-pinned-tab.svg'}];
 		for(i=0;i<_arr.length;i++){
 			var link=d.createElement('link');
