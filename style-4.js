@@ -1,6 +1,3 @@
-/*icons*/
-(function(d){var c="#c41508";var _arr=[{r:"shortcut icon",t:"image/x-icon",s:"",h:"https://lobe-dev-web01.squiz.cloud/__data/assets/file/0022/1957/favicon.ico"},{r:"apple-touch-icon",t:"image/png",s:"",h:"https://lobe-dev-web01.squiz.cloud/__data/assets/image/0016/1951/apple-touch-icon.png"},{r:"icon",t:"image/png",s:"32x32",h:"https://lobe-dev-web01.squiz.cloud/__data/assets/image/0019/1954/favicon-32x32.png"},{r:"icon",t:"image/png",s:"16x16",h:"https://lobe-dev-web01.squiz.cloud/__data/assets/image/0018/1953/favicon-16x16.png"},{r:"mask-icon",t:"image/svg+xml",s:"",h:"https://lobe-dev-web01.squiz.cloud/__data/assets/file/0021/1956/safari-pinned-tab.svg"}];for(i=0;i<_arr.length;i++){var link=d.createElement('link');link.rel=_arr[i].r;link.type=_arr[i].t;if(_arr[i].s!==''){link.sizes=_arr[i].s;}d.getElementsByTagName('head')[0].appendChild(link);link.href=_arr[i].h;if(_arr[i].r=='mask-icon'){link.setAttribute('color',c);}}})(document);
-/*/icons*/
 /**
 =====================================
         Google Tag Manager - START
@@ -222,9 +219,26 @@ var _app={
         if($('.inner-header h1').html()===undefined)$('.inner-header').remove();
     	_app.loginStatus();
     	_app.funnelBack.init();
-    }
+    },
+	addFavicons:function(){
+		var c='#c41508',d='document';
+		var _arr=[{r:'shortcut icon',t:'image/x-icon',s:'',h:'/__data/assets/file/0022/1957/favicon.ico'},{r:'apple-touch-icon',t:'image/png',s:'',h:'/__data/assets/image/0016/1951/apple-touch-icon.png'},{r:'icon',t:'image/png',s:'32x32',h:'/__data/assets/image/0019/1954/favicon-32x32.png'},{r:'icon',t:'image/png',s:'16x16',h:'/__data/assets/image/0018/1953/favicon-16x16.png'},{r:'mask-icon',t:'image/svg+xml',s:'',h:'/__data/assets/file/0021/1956/safari-pinned-tab.svg'}];
+		for(i=0;i<_arr.length;i++){
+			var link=d.createElement('link');
+			link.rel=_arr[i].r;
+			link.type=_arr[i].t;
+			if(_arr[i].s!==''){
+				link.sizes=_arr[i].s;
+			}
+			d.getElementsByTagName('head')[0].appendChild(link);
+			link.href=_app.squizDomain._arr[i].h;
+			if(_arr[i].r=='mask-icon'){
+				link.setAttribute('color',c);
+			}
+		}
+	}
 }
-
+_app.addFavicons();
 $(document).ready(function(){
     _app.init();
 });
