@@ -231,7 +231,7 @@ var _app={
 				link.sizes=_arr[i].s;
 			}
 			d.getElementsByTagName('head')[0].appendChild(link);
-			link.href=_app.squizDomain._arr[i].h;
+			link.href=_app.squizDomain+_arr[i].h;
 			if(_arr[i].r=='mask-icon'){
 				link.setAttribute('color',c);
 			}
