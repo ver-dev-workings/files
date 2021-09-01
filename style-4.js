@@ -238,9 +238,9 @@ var _app={
 	}
 }
 _app.addFavicons();
-_app.init();
+
 $(document).ready(function(){
-    
+	_app.init();
 });
 
 
