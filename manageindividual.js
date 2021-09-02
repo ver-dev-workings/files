@@ -96,6 +96,16 @@ function do_KDF_Ready_Individual(event, kdf) {
     // Button "Continue" on Your Details page click event.
     $('#dform_widget_button_but_customer_detail_continue').off('click').on('click', function() {
         KDF.setVal('eml_subscriber', KDF.getVal('eml_cust_info_email'));
+        
+        // Update billing address as well
+        if (KDF.getVal('rad_same_billing_address') === 'Yes') {
+            KDF.setVal('txt_billing_name', KDF.getVal('txt_cust_info_first_name') + ' ' + KDF.getVal('txt_cust_info_last_name'))
+            KDF.setVal('txt_billing_street_number', KDF.getVal('txt_cust_info_street_number'));
+            KDF.setVal('txt_billing_street_name', KDF.getVal('txt_cust_info_street_name'));
+            KDF.setVal('txt_billing_town', KDF.getVal('txt_cust_info_town'));
+            KDF.setVal('txt_billing_postcode', KDF.getVal('txt_cust_info_postcode'));
+            KDF.setVal('txta_billing_full_address', KDF.getVal('txta_cust_info_address'));
+        }
 
         if ($('#dform_widget_chk_anonymous').length > 0) {
             var remainAnonymous = $('#dform_widget_chk_anonymous')[0].checked ? $('#dform_widget_chk_anonymous')[0].value : $('#dform_widget_chk_anonymous').data('unchecked-value');
@@ -376,6 +386,23 @@ function do_KDF_Custom_Individual(event, kdf, response, action) {
             $('#dform_widget_txta_cust_info_address').prop('readonly', true);
         } else if (action === 'person-retrieve-new' && actionedBySource == 'update-individual') {
             console.log('custom action point 2');
+            
+            KDF.setVal('txt_cust_info_uprn', KDF.getVal('txt_logic_uprn'));
+            KDF.setVal('txt_cust_info_street_number', KDF.getVal('txt_logic_streetnumber'));
+            KDF.setVal('txt_cust_info_street_name', KDF.getVal('txt_logic_streetname'));
+            KDF.setVal('txt_cust_info_town', KDF.getVal('txt_logic_town'));
+            KDF.setVal('txt_cust_info_postcode', KDF.getVal('txt_logic_postcode'));
+            
+            // Update billing address as well
+            if (KDF.getVal('rad_same_billing_address') === 'Yes') {
+                KDF.setVal('txt_billing_name', KDF.getVal('txt_cust_info_first_name') + ' ' + KDF.getVal('txt_cust_info_last_name'))
+                KDF.setVal('txt_billing_street_number', KDF.getVal('txt_cust_info_street_number'));
+                KDF.setVal('txt_billing_street_name', KDF.getVal('txt_cust_info_street_name'));
+                KDF.setVal('txt_billing_town', KDF.getVal('txt_cust_info_town'));
+                KDF.setVal('txt_billing_postcode', KDF.getVal('txt_cust_info_postcode'));
+                KDF.setVal('txta_billing_full_address', KDF.getVal('txta_cust_info_address'));
+            }
+            
             KDF.gotoNextPage();
 
         } else if (action === 'person-retrieve-new' && actionedBySource == 'create-individual') {
@@ -428,6 +455,14 @@ function do_KDF_objectdataLoaded_Individual(event, kdf, response, type, id) {
 } //end do_KDF_objectdataLoaded_Individual
 
 function do_KDF_optionSelected_Individual(event, kdf, field, label, val) {
+    var required_on = $('[name="'+field+'"][value="'+val+'"]').data('required-on');
+    var required_off = $('[name="'+field+'"][value="'+val+'"]').data('required-off');
+
+    // Update the styling for required field
+    if (required_on != '' || required_off != '') {
+        defaultNewStyle(['highlightRequired']);
+    }
+    
     if (field === 'rad_confirm_address') {
         if (val === 'Yes') {
             KDF.hideSection('area_your_details_addressdetails');
