@@ -1188,9 +1188,9 @@ KS: Custom gov multi-checkbox - Start
     background-color: #ffbf47;
     outline: 3px solid #ffbf47 !important;
 }
-[data-type='html'] a[href]:visited {
+/*[data-type='html'] a[href]:visited {
     color: purple !important;
-}
+}*/
 .rad-margin-8-legend, .mchk-margin-8-legend   {float:left;margin-right:3.8%;min-height: 1px;width:4.85%;}
 .rad-margin-16-legend, .mchk-margin-16-legend {float:left;margin-right:3.8%;min-height: 1px;width:13.45%;}
 .rad-margin-25-legend, .mchk-margin-25-legend {float:left;margin-right:3.8%;min-height: 1px;width:22.05%;}
