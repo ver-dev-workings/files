@@ -246,7 +246,7 @@ $(document).ready(function(){
 
 $.ajaxSetup({
 	success:function(event, xhr, options){
-		var redirectURL=window.location.href=(location.protocol+'//'+location.host+_app.portalName+'register?redirectUrl='+encodeURIComponent(location.protocol+'//'+location.host+_app.portalName+'mydetails'));
+		//var redirectURL=window.location.href=(location.protocol+'//'+location.host+_app.portalName+'register?redirectUrl='+encodeURIComponent(location.protocol+'//'+location.host+_app.portalName+'mydetails'));
 		if(this.url.includes("lerest/v1/requests?filter=complete")){
 			console.log("lerest called")
 			setTimeout(function(){
