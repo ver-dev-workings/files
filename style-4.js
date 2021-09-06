@@ -246,6 +246,7 @@ $(document).ready(function(){
 
 $.ajaxSetup({
 	success:function(event, xhr, options){
+		var redirectURL=window.location.href=(location.protocol+'//'+location.host+_app.portalName+'register?redirectUrl='+location.protocol+'//'+location.host+_app.portalName+'mydetails');
 		if(this.url.includes("lerest/v1/requests?filter=complete")){
 			console.log("lerest called")
 			setTimeout(function(){
@@ -278,12 +279,14 @@ $.ajaxSetup({
 				console.log('not logged in')
 				var currentURL = window.location.href;
 				if(!currentURL.includes("/register?")){
-					window.location.href = "https://lbedev.portal.ukpreview.empro.verintcloudservices.com/site/enfield_dev/register?redirectUrl=https://lbedev.portal.ukpreview.empro.verintcloudservices.com/site/enfield_dev/mydetails";
+					window.location.href=redirectURL;
+					/*window.location.href = "https://lbedev.portal.ukpreview.empro.verintcloudservices.com/site/enfield_dev/register?redirectUrl=https://lbedev.portal.ukpreview.empro.verintcloudservices.com/site/enfield_dev/mydetails";*/
 				}
 			}
 		}else if(this.url.includes("lerest/v1?token=")){
 			if(event.links.length === 1){
-				window.location.href = "https://lbedev.portal.ukpreview.empro.verintcloudservices.com/site/enfield_dev/register?redirectUrl=https://lbedev.portal.ukpreview.empro.verintcloudservices.com/site/enfield_dev/mydetails";
+				window.location.href=redirectURL;
+				/*window.location.href = "https://lbedev.portal.ukpreview.empro.verintcloudservices.com/site/enfield_dev/register?redirectUrl=https://lbedev.portal.ukpreview.empro.verintcloudservices.com/site/enfield_dev/mydetails";*/
 			}
 		}
 	},
