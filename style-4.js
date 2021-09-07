@@ -140,7 +140,7 @@ var _app={
 	informUser:function(m,o){let f=(o.f)?function(){$(this).parents(".ui-dialog-buttonpane button:eq(0)").focus()}:function(){return;};$("#modalDialog").dialog({dialogClass:"no-close",closeOnEscape:false,modal:m,title:o.t,buttons:o.b,focus:f()});$("#modalDialogText").html(o.d);},
 	logOut:function(){_app.informUser(1,_app.alerts.logout);},
 	loginStatus:function(){
-		var keepAlive;
+		/*var keepAlive;*/
 		if($("#nav_username").length){
 			$("span.header-links__text:contains('Login/Register')").html($("#nav_username").html().trim()).closest('a')[0].href='javascript:void(0);';
 			$("#headerLoginLink").addClass("dropdown");
@@ -152,7 +152,7 @@ var _app={
 
 			if(_app.isMatrixLoggedIn()!=="1")_app.loginToMatrix();
 
-			keepAlive=setInterval(function(){
+			/*keepAlive=setInterval(function(){
 				$.ajax({
 					type:"GET", url:_app.portalName+"mydetails" 
 				}).done(function(){
@@ -167,9 +167,9 @@ var _app={
 						_app.informUser(1,_app.alerts.sessionExpired);
 					}
 				});
-			},60000);
+			},600000);*/
 		}else{
-			clearInterval(keepAlive);
+			/*clearInterval(keepAlive);*/
 			$(".header-menu__myaccount").hide();
 		}
 		$("#widget_Navigation").hide();
