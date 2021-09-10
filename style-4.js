@@ -16,6 +16,8 @@ var _app={
 	loginURL:'https://auth.ukpreview.empro.verintcloudservices.com/auth/realms/lbedev-portal/protocol/openid-connect/auth?client_id=portal',
 	portalName:'/site/enfield_dev/',
 	squizDomain:'https://lobe-dev-web01.squiz.cloud',
+	getVal:function(v){return eval(v)},
+	user:{uName:'',orgID:''},
 	funnelBack:{
 		u:'https://lobe-search.squiz.cloud/s/suggest.json?collection=lbe-web&fmt=json++',
 		max:4,
@@ -135,14 +137,28 @@ var _app={
 		logout:{t:"How to logout",d:"<p>To log out of your Enfield Connected account, you must close your browser.</p>",b:{OK:function(){$(this).dialog("close")}},f:false},
 		noInternet:{t:"No internet",d:"<p>Unable to connect to the internet. Please check your internet connection.</p>",b:{OK:function(){$(this).dialog("close")}},f:true},
 		sessionExpired:{t:"Session expired",d:"<p>Your session has timed out. Please login again to continue.</p>",b:{Login:function(){location.href=_app.loginURL+'&redirect_uri='+encodeURIComponent(location.href)+'&'}},f:true},
-		popupBlocked:{t:"Welcome, "+$("#nav_username").html(),d:"<p>You are now logged into the Enfield Connected portal where you can manage your account details and access your requests and drafts.</p><p style='text-align:center'><a style=';color:#fff' href='javascript:_app.loginToMatrix();void(0);' class='btn btn-primary'>Continue</a></p>",b:{},f:false}
+		popupBlocked:{t:"Welcome, "+getVal('_app.user.uName'),d:"<p>You are now logged into the Enfield Connected portal where you can manage your account details and access your requests and drafts.</p><p style='text-align:center'><a style=';color:#fff' href='javascript:_app.loginToMatrix();void(0);' class='btn btn-primary'>Continue</a></p>",b:{},f:false}
 	},
 	informUser:function(m,o){let f=(o.f)?function(){$(this).parents(".ui-dialog-buttonpane button:eq(0)").focus()}:function(){return;};$("#modalDialog").dialog({dialogClass:"no-close",closeOnEscape:false,modal:m,title:o.t,buttons:o.b,focus:f()});$("#modalDialogText").html(o.d);},
 	logOut:function(){_app.informUser(1,_app.alerts.logout);},
+	setUser:function(s){
+		_app.user.uName=s;
+		if(typeof 
+		organizationid !== 'undefined' || typeof KDF.getParams().crossref !== 'undefined'){
+		  if(typeof KDF.getParams().organizationid !== 'undefined'){
+			  _app.user.orgID=KDF.getParams().organizationid;
+		  }else if(typeof KDF.getParams().crossref !== 'undefined'){
+			  _app.user.orgID=KDF.getParams().crossref;
+		  }
+		}else if(KDF.kdf().profileData.organisationid){
+		  _app.user.orgID=KDF.kdf().profileData.organisationid;
+		}
+	},
 	loginStatus:function(){
 		/*var keepAlive;*/
 		if($("#nav_username").length){
-			$("span.header-links__text:contains('Login/Register')").html($("#nav_username").html().trim()).closest('a')[0].href='javascript:void(0);';
+			_app.setUser($("#nav_username").html().trim());
+			$("span.header-links__text:contains('Login/Register')").html(_app.user.uName).closest('a')[0].href='javascript:void(0);';
 			$("#headerLoginLink").addClass("dropdown");
 			$(".header-menu__myaccount").show();
 			var ref = document.createElement("a");
