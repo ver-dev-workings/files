@@ -137,7 +137,7 @@ var _app={
 		logout:{t:"How to logout",d:"<p>To log out of your Enfield Connected account, you must close your browser.</p>",b:{OK:function(){$(this).dialog("close")}},f:false},
 		noInternet:{t:"No internet",d:"<p>Unable to connect to the internet. Please check your internet connection.</p>",b:{OK:function(){$(this).dialog("close")}},f:true},
 		sessionExpired:{t:"Session expired",d:"<p>Your session has timed out. Please login again to continue.</p>",b:{Login:function(){location.href=_app.loginURL+'&redirect_uri='+encodeURIComponent(location.href)+'&'}},f:true},
-		popupBlocked:{t:"Welcome, "+getVal('_app.user.uName'),d:"<p>You are now logged into the Enfield Connected portal where you can manage your account details and access your requests and drafts.</p><p style='text-align:center'><a style=';color:#fff' href='javascript:_app.loginToMatrix();void(0);' class='btn btn-primary'>Continue</a></p>",b:{},f:false}
+		popupBlocked:{t:"Welcome, "+_app.getVal('_app.user.uName'),d:"<p>You are now logged into the Enfield Connected portal where you can manage your account details and access your requests and drafts.</p><p style='text-align:center'><a style=';color:#fff' href='javascript:_app.loginToMatrix();void(0);' class='btn btn-primary'>Continue</a></p>",b:{},f:false}
 	},
 	informUser:function(m,o){let f=(o.f)?function(){$(this).parents(".ui-dialog-buttonpane button:eq(0)").focus()}:function(){return;};$("#modalDialog").dialog({dialogClass:"no-close",closeOnEscape:false,modal:m,title:o.t,buttons:o.b,focus:f()});$("#modalDialogText").html(o.d);},
 	logOut:function(){_app.informUser(1,_app.alerts.logout);},
