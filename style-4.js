@@ -157,7 +157,7 @@ var _app={
 	loginStatus:function(){
 		/*var keepAlive;*/
 		if($("#nav_username").length){
-			_app.setUser($("#nav_username").html().trim());
+			_app.setUser($("#nav_username").html());
 			$("span.header-links__text:contains('Login/Register')").html(_app.user.uName).closest('a')[0].href='javascript:void(0);';
 			$("#headerLoginLink").addClass("dropdown");
 			$(".header-menu__myaccount").show();
