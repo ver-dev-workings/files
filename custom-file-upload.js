@@ -225,7 +225,7 @@ function do_KDF_Custom_Sharepoint (response, action) {
         	    }
         	} else {
 				var sharepoint_title = '';
-				if ($('#dform_widget_txt_sharepoint_title') > 0) {
+				if ($('#dform_widget_txt_sharepoint_title').length > 0) {
 					sharepoint_title = KDF.getVal('sharepoint_title');
 					console.log('asdf')
 				} else {
