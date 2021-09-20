@@ -328,7 +328,7 @@ function sharepointFileThumbnail (itemID, access_token, widgetName){
 				var html;
 		
 				html =	'<div id="' + widgetName + '"style="float: left;">' +
-				'<div style="margin-right: 10px"><img style="width: 196px; height: 196px" class="' + widgetName + '"src=' + thumbnailUrl + '></img></div><div>' + KDF.getVal(widgetName) + '</div></div>';
+				'<div style="margin-right: 10px"><img class="' + widgetName + '"src=' + thumbnailUrl + '></img></div><div>' + KDF.getVal(widgetName) + '</div></div>';
 		
 				setTimeout(function(){ $('#custom_fileupload_view').append(html)}, 1000);
 		}
