@@ -1740,6 +1740,7 @@ background-color: #f4f4f4;
     font-family: SpartaIcons;
     font-size: 14px;
     margin-left: 10px;
+    cursor: pointer;
 }
 
 #dform_container .filenames > span {
