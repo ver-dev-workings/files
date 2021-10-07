@@ -1,5 +1,5 @@
 /*portal scripts*/
-function hideTableCol(tid,col){
+function hideTableCols(tid,col){
 	$(`${tid} th, ${tid} td`).show();
 	for(var i=0;i<col.length;i++){
 		$(`${tid} thead tr th`).eq(col[i]).hide();
