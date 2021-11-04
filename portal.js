@@ -1,5 +1,5 @@
 /*portal scripts*/
-function hideTableCols(tid,col){
+/*function hideTableCols(tid,col){
 	$(`${tid} th, ${tid} td`).show();
 	for(var i=0;i<col.length;i++){
 		$(`${tid} thead tr th`).eq(col[i]).hide();
@@ -7,7 +7,7 @@ function hideTableCols(tid,col){
 			$(this).find("td").eq(col[i]).hide();   
 		});
 	}
-}
+}*/
 $.ajaxSetup({
 	success:function(event, xhr, options){
 		var redirectURL=location.protocol+'//'+location.host+_app.portalName+'register?redirectUrl='+encodeURIComponent(location.protocol+'//'+location.host+_app.portalName+'mydetails');
@@ -63,10 +63,10 @@ $.ajaxSetup({
 		}
 	},
 });
-function setUploadText(i,a,b){
+/*function setUploadText(i,a,b){
 	$(`${i} label:first`).html(a);
 	$(`${i} .helptext`).html(b);
-}
+}*/
 var _app={
 	loginURL:'https://auth.ukpreview.empro.verintcloudservices.com/auth/realms/lbedev-portal/protocol/openid-connect/auth?client_id=portal',
 	portalName:'/site/enfield_dev/',
