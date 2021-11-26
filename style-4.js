@@ -55,9 +55,8 @@ function addAccordion(){
 		}
 	    });
 	}
-	if (KDF.getVal('txt_customer_id') !== '' && typeof KDF.getParams().customerid !== 'undefined') {
+	if ((KDF.kdf().viewmode === 'R' || KDF.kdf().viewmode === 'U') && KDF.getVal('txt_cust_info_first_name') !== '') {
 		$('.accordion_label[data-for="dform_widget_cs_customer_search_id"]').click();
-// 		$('.accordion_label[data-for="dform_widget_ps_citizen_property_search_id"]').click();
 	}
 }//end addAccordion
 /**
