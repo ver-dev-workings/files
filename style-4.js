@@ -55,7 +55,7 @@ function addAccordion(){
 		}
 	    });
 	}
-	if ((KDF.kdf().viewmode === 'R' || KDF.kdf().viewmode === 'U') && KDF.getVal('txt_cust_info_first_name') !== '') {
+	if ((KDF.kdf().access === 'agent' && KDF.getParams().customerid !== undefined) || (KDF.kdf().viewmode === 'R' || KDF.kdf().viewmode === 'U') && KDF.getVal('txt_cust_info_first_name') !== '') {
 		$('.accordion_label[data-for="dform_widget_cs_customer_search_id"]').click();
 	}
 }//end addAccordion
