@@ -17,7 +17,7 @@ function setFileNames(filenames) {
     formParams.fileNames = filenames;
 }
 
-function do_KDF_Ready_Sharepoint(event, kdf) {
+function do_KDF_Ready_SharepointV2(event, kdf) {
     var hostURL = window.location.href;
     if (hostURL.includes("https://lbe.")) {
         formParams.fileUploadUrl = 'https://graph.microsoft.com/v1.0/sites/enfield365.sharepoint.com,0abdd322-1a3a-4fa5-8a3c-9e021152aab7,c82bbb33-b259-4604-9365-42c364d6172b/drive/items/'
@@ -166,7 +166,7 @@ function setFileThumbnails(access_token) {
     });
 }
 
-function do_KDF_Custom_Sharepoint(response, action) {
+function do_KDF_Custom_SharepointV2(response, action) {
     if (action === 'sharepoint_token') {
         var access_token = response.data['access_token'];
         if (!KDF.kdf().form.readonly && formParams.deleteFileSelector == '') {
@@ -230,7 +230,7 @@ function do_KDF_Custom_Sharepoint(response, action) {
     }
 }
 
-function do_KDF_Save_Sharepoint() {
+function do_KDF_Save_SharepointV2() {
 
     if (formParams.fileBlob !== '') {
         $('#custom_fileupload').focus();
