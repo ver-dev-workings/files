@@ -105,17 +105,8 @@ function processFile() {
     }
 
     if (!fileError) {
-        filenames = [];
-        for (var i = 0; i < formParams.fieldNames.length; i++) {
-            if (KDF.getVal('txt_filename_' + formParams.fieldNames[i]) == '') {
-                fileNames.push(false);
-            } else {
-                fileNames.push(true);
-            }
-        }
-        if (fileNames.every(function(v) { return v === false })) {
-            fileError = false;
-        } else {
+        fileNames = [];
+        if (formParams.fieldNames.every(function(fieldName) { return KDF.getVal('txt_filename_' + fieldName) !== '' })) {
             fileError = true;
             KDF.showError('Maximum file upload has been reach');
         }
@@ -159,7 +150,6 @@ function processFile() {
 
 function setFileThumbnails(access_token) {
     formParams.fieldNames.forEach(function(name) {
-        console.log(item)
         if (KDF.getVal('txt_filename_' + name) !== '') {
             sharepointFileThumbnail(KDF.getVal('txt_sharepointID_' + name), access_token, 'txt_filename_' + name, name);
         }
