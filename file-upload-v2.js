@@ -13,8 +13,8 @@ var formParams = {
     fieldNames: []
 }
 
-function setFileNames(filenames) {
-    formParams.fileNames = filenames;
+function setFiledNames(filednames) {
+    formParams.fieldNames = filednames;
 }
 
 function do_KDF_Ready_SharepointV2(event, kdf) {
