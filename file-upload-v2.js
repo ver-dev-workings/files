@@ -108,7 +108,7 @@ function processFile() {
         fileNames = [];
         if (formParams.fieldNames.every(function(fieldName) { return KDF.getVal('txt_filename_' + fieldName) !== '' })) {
             fileError = true;
-            KDF.showError('Maximum file upload has been reach');
+            KDF.showError('Maximum number of file uploads has been reached');
         }
     }
 
@@ -197,7 +197,7 @@ function do_KDF_Custom_SharepointV2(response, action) {
                 sharepoint_title = KDF.getVal('txt_sharepoint_title');
 
             } else {
-                sharepoint_title = 'Please upload up to two photos of the problem';
+                sharepoint_title = 'Please upload photos';
             }
             var txt_file_types = response.data['txt_file_types'];
             formParams.allowedFileType = txt_file_types.replace(/'/g, '').replace('(', '').replace(')', '').replace(/,/g, ', ');
