@@ -60,19 +60,12 @@ function do_KDF_Ready_SharepointV2(event, kdf) {
             txt_file_format: fileNameClean
         })
 
-
-        /*else {
-            	KDF.showWarning('File Upload is not accessible, contact your administrator')
-            	$('#custom_fileupload_holder').hide()
-            }*/
-
     });
 
     $('body').on('click', 'img', function() {
-        debugger
-        if ($(this).data('filename')) {
+        if ($(this).data('fieldname')) {
             if (KDF.kdf().form.readonly) {
-                formParams.imgClickSelector = $(this).data('filename');
+                formParams.imgClickSelector = $(this).data('fieldname');
                 KDF.customdata('sharepoint_token', 'imgClickEvent', true, true, {});
             }
         }
