@@ -19,7 +19,7 @@ function setFiledNames(fieldnames) {
 
 function do_KDF_Ready_SharepointV2(event, kdf) {
     var hostURL = window.location.href;
-    if (hostURL.includes("https://lbe.")) {
+    if (hostURL.indexOf("https://lbe.") > -1) {
         formParams.fileUploadUrl = 'https://graph.microsoft.com/v1.0/sites/enfield365.sharepoint.com,0abdd322-1a3a-4fa5-8a3c-9e021152aab7,c82bbb33-b259-4604-9365-42c364d6172b/drive/items/'
     }
 
@@ -69,9 +69,10 @@ function do_KDF_Ready_SharepointV2(event, kdf) {
     });
 
     $('body').on('click', 'img', function() {
-        if ($(this).attr('class').includes('filename')) {
+        debugger
+        if ($(this).data('filename')) {
             if (KDF.kdf().form.readonly) {
-                formParams.imgClickSelector = $(this).attr('class');
+                formParams.imgClickSelector = $(this).data('filename');
                 KDF.customdata('sharepoint_token', 'imgClickEvent', true, true, {});
             }
         }
@@ -246,9 +247,8 @@ function sharepointFileUploader(access_token) {
     $.ajax({
         url: uploadURL,
         dataType: 'json',
-        contentType: 'image/jpeg',
         processData: false,
-        headers: { 'Authorization': access_token, 'Content-Type': 'image/jpeg' },
+        headers: { 'Authorization': access_token },
         data: formParams.fileBlob,
         method: 'PUT',
 
@@ -351,9 +351,9 @@ function addFileContainer(fieldName) {
 
 
 function sharepointDownloadFile(access_token) {
-    var selector = formParams.imgClickSelector;
-    var fieldName = $('.' + selector).data('fieldname');
-    var sharepointID = KDF.getVal('txt_sharepointID_' + fieldName);
+    // var selector = formParams.imgClickSelector;
+    // var fieldName = $('.' + selector).data('fieldname');
+    var sharepointID = KDF.getVal('txt_sharepointID_' + formParams.imgClickSelector);
     var getFileURL = formParams.fileUploadUrl + sharepointID + '/preview';
 
     $.ajax({
@@ -362,9 +362,7 @@ function sharepointDownloadFile(access_token) {
         type: 'POST'
     }).done(function(response) {
         window.open(response.getUrl);
-    }).fail(function() {
-
-    });
+    }).fail(function() {});
     formParams.imgClickSelector = '';
 }
 
