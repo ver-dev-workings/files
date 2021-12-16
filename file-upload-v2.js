@@ -71,20 +71,24 @@ function do_KDF_Ready_SharepointV2(event, kdf) {
         }
     })
 
+    $('body').on('click', '.fileicon', function() {
+        if ($(this).data('fieldname')) {
+            if (KDF.kdf().form.readonly) {
+                formParams.imgClickSelector = $(this).data('fieldname');
+                KDF.customdata('sharepoint_token', 'imgClickEvent', true, true, {});
+            }
+        }
+    })
+
     $('body').on('click', '.delete_file', function() {
         formParams.deleteFileSelector = $(this).closest('span').data('fieldname');
         KDF.customdata('sharepoint_token', 'imgClickEvent', true, true, {});
-
     })
-
-
-
 }
 
 function setFileBlobData(fileBlob) {
     formParams.fileBlob = fileBlob;
 }
-
 
 function processFile() {
     var fileError = false;
@@ -275,11 +279,11 @@ function sharepointFileThumbnail(itemID, access_token, widgetName, fieldName) {
         method: 'GET',
 
     }).done(function(response) {
+        var thumbnailURL = (response.value[0]) ? response.value[0].medium['url'] : undefined;
         if (!KDF.kdf().form.readonly) {
-
             if (KDF.kdf().viewmode === 'U' && formParams.fileBlob == '') {
                 if (fieldName) {
-                    KDF.setVal('txt_filename_' + fieldName + '_thumb', response.value[0].medium['url']);
+                    KDF.setVal('txt_filename_' + fieldName + '_thumb', thumbnailURL);
                 }
                 addFileContainer(fieldName);
             } else if (formParams.fileBlob !== '') {
@@ -289,7 +293,7 @@ function sharepointFileThumbnail(itemID, access_token, widgetName, fieldName) {
                 for (var i = 0; i < formParams.fieldNames.length; i++) {
                     var name = formParams.fieldNames[i];
                     if (KDF.getVal('txt_filename_' + name + '_thumb') == '') {
-                        KDF.setVal('txt_filename_' + name + '_thumb', response.value[0].medium['url']);
+                        KDF.setVal('txt_filename_' + name + '_thumb', thumbnailURL);
                         break;
                     }
                 }
@@ -301,11 +305,12 @@ function sharepointFileThumbnail(itemID, access_token, widgetName, fieldName) {
             }
 
         } else if (KDF.kdf().form.readonly || KDF.kdf().viewmode == 'R') {
-            var thumbnailUrl = response.value[0].medium['url'];
+            var fileName = KDF.getVal(widgetName);
             var html;
 
             html = '<div id="' + widgetName + '"style="float: left;">' +
-                '<div style="margin-right: 10px"><img class="' + widgetName + '"src=' + thumbnailUrl + ' data-fieldname="' + fieldName + '"></img></div><div>' + KDF.getVal(widgetName) + '</div></div>';
+                '<div style="margin-right: 10px">' + getImage(thumbnailURL, widgetName, fileName, fieldName) +
+                '</div><div>' + fileName + '</div></div>';
 
             setTimeout(function() { $('#custom_fileupload_view').append(html) }, 1000);
         }
@@ -337,9 +342,18 @@ function addFileContainer(fieldName) {
         }
     }
 
-    $(".filenames").append('<span class="' + widgetName + '"> <span class="img_container"> <img id="img_' + widgetName + '" data-filename="' + fileName + '" src=' + fileThumbnail + '"><div>' + fileName + '<span id="delete_' + widgetName + '" data-fieldname="' + fieldName + '" style="font-weight:bold;" class="delete_file">4</span></div></span></span>');
+    $(".filenames").append('<span class="' + widgetName + '"> <span class="img_container"> ' + getImage(fileThumbnail, widgetName, fileName, fieldName) +
+        '<div>' + fileName + '<span id="delete_' + widgetName + '" data-fieldname="' + fieldName + '" style="font-weight:bold;" class="delete_file">4</span></div></span></span>');
 
     KDF.unlock();
+}
+
+function getImage(fileThumbnail, widgetName, fileName, fieldName) {
+    if (fileThumbnail) {
+        return ' <img id="img_' + widgetName + '" data-filename="' + fileName + '"data-fieldname="' + fieldName + '" src=' + fileThumbnail + '" > ';
+    } else {
+        return ' <span class="fileicon" data-filename="' + fileName + '" data-fieldname="' + fieldName + '">e</span> ';
+    }
 }
 
 
