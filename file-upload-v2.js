@@ -13,8 +13,8 @@ var formParams = {
     fieldNames: []
 }
 
-function setFiledNames(filednames) {
-    formParams.fieldNames = filednames;
+function setFiledNames(fieldnames) {
+    formParams.fieldNames = fieldnames;
 }
 
 function do_KDF_Ready_SharepointV2(event, kdf) {
@@ -78,7 +78,7 @@ function do_KDF_Ready_SharepointV2(event, kdf) {
     })
 
     $('body').on('click', '.delete_file', function() {
-        formParams.deleteFileSelector = $(this).closest('span').attr('id');
+        formParams.deleteFileSelector = $(this).closest('span').data('fieldname');
         KDF.customdata('sharepoint_token', 'imgClickEvent', true, true, {});
 
     })
@@ -197,7 +197,7 @@ function do_KDF_Custom_SharepointV2(response, action) {
                 sharepoint_title = KDF.getVal('txt_sharepoint_title');
 
             } else {
-                sharepoint_title = 'Please upload photos';
+                sharepoint_title = 'Please upload files';
             }
             var txt_file_types = response.data['txt_file_types'];
             formParams.allowedFileType = txt_file_types.replace(/'/g, '').replace('(', '').replace(')', '').replace(/,/g, ', ');
@@ -209,7 +209,7 @@ function do_KDF_Custom_SharepointV2(response, action) {
                     '<div><label>' + sharepoint_title + '</div></label>' +
                     '<div style="position: relative;"><input id="custom_fileupload" type="file" name="uploadedFile">' +
                     '<span class="file-gov-icon"><span class="file-gov-icon-a"></span><span class="file-gov-icon-b"></span><label class="file-gov-text">Upload file</label></span>' +
-                    '<div class="helptext">Image file types accepted are ' + formParams.allowedFileType + ' up to ' + formParams.maxFileSizeDisplay + ' MB in size</div>' +
+                    '<div class="helptext">Accepted file types are ' + formParams.allowedFileType + ' up to ' + formParams.maxFileSizeDisplay + ' MB in size</div>' +
                     '<div class="dform_fileupload_progressbar" id="custom_fileupload_progressbar"></div>' +
                     '<div class="filenames" id="custom_fileupload_files"></div><br><br></div>' +
                     ' </div>';
@@ -344,7 +344,7 @@ function addFileContainer(fieldName) {
         }
     }
 
-    $(".filenames").append('<span class="' + widgetName + '"> <span class="img_container"> <img id="img_' + widgetName + '" src=' + fileThumbnail + ' data-fieldname="' + fieldName + '"><div>' + fileName + '<span id="delete_' + widgetName + '" style="font-weight:bold;" class="delete_file">4</span></div></span></span>');
+    $(".filenames").append('<span class="' + widgetName + '"> <span class="img_container"> <img id="img_' + widgetName + '" data-filename="' + fileName + '" src=' + fileThumbnail + '"><div>' + fileName + '<span id="delete_' + widgetName + '" data-fieldname="' + fieldName + '" style="font-weight:bold;" class="delete_file">4</span></div></span></span>');
 
     KDF.unlock();
 }
@@ -372,8 +372,10 @@ function deleteFile(access_token) {
     $(".dform_fileupload_progressbar").html("<div style='width: 0%;'>");
 
     var selector = formParams.deleteFileSelector;
+
     var fileID = KDF.getVal('txt_sharepointID_' + selector);
     var deleteURL = formParams.fileUploadUrl + fileID;
+
 
     $.ajax({
         url: deleteURL,
