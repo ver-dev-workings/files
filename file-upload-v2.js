@@ -86,11 +86,11 @@ function do_KDF_Ready_SharepointV2(event, kdf) {
     })
 }
 
-function setFileBlobData(fileBlob) {
+function setFileBlobDataV2(fileBlob) {
     formParams.fileBlob = fileBlob;
 }
 
-function processFile() {
+function processFileV2() {
     var fileError = false;
     var fileName = $("#custom_fileupload")[0].files[0].name;
     var fileNameClean = fileName.split('.').pop();
@@ -133,7 +133,7 @@ function processFile() {
         reader.readAsArrayBuffer($("#custom_fileupload")[0].files[0]);
 
         reader.onloadend = function() {
-            setFileBlobData(reader.result);
+            setFileBlobDataV2(reader.result);
             $(".dform_fileupload_progressbar").html("<div style='width: 30%;'>");
             if (!formParams.kdfSaveFlag) {
                 KDF.save();
@@ -146,10 +146,10 @@ function processFile() {
 
 }
 
-function setFileThumbnails(access_token) {
+function setFileThumbnailsV2(access_token) {
     formParams.fieldNames.forEach(function(name) {
         if (KDF.getVal('txt_filename_' + name) !== '') {
-            sharepointFileThumbnail(KDF.getVal('txt_sharepointID_' + name), access_token, 'txt_filename_' + name, name);
+            sharepointFileThumbnailV2(KDF.getVal('txt_sharepointID_' + name), access_token, 'txt_filename_' + name, name);
         }
     });
 }
@@ -160,7 +160,7 @@ function do_KDF_Custom_SharepointV2(response, action) {
         if (!KDF.kdf().form.readonly && formParams.deleteFileSelector == '') {
 
             if (KDF.kdf().viewmode == 'U' && formParams.fileBlob == '') {
-                setFileThumbnails(access_token);
+                setFileThumbnailsV2(access_token);
             } else if (formParams.fileBlob !== '') {
 
                 if (!formParams.kdfSaveFlag) {
@@ -168,24 +168,26 @@ function do_KDF_Custom_SharepointV2(response, action) {
                     formParams.full_classification = response.data['full_classification'];
                 }
 
-                sharepointFileUploader(access_token);
+                sharepointFileUploaderV2(access_token);
             }
 
 
         } else if (!KDF.kdf().form.readonly && formParams.deleteFileSelector !== '') {
-            deleteFile(access_token);
+            deleteFileV2(access_token);
         }
 
         if (KDF.kdf().form.readonly && formParams.imgClickSelector == '') {
             //sharepointFileThumbnail (itemID, access_token)
-            setFileThumbnails(access_token);
+            setFileThumbnailsV2(access_token);
         } else if (KDF.kdf().form.readonly && formParams.imgClickSelector !== '') {
-            sharepointDownloadFile(access_token)
+            sharepointDownloadFileV2(access_token)
         }
     } else if (action == 'sharepoint_config') {
         if (response.data['pass_status']) {
+            // processFile();
+
             if (response.data['pass_status'] == 'good') {
-                processFile();
+                processFileV2();
             } else {
                 KDF.showError('Incorrect file type selected.')
             }
@@ -234,7 +236,7 @@ function do_KDF_Save_SharepointV2() {
     }
 }
 
-function sharepointFileUploader(access_token) {
+function sharepointFileUploaderV2(access_token) {
     KDF.lock();
     var fileName = $("#custom_fileupload")[0].files[0].name;
     var fileSize = $("#custom_fileupload")[0].files[0].size;
@@ -269,7 +271,7 @@ function sharepointFileUploader(access_token) {
 
 }
 
-function sharepointFileThumbnail(itemID, access_token, widgetName, fieldName) {
+function sharepointFileThumbnailV2(itemID, access_token, widgetName, fieldName) {
     var getThumbnailURL = formParams.fileUploadUrl + itemID + '/thumbnails';
 
     $.ajax({
@@ -285,7 +287,7 @@ function sharepointFileThumbnail(itemID, access_token, widgetName, fieldName) {
                 if (fieldName) {
                     KDF.setVal('txt_filename_' + fieldName + '_thumb', thumbnailURL);
                 }
-                addFileContainer(fieldName);
+                addFileContainerV2(fieldName);
             } else if (formParams.fileBlob !== '') {
 
                 $(".dform_fileupload_progressbar").html("<div style='width: 60%;'>");
@@ -299,7 +301,7 @@ function sharepointFileThumbnail(itemID, access_token, widgetName, fieldName) {
                 }
                 $(".dform_fileupload_progressbar").html("<div style='width: 100%;'>");
                 setTimeout(function() {
-                    addFileContainer();
+                    addFileContainerV2();
                     $(".dform_fileupload_progressbar").html("<div style='width: 0%;'>");
                 }, 1000);
             }
@@ -321,7 +323,7 @@ function sharepointFileThumbnail(itemID, access_token, widgetName, fieldName) {
 
 }
 
-function addFileContainer(fieldName) {
+function addFileContainerV2(fieldName) {
     $('input#custom_fileupload').val('');
     var fileName;
     var fileThumbnail;
@@ -357,7 +359,7 @@ function getImage(fileThumbnail, widgetName, fileName, fieldName) {
 }
 
 
-function sharepointDownloadFile(access_token) {
+function sharepointDownloadFileV2(access_token) {
     // var selector = formParams.imgClickSelector;
     // var fieldName = $('.' + selector).data('fieldname');
     var sharepointID = KDF.getVal('txt_sharepointID_' + formParams.imgClickSelector);
@@ -373,7 +375,7 @@ function sharepointDownloadFile(access_token) {
     formParams.imgClickSelector = '';
 }
 
-function deleteFile(access_token) {
+function deleteFileV2(access_token) {
     $(".dform_fileupload_progressbar").html("<div style='width: 0%;'>");
 
     var selector = formParams.deleteFileSelector;
@@ -399,35 +401,4 @@ function deleteFile(access_token) {
     });
 
     formParams.deleteFileSelector = '';
-}
-
-function preventScroll() {
-
-    var scrollPosition = [
-        self.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft,
-        self.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-    ];
-
-    var html = jQuery('html'); // it would make more sense to apply this to body, but IE7 won't have that
-    html.data('scroll-position', scrollPosition);
-    html.data('previous-overflow', html.css('overflow'));
-    html.css('overflow', 'hidden');
-    window.scrollTo(scrollPosition[0], scrollPosition[1]);
-}
-
-function allowScroll() {
-    var html = jQuery('html');
-    var scrollPosition = html.data('scroll-position');
-    html.css('overflow', html.data('previous-overflow'));
-    if (scrollPosition !== undefined) {
-        window.scrollTo(scrollPosition[0], scrollPosition[1])
-    }
-}
-
-function inIframe() {
-    try {
-        return window.self !== window.top;
-    } catch (e) {
-        return true;
-    }
 }
