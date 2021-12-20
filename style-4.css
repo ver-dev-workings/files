@@ -1571,6 +1571,9 @@ abbr{
     letter-spacing: initial;
     text-transform: initial;
     line-height: initial;
+    letter-spacing: normal;
+    text-transform: none;
+    line-height: normal;
 }
 
 #dform_container .header1 {
