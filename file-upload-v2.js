@@ -252,7 +252,7 @@ function sharepointFileUploaderV2(access_token) {
         method: 'PUT',
 
     }).done(function(response) {
-        sharepointFileThumbnail(response.id, access_token)
+        sharepointFileThumbnailV2(response.id, access_token)
         $(".dform_fileupload_progressbar").html("<div style='width: 60%;'>");
 
         for (var i = 0; i < formParams.fieldNames.length; i++) {
