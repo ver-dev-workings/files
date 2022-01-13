@@ -57,7 +57,7 @@ function setUploadText(i, a, b) {
 var _app = {
     loginURL: 'https://auth.ukpreview.empro.verintcloudservices.com/auth/realms/lbeqa-portal/protocol/openid-connect/auth?client_id=portal',
     portalName: '/site/enfield_qa/',
-    squizDomain: 'https://lobe-qa-web01.squiz.cloud',
+    squizDomain: 'https://lobe-dev-web01.squiz.cloud',
     getVal: function(v) { return eval(v) },
     user: { uName: '', orgID: '' },
     funnelBack: {
