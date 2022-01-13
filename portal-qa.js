@@ -18,7 +18,7 @@ $.ajaxSetup({
                 var currentURL = window.location.href;
                 if (!currentURL.includes("/register?")) {
                     window.location.href = redirectURL;
-                    //window.location.href = "https://lbedev.portal.ukpreview.empro.verintcloudservices.com/site/enfield_dev/register?redirectUrl=https://lbedev.portal.ukpreview.empro.verintcloudservices.com/site/enfield_dev/mydetails";
+                    //window.location.href = "https://lbeqa.portal.ukpreview.empro.verintcloudservices.com/site/enfield_qa/register?redirectUrl=https://lbeqa.portal.ukpreview.empro.verintcloudservices.com/site/enfield_qa/mydetails";
                 }
             }
 
@@ -30,7 +30,7 @@ $.ajaxSetup({
         } else if (this.url.includes("lerest/v1?token=")) {
             if (event.links.length === 1) {
                 window.location.href = redirectURL;
-                //window.location.href = "https://lbedev.portal.ukpreview.empro.verintcloudservices.com/site/enfield_dev/register?redirectUrl=https://lbedev.portal.ukpreview.empro.verintcloudservices.com/site/enfield_dev/mydetails";
+                //window.location.href = "https://lbeqa.portal.ukpreview.empro.verintcloudservices.com/site/enfield_qa/register?redirectUrl=https://lbeqa.portal.ukpreview.empro.verintcloudservices.com/site/enfield_qa/mydetails";
             }
         } else if (this.url.includes("lerest/v1/requests?filter=complete")) {
             setTimeout(function() {
@@ -55,9 +55,9 @@ function setUploadText(i, a, b) {
     $(i + ' .helptext').html(b);
 }
 var _app = {
-    loginURL: 'https://auth.ukpreview.empro.verintcloudservices.com/auth/realms/lbedev-portal/protocol/openid-connect/auth?client_id=portal',
-    portalName: '/site/enfield_dev/',
-    squizDomain: 'https://lobe-dev-web01.squiz.cloud',
+    loginURL: 'https://auth.ukpreview.empro.verintcloudservices.com/auth/realms/lbeqa-portal/protocol/openid-connect/auth?client_id=portal',
+    portalName: '/site/enfield_qa/',
+    squizDomain: 'https://lobe-qa-web01.squiz.cloud',
     getVal: function(v) { return eval(v) },
     user: { uName: '', orgID: '' },
     funnelBack: {
@@ -216,20 +216,20 @@ var _app = {
             if (_app.isMatrixLoggedIn() !== "1") _app.loginToMatrix();
 
             /*keepAlive=setInterval(function(){
-            	$.ajax({
-            		type:"GET", url:_app.portalName+"mydetails" 
-            	}).done(function(){
-            		if($('#modalDialog').dialog('instance')){
-            			var dt=$('#modalDialog').dialog('option','title');
-            			if(dt==_app.alerts.sessionExpired.t || dt==_app.alerts.noInternet.t)$("#modalDialog").dialog("destroy");
-            		}
-            	}).fail(function (jqXHR, textStatus, errorThrown){
-            		if(jqXHR.status===0){
-            			_app.informUser(1,_app.alerts.noInternet);
-            		}else if(jqXHR.status==401){
-            			_app.informUser(1,_app.alerts.sessionExpired);
-            		}
-            	});
+              $.ajax({
+                type:"GET", url:_app.portalName+"mydetails" 
+              }).done(function(){
+                if($('#modalDialog').dialog('instance')){
+                  var dt=$('#modalDialog').dialog('option','title');
+                  if(dt==_app.alerts.sessionExpired.t || dt==_app.alerts.noInternet.t)$("#modalDialog").dialog("destroy");
+                }
+              }).fail(function (jqXHR, textStatus, errorThrown){
+                if(jqXHR.status===0){
+                  _app.informUser(1,_app.alerts.noInternet);
+                }else if(jqXHR.status==401){
+                  _app.informUser(1,_app.alerts.sessionExpired);
+                }
+              });
             },600000);*/
         } else {
             /*clearInterval(keepAlive);*/
