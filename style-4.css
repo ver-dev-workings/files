@@ -959,7 +959,7 @@ KS: gov checkbox Start
     left: 0px;
     font-size: 1rem !important;
     font-weight: bold !important;
-    /*padding-bottom: 24px !important;*/
+    padding-bottom: 0px !important;
 }
 /*KS: add red border to input that are required/have an error*/
 .chk-gov  input[type="checkbox"].dform_fielderror ~ span{
