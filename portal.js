@@ -13,6 +13,15 @@ $.ajaxSetup({
         var redirectURL = location.protocol + '//' + location.host + _app.portalName + 'register?redirectUrl=' + encodeURIComponent(location.protocol + '//' + location.host + _app.portalName + 'mydetails');
         if (this.url.includes("api/citizen?token=")) {
             var profileData = event.profileData;
+
+            if (profileData['profile-Email']) {
+                $('#headerLoginLink').addClass('dropdown');
+                $('.header-links li').css({ "pointer-events": "auto" });
+            } else {
+                $('#headerLoginLink').removeClass('dropdown');
+                $('.header-links li').css({ "pointer-events": "none" });
+            }
+
             if (profileData['IDP-sub'] && event.authenticated === false) {
                 console.log('not logged in')
                 var currentURL = window.location.href;
