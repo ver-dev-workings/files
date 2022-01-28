@@ -187,7 +187,7 @@ var _app = {
     },
     squizDomains: ['lobe-dev-web01.squiz.cloud', 'lbe.clients.squiz.net', 'www.enfield.gov.uk'],
     alerts: {
-        logout: { t: "How to logout", d: "<p>To log out of your Enfield Connected account, you must close and completely exit your browser. Please see our <a href='"+function(){return _app.squizDomain}+"/terms-of-use#logging-out' target='_blank'>terms of use</a> for more information.</p>", b: { OK: function() { $(this).dialog("close") } }, f: false },
+        logout: { t: "How to logout", d: "<p>To log out of your Enfield Connected account, you must close and completely exit your browser. Please see our <a href='"+function(){return _app.squizDomain}+"/terms-of-use#logging-out' target='_blank' style='text-decoration:underline'>terms of use</a> for more information.</p>", b: { OK: function() { $(this).dialog("close") } }, f: false },
         noInternet: { t: "No internet", d: "<p>Unable to connect to the internet. Please check your internet connection.</p>", b: { OK: function() { $(this).dialog("close") } }, f: true },
         sessionExpired: { t: "Session expired", d: "<p>Your session has timed out. Please login again to continue.</p>", b: { Login: function() { location.href = _app.loginURL + '&redirect_uri=' + encodeURIComponent(location.href) + '&' } }, f: true },
         popupBlocked: { t: "Welcome, " + $("#nav_username").html(), d: "<p>You are now logged in to the Enfield Connected portal where you can manage your account details and access your requests and drafts.</p><p style='text-align:center'><a style=';color:#fff' href='javascript:_app.loginToMatrix();void(0);' class='btn btn-primary'>Continue</a></p>", b: {}, f: false }
