@@ -48,12 +48,6 @@ $.ajaxSetup({
     },
 });
 
-function setUploadText(i, a, b) {
-    // 	$(`${i} label:first`).html(a);
-    // 	$(`${i} .helptext`).html(b);
-    $(i + ' label:first').html(a);
-    $(i + ' .helptext').html(b);
-}
 var _app = {
     loginURL: 'https://auth.ukpreview.empro.verintcloudservices.com/auth/realms/lbedev-portal/protocol/openid-connect/auth?client_id=portal',
     portalName: '/site/enfield_dev/',
