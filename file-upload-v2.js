@@ -207,7 +207,7 @@ function do_KDF_Custom_SharepointV2(response, action) {
 
                 var widget = '<div data-type="file" data-name="file_ootb" data-active="true" data-agentonly="false" class="file-progress lbe-file-gov">' +
                     '<div><label>' + sharepoint_title + '</div></label>' +
-                    '<div style="position: relative;"><input id="custom_fileupload" type="file" name="uploadedFile">' +
+                    '<div style="position: relative;"><input id="custom_fileupload" type="file" name="uploadedFile" aria-label="Upload file">' +
                     '<span class="file-gov-icon"><span class="file-gov-icon-a"></span><span class="file-gov-icon-b"></span><label class="file-gov-text">Upload file</label></span>' +
                     '<div class="helptext">Accepted file types are ' + formParams.allowedFileType + ' up to ' + formParams.maxFileSizeDisplay + ' MB in size</div>' +
                     '<div class="dform_fileupload_progressbar" id="custom_fileupload_progressbar"></div>' +
