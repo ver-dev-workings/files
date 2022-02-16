@@ -106,7 +106,7 @@ function processFile() {
 		    			fileError = false;
 		    	} else {
 		    			fileError = true;
-		    			KDF.showError('Maximum file upload has been reach');
+		    			KDF.showError('Maximum file upload is reached');
 		    	}
 		    		
 		    }
