@@ -147,6 +147,7 @@ function processFile() {
             if (!formParams.kdfSaveFlag) {
 
                 KDF.save();
+                fileUploadTriggeredSave(true);
                 document.getElementById("custom_fileupload_holder").focus();
             } else {
                 KDF.customdata('sharepoint_token', 'imitateKdfReady', true, true, {});
@@ -284,6 +285,7 @@ function sharepointFileUploader(access_token) {
         }
 
         KDF.save();
+        fileUploadTriggeredSave(true);
     });
 
 
@@ -441,6 +443,7 @@ function deleteFile(access_token) {
         }
 
         KDF.save();
+        fileUploadTriggeredSave(true);
     }).fail(function() {
         KDF.showError('Delete file has failed, please try again');
     });
