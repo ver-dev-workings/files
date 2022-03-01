@@ -42,6 +42,13 @@ $.ajaxSetup({
     },
 });
 
+var _appConfig = {
+	loginURL: 'https://auth.ukpreview.empro.verintcloudservices.com/auth/realms/lbedev-portal/protocol/openid-connect/auth?client_id=portal',
+    portalName: '/site/enfield_dev/',
+    squizDomain: 'https://lobe-dev-web01.squiz.cloud',
+	squizDomains: ['lobe-dev-web01.squiz.cloud', 'lbe.clients.squiz.net', 'www.enfield.gov.uk'],
+}
+
 var _app = {
     loginURL: 'https://auth.ukpreview.empro.verintcloudservices.com/auth/realms/lbedev-portal/protocol/openid-connect/auth?client_id=portal',
     portalName: '/site/enfield_dev/',
