@@ -75,15 +75,15 @@ var _app = {
             if (_app.funnelBack.xhr2) _app.funnelBack.xhr2.abort();
             if (_app.funnelBack.xhr3) _app.funnelBack.xhr3.abort();
             let outputHtml = '';
-            outputHtml += '<ul class="header-search__wrapper">';
-            outputHtml += '<li id="search-suggested" class="header-search__category header-search__category--full"></li>';
-            outputHtml += '<li id="search-services" class="header-search__category"></li>';
-            outputHtml += '<li id="search-news" class="header-search__category"></li>';
+            outputHtml += '<ul role="listbox" id="suggested" class="header-search__wrapper header-search__results-list" aria-live="polite" aria-labelledby="search-label">';
+            outputHtml += '<li id="search-suggested" role="presentation" class="header-search__category header-search__category--full"></li>';
+            outputHtml += '<li id="search-services" role="presentation" class="header-search__category"></li>';
+            outputHtml += '<li id="search-news" role="presentation" class="header-search__category"></li>';
             outputHtml += '</ul>';
             $(_app.funnelBack.results).html(outputHtml);
             _app.funnelBack.xhr1 = $.getJSON(_app.funnelBack.u + '&profile=_default&show=' + _app.funnelBack.max + '&partial_query=' + _app.funnelBack.q, function(r) {
                 let o = '<h3 class="header-search__heading">Suggested</h3>';
-                o += '<ul role="listbox" id="suggested" class="header-search__wrapper header-search__results-list" aria-live="polite" aria-labelledby="search-label">';
+                o += '<ul role="presentation" class="header-search__list header-search__list--suggested">';
                 $.each(r, function(i, f) {
                     o += '<li class="header-search__item" role="option" aria-selected="false"><span class="header-search__link"><strong>' + f.key + '</strong></span></li>';
                 });
@@ -99,18 +99,18 @@ var _app = {
             });
             _app.funnelBack.xhr2 = $.getJSON(_app.funnelBack.u + '&profile=services&show=20&partial_query=' + _app.funnelBack.q, function(r) {
                 let o = '<h3 class="header-search__heading">Services <span class="header-search__heading-more">(' + r.length + ' results)</span></h3>';
-                o += '<ul class="header-search__list">';
+                o += '<ul role="presentation" class="header-search__list">';
                 $.each(r, function(i, f) {
                     if (i > (_app.funnelBack.max - 1)) return false;
                     o += '<li class="header-search__item"><a href="' + f.disp.displayUrl + '" class="header-search__link">' + f.disp.title + '</a></li>';
                 });
                 o += '</ul>';
-                o += '<a href="' + _app.squizDomain + '/search-results/?query=' + _app.funnelBack.q + '&amp;f.Type|services=Services" class="header-search__see-more">See More</a>';
+                o += '<a href="' + _appConfig.squizDomain + '/search-results/?query=' + _app.funnelBack.q + '&amp;f.Type|services=Services" class="header-search__see-more">See More</a>';
                 $('#search-services').html(o);
             });
             _app.funnelBack.xhr3 = $.getJSON(_app.funnelBack.u + '&profile=news&show=20&partial_query=' + _app.funnelBack.q, function(r) {
                 let o = '<h3 class="header-search__heading">News &amp; Events <span class="header-search__heading-more">(' + r.length + ' results)</span></h3>';
-                o += '<ul class="header-search__list">';
+                o += '<ul role="presentation" class="header-search__list">';
                 $.each(r, function(i, f) {
                     if (i > (_app.funnelBack.max - 1)) return false;
                     o += '<li class="header-search__item"><a href="' + f.disp.displayUrl + '" class="header-search__link">' + f.disp.title + '</a></li>';
