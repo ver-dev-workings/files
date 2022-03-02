@@ -83,7 +83,7 @@ var _app = {
             $(_app.funnelBack.results).html(outputHtml);
             _app.funnelBack.xhr1 = $.getJSON(_app.funnelBack.u + '&profile=_default&show=' + _app.funnelBack.max + '&partial_query=' + _app.funnelBack.q, function(r) {
                 let o = '<h3 class="header-search__heading">Suggested</h3>';
-                o += '<ul role="listbox" id="suggested" class="header-search__wrapper header-search__results-list" aria-live="polite" aria-labelledby="search-label"></ul>';
+                o += '<ul role="listbox" id="suggested" class="header-search__wrapper header-search__results-list" aria-live="polite" aria-labelledby="search-label">';
                 $.each(r, function(i, f) {
                     o += '<li class="header-search__item" role="option" aria-selected="false"><span class="header-search__link"><strong>' + f.key + '</strong></span></li>';
                 });
