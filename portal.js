@@ -7,7 +7,7 @@ $.ajaxSetup({
 
             if (profileData['profile-Email']) {
                 //$('#headerLoginLink').addClass('dropdown');
-                $("#headerLoginLink .header-links__dropdown-icon, #headerLoginLink .header-links__dropdown-menu").$("p").removeAttr("style");
+                $("#headerLoginLink .header-links__dropdown-icon, #headerLoginLink .header-links__dropdown-menu").removeAttr("style");
                 $('.header-links li').css({ "pointer-events": "auto" });
             } else {
                 //$('#headerLoginLink').removeClass('dropdown');
@@ -207,7 +207,7 @@ var _app = {
             //_app.setUser($("#nav_username").html().trim());
             $("span.header-links__text:contains('Login/Register')").html($("#nav_username").html().trim()).closest('a')[0].href = 'javascript:void(0);';
            // $("#headerLoginLink").addClass("dropdown");
-           $("#headerLoginLink .header-links__dropdown-icon, #headerLoginLink .header-links__dropdown-menu").$("p").removeAttr("style");
+           $("#headerLoginLink .header-links__dropdown-icon, #headerLoginLink .header-links__dropdown-menu").removeAttr("style");
             $(".header-menu__myaccount").show();
             var ref = document.createElement("a");
             ref.href = document.referrer;
