@@ -241,7 +241,13 @@ function sharepointFileUploaderV2(access_token) {
     var fileName = $("#custom_fileupload")[0].files[0].name;
     var fileSize = $("#custom_fileupload")[0].files[0].size;
 
-    var uploadURL = formParams.fileUploadUrl + 'root:/Verint/' + formParams.full_classification + '/' + KDF.kdf().form.caseid + '/' + fileName + ':/content';
+    if(KDF.getVal('txt_case_subject') === 'MEQ'){
+        var uploadURL = formParams.fileUploadUrl + 'root:/Verint/' + KDF.getVal('txt_lead_classification') + '/' + KDF.getVal('txt_lead_id') + '/' + fileName + ':/content';
+    }
+    else{
+        var uploadURL = formParams.fileUploadUrl + 'root:/Verint/' + formParams.full_classification + '/' + KDF.kdf().form.caseid + '/' + fileName + ':/content';
+	}
+	
     $(".dform_fileupload_progressbar").html("<div style='width: 50%;'>");
     $.ajax({
         url: uploadURL,
