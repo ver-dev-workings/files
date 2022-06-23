@@ -530,6 +530,7 @@ function do_KDF_optionSelected_Individual(event, kdf, field, label, val) {
             KDF.setVal('txt_cust_info_postcode', KDF.getVal('txt_logic_postcode'));
 
             var address = KDF.getVal('txt_logic_streetnumber') + ', ' + KDF.getVal('txt_logic_streetname') + ', ' + KDF.getVal('txt_logic_town') + ', ENFIELD, ' + KDF.getVal('txt_logic_postcode');
+            if (address.replaceAll(',', '').trim() == '') { address = ''; }
             KDF.setVal('txta_cust_info_address', address);
 
             if (KDF.getVal('txt_cust_info_first_name') !== '') {
