@@ -125,6 +125,7 @@ function do_KDF_Ready_Individual(event, kdf) {
             if (KDF.check('.dform_section_area_customer_information') === 0 && KDF.check('.dform_section_area_your_details_addressdetails') === 0) {
                 KDF.hideWidget('ahtm_search_address_warning');
                 var address = KDF.getVal('txt_cust_info_street_number') + ', ' + KDF.getVal('txt_cust_info_street_name') + ', ' + KDF.getVal('txt_cust_info_town') + ', ' + KDF.getVal('txt_cust_info_postcode');
+                if (address.replaceAll(',', '').trim() == '') { address = ''; }
                 KDF.setVal('txta_cust_info_address', address);
 
                 if (($('input[name=txt_cust_info_street_number]').prop('required') && KDF.getVal('txt_cust_info_street_number') == '') ||
