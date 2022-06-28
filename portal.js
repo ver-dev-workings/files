@@ -191,7 +191,7 @@ var _app = {
 	    _app.informUser(1, _app.alerts.logout); 
     },
     hardLogOut: function() { 
-	 /*window.location = "https://lobe-dev-web01.squiz.cloud/_webservices/esi/logout-popup" + "?redirectUri=" + encodeURIComponent(window.location.href);*/  
+	window.location = "https://lobe-dev-web01.squiz.cloud/_webservices/esi/logout-popup" + "?redirectUri=" + encodeURIComponent(window.location.href);  
 	document.getElementById('nav_logout').submit();   
     },
     setUser: function(s) {
@@ -287,11 +287,11 @@ var _app = {
         $(".footer-copyright__desc").html("&copy; " + new Date().getFullYear() + " Enfield Council");
         if ($('.inner-header h1').html() === undefined) $('.inner-header').remove();
         _app.loginStatus();
-/*	$(".logoutLink").on("click",function(e){
+	$(".logoutLink").on("click",function(e){
 		e.preventDefault();
 		_app.hardLogOut();
 	});
-*/	
+	
         _app.funnelBack.init();
     },
     addFavicons: function() {
