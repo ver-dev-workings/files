@@ -191,7 +191,7 @@ var _app = {
 	    _app.informUser(1, _app.alerts.logout); 
     },
     hardLogOut: function() { 
-	 window.location.href = 'https://lobe-dev-web01.squiz.cloud/_webservices/esi/logout-popup' +'?redirectUri=' + window.location.href;   
+	 window.location = "https://lobe-dev-web01.squiz.cloud/_webservices/esi/logout-popup" + "?redirectUri=" + encodeURIComponent(window.location.href);  
 	/* document.getElementById('nav_logout').submit(); */   
     },
     setUser: function(s) {
