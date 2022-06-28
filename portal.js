@@ -287,10 +287,11 @@ var _app = {
         $(".footer-copyright__desc").html("&copy; " + new Date().getFullYear() + " Enfield Council");
         if ($('.inner-header h1').html() === undefined) $('.inner-header').remove();
         _app.loginStatus();
-	$(".logoutLink").on("click",function(e){
+/*	$(".logoutLink").on("click",function(e){
 		e.preventDefault();
 		_app.hardLogOut();
 	});
+*/	
         _app.funnelBack.init();
     },
     addFavicons: function() {
