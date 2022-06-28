@@ -289,8 +289,7 @@ var _app = {
         _app.loginStatus();
 	$(".logoutLink").on("click",function(e){
 		e.preventDefault();
-/*		_app.hardLogOut(); */
-		_app.logOut();
+		_app.hardLogOut();
 	});
         _app.funnelBack.init();
     },
