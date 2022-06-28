@@ -289,8 +289,8 @@ var _app = {
         _app.loginStatus();
 	$(".logoutLink").on("click",function(e){
 		e.preventDefault();
-		window.location = "https://lobe-dev-web01.squiz.cloud/_webservices/esi/logout-popup" + "?redirectUri=" + encodeURIComponent(window.location.href);
-		/*_app.hardLogOut(); */
+/*		_app.hardLogOut(); */
+		_app.logOut();
 	});
         _app.funnelBack.init();
     },
