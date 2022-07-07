@@ -93,13 +93,12 @@ function processFile() {
     var fileName = $("#custom_fileupload")[0].files[0].name;
     var fileNameClean = fileName.split('.').pop();
 
-    // TODO: enable filesize checks again
-    // if ($("#custom_fileupload")[0].files[0].size <= formParams.maxFileSize) {
-    //     fileError = false;
-    // } else {
-    //     fileError = true;
-    //     KDF.showError('File size is too large');
-    // }
+    if ($("#custom_fileupload")[0].files[0].size <= formParams.maxFileSize) {
+        fileError = false;
+    } else {
+        fileError = true;
+        KDF.showError('File size is too large');
+    }
 
     if (!fileError) {
         if (KDF.getVal('txt_filename_one') == '') {
@@ -337,7 +336,7 @@ async function uploadChunks(file, uploadUrl, access_token) {
                     KDF.setVal('txt_sharepointID_' + upload, res.json.id);
                     KDF.setVal('txt_filename_' + upload, res.json.name);
                     KDF.setVal('txt_sharepoint_link_' + upload, res.json.webUrl);
-                    // KDF.save();
+                    KDF.save();
                     fileUploadTriggeredSave(true);
                 } else {
                     //console.log("Continuing - Status Code is: " + res.status);
