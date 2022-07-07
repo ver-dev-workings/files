@@ -1,5 +1,5 @@
 var formParams = {
-    fileBlob: '',
+    file: undefined,
     inputFileID: '$("#custom_fileupload_holder")',
     randomNumber: '',
     allowedFileType: '',
@@ -83,8 +83,8 @@ function do_KDF_Ready_Sharepoint(event, kdf) {
 
 }
 
-function setFileBlobData(fileBlob) {
-    formParams.fileBlob = fileBlob;
+function setFile(file) {
+    formParams.file = file;
 }
 
 
@@ -93,12 +93,13 @@ function processFile() {
     var fileName = $("#custom_fileupload")[0].files[0].name;
     var fileNameClean = fileName.split('.').pop();
 
-    if ($("#custom_fileupload")[0].files[0].size <= formParams.maxFileSize) {
-        fileError = false;
-    } else {
-        fileError = true;
-        KDF.showError('File size is too large');
-    }
+    // TODO: enable filesize checks again
+    // if ($("#custom_fileupload")[0].files[0].size <= formParams.maxFileSize) {
+    //     fileError = false;
+    // } else {
+    //     fileError = true;
+    //     KDF.showError('File size is too large');
+    // }
 
     if (!fileError) {
         if (KDF.getVal('txt_filename_one') == '') {
@@ -129,20 +130,18 @@ function processFile() {
 
     if (!fileError) {
         KDF.hideMessages();
-        $(".dform_fileupload_progressbar").html("<div style='width: 0%;'>");
+        setProgress(0);
         var selector = formParams.inputFileID;
-
-        $(".dform_fileupload_progressbar").html("<div style='width: 10%;'>");
-
+        setProgress(10);
         $("#custom_fileupload").prop('disabled', true);
 
         var reader = new FileReader();
         reader.readAsArrayBuffer($("#custom_fileupload")[0].files[0]);
 
         reader.onloadend = function() {
-            setFileBlobData(reader.result);
+            setFile($("#custom_fileupload")[0].files[0]);
 
-            $(".dform_fileupload_progressbar").html("<div style='width: 30%;'>");
+            setProgress(30);
 
             if (!formParams.kdfSaveFlag) {
 
@@ -164,7 +163,7 @@ function do_KDF_Custom_Sharepoint(response, action) {
         var access_token = response.data['access_token'];
         if (!KDF.kdf().form.readonly && formParams.deleteFileSelector == '') {
 
-            if (KDF.kdf().viewmode == 'U' && formParams.fileBlob == '') {
+            if (KDF.kdf().viewmode == 'U' && !formParams.file) {
                 if (KDF.getVal('txt_filename_one') !== '') {
 
                     sharepointFileThumbnail(KDF.getVal('txt_sharepointID_one'), access_token, 'txt_filename_one')
@@ -173,7 +172,7 @@ function do_KDF_Custom_Sharepoint(response, action) {
                 if (KDF.getVal('txt_filename_two') !== '') {
                     sharepointFileThumbnail(KDF.getVal('txt_sharepointID_two'), access_token, 'txt_filename_two')
                 }
-            } else if (formParams.fileBlob !== '') {
+            } else if (formParams.file) {
 
                 if (!formParams.kdfSaveFlag) {
                     formParams.kdfSaveFlag = true;
@@ -239,12 +238,12 @@ function do_KDF_Custom_Sharepoint(response, action) {
 
 function do_KDF_Save_Sharepoint() {
 
-    if (formParams.fileBlob !== '') {
+    if (formParams.file) {
         $('#custom_fileupload').focus();
     }
 
     if (!formParams.kdfSaveFlag) {
-        if (formParams.fileBlob !== '') {
+        if (formParams.file) {
             $('#custom_fileupload').focus();
             $('#dform_successMessage').remove();
             //formParams.kdfSaveFlag = true;
@@ -256,40 +255,183 @@ function do_KDF_Save_Sharepoint() {
 
 function sharepointFileUploader(access_token) {
     KDF.lock();
-    var fileName = $("#custom_fileupload")[0].files[0].name;
-    var fileSize = $("#custom_fileupload")[0].files[0].size;
-
-    var uploadURL = formParams.fileUploadUrl + 'root:/Verint/' + formParams.full_classification + '/' + KDF.kdf().form.caseid + '/' + fileName + ':/content';
-    $(".dform_fileupload_progressbar").html("<div style='width: 50%;'>");
-    $.ajax({
-        url: uploadURL,
-        dataType: 'json',
-        contentType: 'image/jpeg',
-        processData: false,
-        headers: { 'Authorization': access_token, 'Content-Type': 'image/jpeg' },
-        data: formParams.fileBlob,
-        method: 'PUT',
-
-    }).done(function(response) {
-        sharepointFileThumbnail(response.id, access_token)
-        $(".dform_fileupload_progressbar").html("<div style='width: 60%;'>");
-
-        if (KDF.getVal('txt_sharepointID_one') == '') {
-            KDF.setVal('txt_sharepointID_one', response.id);
-            KDF.setVal('txt_filename_one', fileName);
-            KDF.setVal('txt_sharepoint_link_one', response['webUrl']);
-        } else {
-            KDF.setVal('txt_sharepointID_two', response.id);
-            KDF.setVal('txt_filename_two', fileName);
-            KDF.setVal('txt_sharepoint_link_two', response['webUrl']);
-        }
-
-        KDF.save();
-        fileUploadTriggeredSave(true);
-    });
-
-
+    var fullFileName = $("#custom_fileupload")[0].files[0].name;
+    getUploadSession(fullFileName, access_token);
 }
+
+// create upload session and upload chunks
+function getUploadSession(fileName, access_token) {
+    //console.log("getUploadSession method called::");
+    var url = formParams.fileUploadUrl + 'root:/Verint/' + formParams.full_classification + '/' + KDF.kdf().form.caseid + '/' + fileName;
+    const body = {
+        "item": {
+            "@odata.type": "microsoft.graph.driveItemUploadableProperties",
+            "@microsoft.graph.conflictBehavior": "rename",
+            "name": fileName
+        }
+    };
+
+    $.ajax({
+        type: "POST",
+        url: url + ':/createUploadSession',
+        headers: { "Accept": "application/json", "Content-Type": "application/json", "Authorization": access_token },
+        body: body
+    }).done(function(response) {
+        //console.log("Successfully got upload session.");
+        //console.log(response);
+        setProgress(5);
+        var uploadUrl = response.uploadUrl;
+        uploadChunks(formParams.file, uploadUrl, access_token);
+
+    }).fail(function(response) {
+        //console.log("Could not get upload session: " + response.responseText);
+
+    });
+}
+
+/*      After getting the uploadUrl, this function does the logic of chunking out 
+        the fragments and sending the chunks to uploadChunk */
+async function uploadChunks(file, uploadUrl, access_token) {
+    var reader = new FileReader();
+
+    // Variables for byte stream position
+    var position = 0;
+    var chunkLength = 320 * 12500; // Approx 4mb chunks
+    //console.log("File size is: " + file.size);
+    var continueRead = true;
+    while (continueRead) {
+        var chunk;
+        try {
+            continueRead = true;
+            //Try to read in the chunk
+            try {
+                let stopByte = position + chunkLength;
+                //console.log("Sending Asynchronous request to read in chunk bytes from position " + position + " to end " + stopByte);
+
+                chunk = await readFragmentAsync(file, position, stopByte);
+                //console.log("UploadChunks: Chunk read in of " + chunk.byteLength + " bytes.");
+                if (chunk.byteLength > 0) {
+                    continueRead = true;
+                } else {
+                    break;
+                }
+                //console.log("Chunk bytes received = " + chunk.byteLength);
+            } catch (e) {
+                //console.log("Bytes Received from readFragmentAsync:: " + e);
+                break;
+            }
+            // Try to upload the chunk.
+            try {
+                //console.log("Request sent for uploadFragmentAsync");
+                let res = await uploadChunk(chunk, uploadUrl, position, file.size);
+                // Check the response.
+                if (res.status !== 202 && res.status !== 201 && res.status !== 200)
+                    throw ("Put operation did not return expected response");
+                if (res.status === 201 || res.status === 200) {
+                    //console.log("Reached last chunk of file.  Status code is: " + res.status);
+                    continueRead = false;
+                    //console.log('setThumbnails');
+                    sharepointFileThumbnail(res.json.id, access_token)
+                    setProgress(60)
+                    var upload = (KDF.getVal('txt_sharepointID_one') == '') ? 'one' : 'two';
+                    KDF.setVal('txt_sharepointID_' + upload, res.json.id);
+                    KDF.setVal('txt_filename_' + upload, res.json.name);
+                    KDF.setVal('txt_sharepoint_link_' + upload, res.json.webUrl);
+                    // KDF.save();
+                    fileUploadTriggeredSave(true);
+                } else {
+                    //console.log("Continuing - Status Code is: " + res.status);
+                    var progress = Number(60 / file.size * position);
+                    //console.log('progress %o', progress);
+                    setProgress(progress);
+                    position = Number(res.json.nextExpectedRanges[0].split('-')[0]);
+                }
+                //console.log("Successful response received from uploadChunk.");
+                //console.log("Position is now " + position);
+            } catch (e) {
+                //console.log("Error occured when calling uploadChunk::" + e);
+            }
+
+        } catch (e) {
+            continueRead = false;
+        }
+    }
+    emptyDataContainer();
+    refreshData();
+}
+
+function setProgress(progress) {
+    $(".dform_fileupload_progressbar").html("<div style='width: " + progress + "%;'>");
+}
+
+// Reads in the chunk and returns a promise.
+function readFragmentAsync(file, startByte, stopByte) {
+    var frag = "";
+    const reader = new FileReader();
+    //console.log("startByte :" + startByte + " stopByte :" + stopByte);
+    var blob = file.slice(startByte, stopByte);
+    reader.readAsArrayBuffer(blob);
+    return new Promise((resolve, reject) => {
+        reader.onloadend = (event) => {
+            //console.log("onloadend called  " + reader.result.byteLength);
+            if (reader.readyState === reader.DONE) {
+                frag = reader.result;
+                resolve(frag);
+            }
+        };
+    });
+}
+
+// Upload each chunk using PUT
+function uploadChunk(chunk, uploadURL, position, totalLength) {
+    var max = position + chunk.byteLength - 1;
+    //var contentLength = position + chunk.byteLength;
+
+    //console.log("Chunk size is: " + chunk.byteLength + " bytes.");
+
+    return new Promise((resolve, reject) => {
+        //console.log("uploadURL:: " + uploadURL);
+
+        try {
+            //console.log('Just before making the PUT call to uploadUrl.');
+            let crHeader = "bytes " + position + "-" + max + "/" + totalLength;
+            //Execute PUT request to upload the content range.
+            $.ajax({
+                type: "PUT",
+                contentType: "application/octet-stream",
+                url: uploadURL,
+                data: chunk,
+                processData: false,
+                headers: { "Content-Range": crHeader }
+
+            }).done(function(data, textStatus, jqXHR) {
+                //console.log("Content-Range header being set is : " + crHeader);
+                if (jqXHR.responseJSON.nextExpectedRanges) {
+                    //console.log("Next Expected Range is: " + jqXHR.responseJSON.nextExpectedRanges[0]);
+                } else {
+                    //console.log("We've reached the end of the chunks.")
+                }
+
+                results = {};
+                results.status = jqXHR.status;
+                results.json = jqXHR.responseJSON;
+                resolve(results);
+
+            }).fail(function(response) {
+                //console.log("Could not upload chunk: " + response.responseText);
+                //console.log("Content-Range header being set is : " + crHeader);
+
+            });
+        } catch (e) {
+            //console.log("exception inside uploadChunk::  " + e);
+            reject(e);
+        }
+    });
+}
+
+
+
+
 
 function fileUploadTriggeredSave(b) {
     formParams.fileUploadTriggeredSave = b;
@@ -312,7 +454,7 @@ function sharepointFileThumbnail(itemID, access_token, widgetName) {
     }).done(function(response) {
         if (!KDF.kdf().form.readonly) {
 
-            if (KDF.kdf().viewmode === 'U' && formParams.fileBlob == '') {
+            if (KDF.kdf().viewmode === 'U' && !formParams.file) {
 
                 if (widgetName == 'txt_filename_one') {
                     KDF.setVal('txt_filename_one_thumb', response.value[0].medium['url']);
@@ -321,19 +463,17 @@ function sharepointFileThumbnail(itemID, access_token, widgetName) {
                 }
 
                 addFileContainer(widgetName);
-            } else if (formParams.fileBlob !== '') {
-
-                $(".dform_fileupload_progressbar").html("<div style='width: 60%;'>");
-
+            } else if (formParams.file) {
+                setProgress(60);
                 if (KDF.getVal('txt_filename_one_thumb') == '') {
                     KDF.setVal('txt_filename_one_thumb', response.value[0].medium['url']);
                 } else {
                     KDF.setVal('txt_filename_two_thumb', response.value[0].medium['url']);
                 }
-                $(".dform_fileupload_progressbar").html("<div style='width: 100%;'>");
+                setProgress(100);
                 setTimeout(function() {
                     addFileContainer();
-                    $(".dform_fileupload_progressbar").html("<div style='width: 0%;'>");
+                    setProgress(0);
                 }, 1000);
             }
 
@@ -359,10 +499,10 @@ function addFileContainer(widgetName) {
     var fileThumbnail;
     var widgetName;
 
-    if (KDF.kdf().viewmode == 'U' && formParams.fileBlob == '') {
+    if (KDF.kdf().viewmode == 'U' && !formParams.file) {
         fileName = KDF.getVal(widgetName);
         fileThumbnail = KDF.getVal(widgetName + '_thumb');
-    } else if (formParams.fileBlob !== '') {
+    } else if (formParams.file) {
         if ($('.filenames .txt_filename_one').length < 1) {
             fileName = KDF.getVal('txt_filename_one');
             fileThumbnail = KDF.getVal('txt_filename_one_thumb');
@@ -409,7 +549,7 @@ function sharepointDownloadFile(access_token) {
 }
 
 function deleteFile(access_token) {
-    $(".dform_fileupload_progressbar").html("<div style='width: 0%;'>");
+    setProgress(0);
 
     var fileID;
     var selector = formParams.deleteFileSelector;
@@ -480,4 +620,21 @@ function inIframe() {
     } catch (e) {
         return true;
     }
+}
+
+function emptyDataContainer() {
+    //console.log('function emptyDataContainer');
+    // var dataRows = $dataContainer.find(".data-row");
+
+    // while (dataRows.length > 1)
+    // {
+    //     dataRows[dataRows.length - 1].remove();
+    //     dataRows = $dataContainer.find(".data-row");
+    // }            
+    // dataRows.find(".view-data-type").empty();
+    // dataRows.find(".view-data-name").empty();
+}
+
+function refreshData() {
+    //console.log('function refreshData');
 }
