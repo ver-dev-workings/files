@@ -3,8 +3,8 @@ var formParams = {
     inputFileID: '$("#custom_fileupload_holder")',
     randomNumber: '',
     allowedFileType: '',
-    maxFileSize: '8000000',
-    maxFileSizeDisplay: '8000000',
+    maxFileSize: '20000000',
+    maxFileSizeDisplay: '20000000',
     imgClickSelector: '',
     deleteFileSelector: '',
     kdfSaveFlag: false,
@@ -140,7 +140,7 @@ function processFile() {
         reader.onloadend = function() {
             setFile($("#custom_fileupload")[0].files[0]);
 
-            setProgress(30);
+            setProgress(25);
 
             if (!formParams.kdfSaveFlag) {
 
@@ -278,7 +278,7 @@ function getUploadSession(fileName, access_token) {
     }).done(function(response) {
         //console.log("Successfully got upload session.");
         //console.log(response);
-        setProgress(5);
+        setProgress(30);
         var uploadUrl = response.uploadUrl;
         uploadChunks(formParams.file, uploadUrl, access_token);
 
@@ -339,8 +339,11 @@ async function uploadChunks(file, uploadUrl, access_token) {
                     KDF.save();
                     fileUploadTriggeredSave(true);
                 } else {
+                    // The actual file upload should show progress from 30 - 60%
+                    // 0 - 30 sharepoint config
+                    // 60 - 100 saving form
                     //console.log("Continuing - Status Code is: " + res.status);
-                    var progress = Number(60 / file.size * position);
+                    var progress = Math.round(30 + Number(30 / file.size * position));
                     //console.log('progress %o', progress);
                     setProgress(progress);
                     position = Number(res.json.nextExpectedRanges[0].split('-')[0]);

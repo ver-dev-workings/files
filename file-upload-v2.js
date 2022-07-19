@@ -3,8 +3,8 @@ var formParams = {
     inputFileID: '$("#custom_fileupload_holder")',
     randomNumber: '',
     allowedFileType: '',
-    maxFileSize: '4000000',
-    maxFileSizeDisplay: '4000000',
+    maxFileSize: '20000000',
+    maxFileSizeDisplay: '20000000',
     imgClickSelector: '',
     deleteFileSelector: '',
     kdfSaveFlag: false,
@@ -130,7 +130,7 @@ function processFileV2() {
 
         reader.onloadend = function() {
             setFileBlobDataV2(reader.result);
-            setProgressV2(30);
+            setProgressV2(25);
             if (!formParams.kdfSaveFlag) {
                 KDF.save();
                 document.getElementById("custom_fileupload_holder").focus();
@@ -396,7 +396,7 @@ function getUploadSessionV2(fileName, access_token) {
     }).done(function(response) {
         //console.log("Successfully got upload session.");
         //console.log(response);
-        setProgressV2(5);
+        setProgressV2(30);
         var uploadUrl = response.uploadUrl;
         uploadChunksV2(formParams.file, uploadUrl, access_token);
 
@@ -464,7 +464,7 @@ async function uploadChunksV2(file, uploadUrl, access_token) {
                     // fileUploadTriggeredSave(true);
                 } else {
                     //console.log("Continuing - Status Code is: " + res.status);
-                    var progress = Number(60 / file.size * position);
+                    var progress = Math.round(30 + Number(30 / file.size * position));
                     //console.log('progress %o', progress);
                     setProgressV2(progress);
                     position = Number(res.json.nextExpectedRanges[0].split('-')[0]);
