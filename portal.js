@@ -195,11 +195,11 @@ var _app = {
 				    document.getElementById("detailsSpan").innerHTML = "Home";
 				    document.getElementById("requestSpan").innerHTML = "Enquiries";
 				    var currentURL = window.location.href;
-				    if (!currentURL.includes("/requests")) {
+				    if (currentURL.includes("/requests")) {
 					    document.getElementsByClassName("inner-header__title")[0].innerHTML = "Enquiries";
 					    document.getElementsByClassName("breadcrumb-current")[0].innerHTML = "Enquiries";
 				    }
-				    else if (!currentURL.includes("/mydetails")){
+				    else if (currentURL.includes("/mydetails")){
 					    document.getElementsByClassName("inner-header__title")[0].innerHTML = "Home";
 					    document.getElementsByClassName("breadcrumb-current")[0].innerHTML = "Home";
 				    }
