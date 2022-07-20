@@ -183,10 +183,11 @@ var _app = {
         popupBlocked: { t: "Welcome, " + $("#nav_username").html(), d: "<p>You are now logged in to the Enfield Connected portal where you can manage your account details and access your requests and drafts.</p><p style='text-align:center'><a style=';color:#fff' href='javascript:_app.loginToMatrix();void(0);' class='btn btn-primary'>Continue</a></p>", b: {}, f: false }
     },
     customMember: function (){
-	$.getJSON (_appConfig.squizDomain + '/_design/integrations/soap-retrieve-individual/rest-soap'), function (data) {
+	$.getJSON (_appConfig.squizDomain + '/_design/integrations/soap-customerid/soap-customerID'), function (data) {
 		if (data === true){
 			document.getElementById("detailsSpan").innerHTML = "Home";
 			document.getElementById("requestSpan").innerHTML = "Enquiries";
+			console.log(data);
 		}
 	}	
     },
