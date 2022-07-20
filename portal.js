@@ -193,7 +193,9 @@ var _app = {
 		    success: function(data) {
 			    if (data === true){
 				    document.getElementById("detailsSpan").innerHTML = "Home";
+				    document.getElementsByClassName("header-menu__myaccount-text")[0] = "Home";
 				    document.getElementById("requestSpan").innerHTML = "Enquiries";
+				    document.getElementsByClassName("header-menu__myaccount-text")[1] = "Enquiries";
 				    var currentURL = window.location.href;
 				    if (currentURL.includes("/requests")) {
 					    document.getElementsByClassName("inner-header__title")[0].innerHTML = "Enquiries";
