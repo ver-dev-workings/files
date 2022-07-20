@@ -198,10 +198,12 @@ var _app = {
 				    document.getElementsByClassName("header-menu__myaccount-text")[1].innerHTML = "Enquiries";
 				    var currentURL = window.location.href;
 				    if (currentURL.includes("/requests")) {
+					    document.title = "Enquiries";
 					    document.getElementsByClassName("inner-header__title")[0].innerHTML = "Enquiries";
 					    document.getElementsByClassName("breadcrumb-current")[0].innerHTML = "Enquiries";
 				    }
 				    else if (currentURL.includes("/mydetails")){
+					    document.title = "Home";
 					    document.getElementsByClassName("inner-header__title")[0].innerHTML = "Home";
 					    document.getElementsByClassName("breadcrumb-current")[0].innerHTML = "Home";
 				    }
