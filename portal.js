@@ -193,7 +193,7 @@ var _app = {
 		    success: function(data) {
 			    if (data === true){
 				    document.getElementById("detailsSpan").innerHTML = "Home";
-				    document.getElementById("requestsSpan").innerHTML = "Enquiries";
+				    document.getElementById("requestSpan").innerHTML = "Enquiries";
 			    }
 		    }
 	    });
