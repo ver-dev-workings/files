@@ -203,6 +203,7 @@ var _app = {
 					    document.getElementsByClassName("inner-header__title")[0].innerHTML = "Home";
 					    document.getElementsByClassName("breadcrumb-current")[0].innerHTML = "Home";
 				    }
+			    }
 		    }
 	    });
     },
