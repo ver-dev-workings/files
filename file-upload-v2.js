@@ -222,7 +222,7 @@ function do_KDF_Save_SharepointV2() {
     }
 
     if (!formParams.kdfSaveFlag) {
-        if (!formParams.file) {
+        if (formParams.file) {
             $('#custom_fileupload').focus();
             $('#dform_successMessage').remove();
             //formParams.kdfSaveFlag = true;
