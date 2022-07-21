@@ -129,7 +129,7 @@ function processFileV2() {
         reader.readAsArrayBuffer($("#custom_fileupload")[0].files[0]);
 
         reader.onloadend = function() {
-            setFileBlobDataV2(reader.result);
+            setFile($("#custom_fileupload")[0].files[0]);
             setProgressV2(25);
             if (!formParams.kdfSaveFlag) {
                 KDF.save();
