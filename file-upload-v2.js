@@ -157,7 +157,7 @@ function do_KDF_Custom_SharepointV2(response, action) {
 
             if (KDF.kdf().viewmode == 'U' && !formParams.file) {
                 setFileThumbnailsV2(access_token);
-            } else if (!formParams.file) {
+            } else if (formParams.file) {
 
                 if (!formParams.kdfSaveFlag) {
                     formParams.kdfSaveFlag = true;
