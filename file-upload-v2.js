@@ -155,9 +155,9 @@ function do_KDF_Custom_SharepointV2(response, action) {
         var access_token = response.data['access_token'];
         if (!KDF.kdf().form.readonly && formParams.deleteFileSelector == '') {
 
-            if (KDF.kdf().viewmode == 'U' && formParams.file == '') {
+            if (KDF.kdf().viewmode == 'U' && !formParams.file) {
                 setFileThumbnailsV2(access_token);
-            } else if (formParams.file !== '') {
+            } else if (!formParams.file) {
 
                 if (!formParams.kdfSaveFlag) {
                     formParams.kdfSaveFlag = true;
@@ -217,12 +217,12 @@ function do_KDF_Custom_SharepointV2(response, action) {
 
 function do_KDF_Save_SharepointV2() {
 
-    if (formParams.file !== '') {
+    if (!formParams.file) {
         $('#custom_fileupload').focus();
     }
 
     if (!formParams.kdfSaveFlag) {
-        if (formParams.file !== '') {
+        if (!formParams.file) {
             $('#custom_fileupload').focus();
             $('#dform_successMessage').remove();
             //formParams.kdfSaveFlag = true;
@@ -261,12 +261,12 @@ function sharepointFileThumbnailV2(itemID, access_token, widgetName, fieldName) 
     }).done(function(response) {
         var thumbnailURL = (response.value[0]) ? response.value[0].medium['url'] : undefined;
         if (!KDF.kdf().form.readonly) {
-            if (KDF.kdf().viewmode === 'U' && formParams.file == '') {
+            if (KDF.kdf().viewmode === 'U' && !formParams.file) {
                 if (fieldName) {
                     KDF.setVal('txt_filename_' + fieldName + '_thumb', thumbnailURL);
                 }
                 addFileContainerV2(fieldName);
-            } else if (formParams.file !== '') {
+            } else if (formParams.file) {
                 for (var i = 0; i < formParams.fieldNames.length; i++) {
                     var name = formParams.fieldNames[i];
                     if (KDF.getVal('txt_filename_' + name + '_thumb') == '') {
@@ -304,10 +304,10 @@ function addFileContainerV2(fieldName) {
     var fileThumbnail;
     var widgetName = 'txt_filename_' + fieldName;
 
-    if (KDF.kdf().viewmode == 'U' && formParams.file == '') {
+    if (KDF.kdf().viewmode == 'U' && !formParams.file) {
         fileName = KDF.getVal(widgetName);
         fileThumbnail = KDF.getVal(widgetName + '_thumb');
-    } else if (formParams.file !== '') {
+    } else if (formParams.file) {
         for (var i = 0; i < formParams.fieldNames.length; i++) {
             fieldName = formParams.fieldNames[i];
             if ($('.filenames .txt_filename_' + fieldName).length < 1) {
