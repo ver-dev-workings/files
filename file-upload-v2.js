@@ -1,5 +1,5 @@
 var formParams = {
-    fileBlob: '',
+    file: undefined,
     inputFileID: '$("#custom_fileupload_holder")',
     randomNumber: '',
     allowedFileType: '',
