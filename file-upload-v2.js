@@ -479,8 +479,6 @@ async function uploadChunksV2(file, uploadUrl, access_token) {
             continueRead = false;
         }
     }
-    emptyDataContainer();
-    refreshData();
 }
 
 function setProgressV2(progress) {

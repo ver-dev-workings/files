@@ -358,8 +358,6 @@ async function uploadChunks(file, uploadUrl, access_token) {
             continueRead = false;
         }
     }
-    emptyDataContainer();
-    refreshData();
 }
 
 function setProgress(progress) {
@@ -622,21 +620,4 @@ function inIframe() {
     } catch (e) {
         return true;
     }
-}
-
-function emptyDataContainer() {
-    //console.log('function emptyDataContainer');
-    // var dataRows = $dataContainer.find(".data-row");
-
-    // while (dataRows.length > 1)
-    // {
-    //     dataRows[dataRows.length - 1].remove();
-    //     dataRows = $dataContainer.find(".data-row");
-    // }            
-    // dataRows.find(".view-data-type").empty();
-    // dataRows.find(".view-data-name").empty();
-}
-
-function refreshData() {
-    //console.log('function refreshData');
 }
