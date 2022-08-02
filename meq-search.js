@@ -7,6 +7,7 @@ var VOF_FORM_URL = '/form/widget/';
 var searchresponse;
 
 function initMEQSelect() {
+    console.log('initMEQSelect');
     obtainMEQAuth();
     getRequestMEQDetails();
 }
