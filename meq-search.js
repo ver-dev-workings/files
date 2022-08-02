@@ -82,3 +82,40 @@ function loadMEQForm(formHolderClass) {
         unlock();
     }
 }
+
+function ajaxPreSend(xhr) {
+    xhr.setRequestHeader('Authorization', auth);
+    xhr.setRequestHeader('Accept', 'text/html; charset=UTF-8');
+    xhr.setRequestHeader(csrfheader, csrftoken);
+}
+
+function ajaxError(xhr, settings, thrownError) {
+    switch (xhr.status) {
+        case 401:
+            {
+                setError("Session has expired please click here to be redirected to login.");
+                $("#errorMessage").click(function() {
+                    location.reload();
+                });
+                break;
+            }
+        case 403:
+            {
+                setError("Unauthorized request click here to be redirected to login.");
+                $("#errorMessage").click(function() {
+                    location.reload();
+                });
+                break;
+            }
+        default:
+            setError();
+    };
+    unlock();
+}
+
+function setError(message = DEFAULT_ERROR_MSG) {
+    hideError();
+    $('#errorMessage').show();
+    $('#errorMessage').append(message);
+    scrollTop();
+}
