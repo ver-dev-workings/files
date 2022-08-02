@@ -15,11 +15,11 @@ function initMEQSelect() {
 
 function obtainMEQAuth() {
     console.log('btainMEQAuth');
-    var authtoken = sessionStorage.getItem('cpeToken')
+    // var authtoken = sessionStorage.getItem('cpeToken')
     var API_URL = '/lerest/v1';
     lock();
     return $.ajax({
-        url: API_URL + '?token=' + authtoken,
+        url: API_URL + '?token=' + decodeURI(authtoken),
         type: 'GET',
         dataType: 'json',
         contentType: 'application/json',
