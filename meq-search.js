@@ -19,7 +19,7 @@ function obtainMEQAuth() {
     var API_URL = '/lerest/v1';
     lock();
     return $.ajax({
-        url: API_URL + '?token=' + decodeURI(authtoken),
+        url: API_URL + '?token=' + authtoken,
         type: 'GET',
         dataType: 'json',
         contentType: 'application/json',
