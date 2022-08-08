@@ -1,62 +1,47 @@
 var kdfcopy;
-var auth;
+var leresttoken;
 var tokenstore;
 var caseId;
 var API_URL = '/lerest/v1';
 var VOF_FORM_URL = '/form/widget/';
 var searchresponse;
+var meqSearchForm = 'request/meq_search';
 
 function initMEQSelect() {
-    console.log('initMEQSelect');
-    obtainMEQAuth();
     getRequestMEQDetails();
-}
 
-
-function obtainMEQAuth() {
-    console.log('btainMEQAuth');
-    // var authtoken = sessionStorage.getItem('cpeToken')
-    var API_URL = '/lerest/v1';
-    lock();
-    return $.ajax({
-        url: API_URL + '?token=' + authtoken,
-        type: 'GET',
-        dataType: 'json',
-        contentType: 'application/json',
-        mimeType: 'application/json'
-    }).done(function(response, status, xhr) {
-        console.log('successfully obtained auth');
-        auth = xhr.getResponseHeader('Authorization');
-        unlock();
-    }).fail(ajaxError);
 }
 
 function getRequestMEQDetails() {
     console.log('getRequestMEQDetails');
-    // var url = 'https://lbedev.portal.ukpreview.empro.verintcloudservices.com/lerest/v1/requests/' + caseId;
-    var url = API_URL + '/requests/' + sessionStorage.getItem('caseId');
-
+    auth = sessionStorage.getItem('oauthToken');
+    var url = API_URL + '/requests/' + sessionStorage.getItem('selectedCase');
     lock();
     return $.ajax({
         url: url,
         type: 'GET',
         accept: 'application/json',
-        beforeSend: ajaxPreSend
+        beforeSend: ajaxMEQPreSend
     }).done(function(response, status, xhr) {
         auth = xhr.getResponseHeader('Authorization');
         $('.meq-requests-container').html(response);
-        // loadForm(formHolderClass);
-        // showRequestDetails();
         loadMEQForm('.le-request-form-details'); // '.le-request-item-holder .le-request-form-details'
-
         $('.le-request-brief-details .datetime > time, .le-request-note-details .datetime > time').each(function() {
             applyTimezoneRelativeDate($(this), false);
         });
+
+        $('.le-request-list-link > a').prop('onclick', null);
+
+        $('.le-request-list-link > a').on('click', function() {
+            console.log('return to resultset');
+            location.href = meqSearchForm + "?displayresults=true";
+        })
         unlock();
-    }).fail(ajaxError);
+    }).fail(ajaxMEQError);
 }
 
 function loadMEQForm(formHolderClass) {
+    console.log('loadMEQForm');
     var formName = $(formHolderClass).data('form');
     var ref = $(formHolderClass).data('ref');
     var newtoken = $(formHolderClass).data('token');
@@ -83,17 +68,19 @@ function loadMEQForm(formHolderClass) {
     }
 }
 
-function ajaxPreSend(xhr) {
+function ajaxMEQPreSend(xhr) {
+    console.log('ajaxMEQPreSend');
+    console.log('Authorization' + auth);
     xhr.setRequestHeader('Authorization', auth);
     xhr.setRequestHeader('Accept', 'text/html; charset=UTF-8');
     xhr.setRequestHeader(csrfheader, csrftoken);
 }
 
-function ajaxError(xhr, settings, thrownError) {
+function ajaxMEQError(xhr, settings, thrownError) {
     switch (xhr.status) {
         case 401:
             {
-                setError("Session has expired please click here to be redirected to login.");
+                setMEQError("Session has expired please click here to be redirected to login.");
                 $("#errorMessage").click(function() {
                     location.reload();
                 });
@@ -101,19 +88,19 @@ function ajaxError(xhr, settings, thrownError) {
             }
         case 403:
             {
-                setError("Unauthorized request click here to be redirected to login.");
+                setMEQError("Unauthorized request click here to be redirected to login.");
                 $("#errorMessage").click(function() {
                     location.reload();
                 });
                 break;
             }
         default:
-            setError();
+            setMEQError();
     };
     unlock();
 }
 
-function setError(message = DEFAULT_ERROR_MSG) {
+function setMEQError(message = DEFAULT_ERROR_MSG) {
     hideError();
     $('#errorMessage').show();
     $('#errorMessage').append(message);
