@@ -210,7 +210,6 @@ var _app = {
 			    }
 		    }
 	    });
-    document.getElementsByClassName("_hj-ETLL8__MinimizedWidgetMiddle__label")[0].focus()
     },
 	informUser: function(m, o) {
         let f = (o.f) ? function() { $(this).parents(".ui-dialog-buttonpane button:eq(0)").focus() } : function() { return; };
