@@ -380,6 +380,11 @@ function deleteFileV2(access_token) {
 function getUploadSessionV2(fileName, access_token) {
     //console.log("getUploadSession method called::");
     var url = formParams.fileUploadUrl + 'root:/Verint/' + formParams.full_classification + '/' + KDF.kdf().form.caseid + '/' + fileName;
+
+    if (KDF.getVal('txt_case_subject') === 'MEQ' && KDF.kdf().viewmode !== "" && KDF.kdf().access !== 'citizen') {
+        url = formParams.fileUploadUrl + 'root:/Verint/' + KDF.getVal('txt_lead_classification') + '/' + KDF.getVal('txt_lead_id') + '/' + fileName;
+    }
+
     const body = {
         "item": {
             "@odata.type": "microsoft.graph.driveItemUploadableProperties",
