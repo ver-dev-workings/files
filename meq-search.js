@@ -13,7 +13,6 @@ function initMEQSelect() {
 }
 
 function getRequestMEQDetails() {
-    console.log('getRequestMEQDetails');
     auth = sessionStorage.getItem('oauthToken');
     var url = API_URL + '/requests/' + sessionStorage.getItem('selectedCase');
     lock();
@@ -33,7 +32,6 @@ function getRequestMEQDetails() {
         $('.le-request-list-link > a').prop('onclick', null);
 
         $('.le-request-list-link > a').on('click', function() {
-            console.log('return to resultset');
             location.href = meqSearchForm + "?displayresults=true";
         })
         unlock();
@@ -41,7 +39,6 @@ function getRequestMEQDetails() {
 }
 
 function loadMEQForm(formHolderClass) {
-    console.log('loadMEQForm');
     var formName = $(formHolderClass).data('form');
     var ref = $(formHolderClass).data('ref');
     var newtoken = $(formHolderClass).data('token');
@@ -69,8 +66,6 @@ function loadMEQForm(formHolderClass) {
 }
 
 function ajaxMEQPreSend(xhr) {
-    console.log('ajaxMEQPreSend');
-    console.log('Authorization' + auth);
     xhr.setRequestHeader('Authorization', auth);
     xhr.setRequestHeader('Accept', 'text/html; charset=UTF-8');
     xhr.setRequestHeader(csrfheader, csrftoken);
