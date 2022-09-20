@@ -350,4 +350,21 @@ $(document).ready(function() {
     _app.init();
 	_app.customMember();
 });
+
+var someHTML = '<div class="gm_sidebar gm_sidebar_rh" style="z-index:0">
+                <a href="https://websurveys2.govmetric.com/theme/gm/2634" class="gm_sidebar_anchor" role="button" rel="nofollow">
+                    <img src="https://websurveys2.govmetric.com/imgs/triggers/rh.svg" alt="Feedback button">
+                </a>
+            </div>'; // string of HTML here
+ready(function() {
+	document.body.insertAdjacentHTML('afterend', someHTML);
+})
+
+function ready(fn) {
+   if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading"){
+     fn();
+    } else {
+      document.addEventListener('DOMContentLoaded', fn);
+    }
+  }
 /*/portal scripts*/
