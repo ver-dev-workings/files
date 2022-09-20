@@ -351,7 +351,7 @@ $(document).ready(function() {
 	_app.customMember();
 });
 
-var someHTML = '<div class="gm_sidebar gm_sidebar_rh" style="z-index:0"><a href="https://websurveys2.govmetric.com/theme/gm/2634" class="gm_sidebar_anchor" role="button" rel="nofollow"><img src="https://websurveys2.govmetric.com/imgs/triggers/rh.svg" alt="Feedback button"></a></div>'; // string of HTML here
+var someHTML = '<div class="gm_sidebar gm_sidebar_rh" style="z-index:0"><a href="https://websurveys2.govmetric.com/theme/gm/2634" class="gm_sidebar_anchor" role="button" rel="nofollow"><img src="https://websurveys2.govmetric.com/imgs/triggers/rh.svg" alt="Feedback button"></a></div><link rel="stylesheet" type="text/css" href="https://websurveys2.govmetric.com/css/client/gm_sidebar_rh.css"><script type="text/javascript" src="https://websurveys2.govmetric.com/js/client/gm_sidebar.js"></script><script type="text/javascript" src="https://hitcounter.govmetric.com/2635"></script>'; // string of HTML here
 ready(function() {
 	document.body.insertAdjacentHTML('beforeend', someHTML);
 })
