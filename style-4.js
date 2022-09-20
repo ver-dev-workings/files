@@ -4,41 +4,15 @@
 =====================================
 **/
 
-/*(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], 
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], 
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})
-(window,document,'script','dataLayer','GTM-N36QQRP');*/
+(window,document,'script','dataLayer','GTM-N36QQRP');
 
 /**
 =====================================
         Google Tag Manager - END
 =====================================
 **/
-
-/**
-=====================================
-        GovMetric - START
-=====================================
-**/
-
-<!-- GovMetric Web Code Snippet starts here right hand side-->
-
-            <div class="gm_sidebar gm_sidebar_rh" style="z-index:0">
-                <a href="https://websurveys2.govmetric.com/theme/gm/2634" class="gm_sidebar_anchor" role="button" rel="nofollow">
-                    <img src="https://websurveys2.govmetric.com/imgs/triggers/rh.svg" alt="Feedback button">
-                </a>
-            </div>
-            <link rel="stylesheet" type="text/css" href="https://websurveys2.govmetric.com/css/client/gm_sidebar_rh.css">
-            <script type="text/javascript" src="https://websurveys2.govmetric.com/js/client/gm_sidebar.js"></script>
-            <script type="text/javascript" src="https://hitcounter.govmetric.com/2635"></script>
-
-            <!-- GovMetric Web Code Snippet ends here -->
-
-/**
-=====================================
-        GovMetric - END
-=====================================
-**/
-
 
 /**
 =====================================
