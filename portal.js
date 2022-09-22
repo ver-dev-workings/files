@@ -351,7 +351,7 @@ $(document).ready(function() {
 	_app.customMember();
 });
 
-var addGTM = '<!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N36QQRP" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><!-- End Google Tag Manager (noscript) -->';
+/*var addGTM = '<!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N36QQRP" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><!-- End Google Tag Manager (noscript) -->';
 ready(function() {
 	document.body.insertAdjacentHTML('afterbegin', addGTM);
 })
@@ -362,7 +362,7 @@ function ready(fn) {
     } else {
       document.addEventListener('DOMContentLoaded', fn);
     }
-  }
+  }*/
 
 
 /*/portal scripts*/
