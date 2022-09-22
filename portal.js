@@ -351,9 +351,9 @@ $(document).ready(function() {
 	_app.customMember();
 });
 
-var addGovmetric = '<!-- GovMetric Web Code Snippet starts here --><div class="gm_sidebar gm_sidebar_rh" style="z-index:0"><a href="https://websurveys2.govmetric.com/theme/gm/2634" class="gm_sidebar_anchor" role="button" rel="nofollow"><img src="https://websurveys2.govmetric.com/imgs/triggers/rh.svg" alt="Feedback button"></a></div><link rel="stylesheet" type="text/css" href="https://websurveys2.govmetric.com/css/client/gm_sidebar_rh.css"><script type="text/javascript" src="https://websurveys2.govmetric.com/js/client/gm_sidebar.js"></script><script type="text/javascript" src="https://hitcounter.govmetric.com/2635"></script><!-- GovMetric Web Code Snippet ends here -->'; // string of HTML here
+var addGTM = '<!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N36QQRP" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><!-- End Google Tag Manager (noscript) -->';
 ready(function() {
-	document.body.insertAdjacentHTML('beforeend', addGovmetric);
+	document.body.insertAdjacentHTML('afterbegin', addGTM);
 })
 
 function ready(fn) {
