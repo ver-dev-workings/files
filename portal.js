@@ -350,4 +350,19 @@ $(document).ready(function() {
     _app.init();
 	_app.customMember();
 });
+
+/*var addGTM = '<!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N36QQRP" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><!-- End Google Tag Manager (noscript) -->';
+ready(function() {
+	document.body.insertAdjacentHTML('afterbegin', addGTM);
+})
+
+function ready(fn) {
+   if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading"){
+     fn();
+    } else {
+      document.addEventListener('DOMContentLoaded', fn);
+    }
+  }*/
+
+
 /*/portal scripts*/
