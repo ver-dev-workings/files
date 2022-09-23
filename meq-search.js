@@ -2,10 +2,9 @@ var kdfcopy;
 var leresttoken;
 var tokenstore;
 var caseId;
-var API_URL = '/lerest/v1';
-var VOF_FORM_URL = '/form/widget/';
 var searchresponse;
 var meqSearchForm = 'request/meq_search';
+var DEFAULT_MEQ_ERROR_MSG = 'An error has occurred, please try again later';
 
 function initMEQSelect() {
     getRequestMEQDetails();
@@ -14,8 +13,8 @@ function initMEQSelect() {
 
 function getRequestMEQDetails() {
     auth = sessionStorage.getItem('oauthToken');
-    var url = API_URL + '/requests/' + sessionStorage.getItem('selectedCase');
-    lock();
+    var url = '/lerest/v1/requests/' + sessionStorage.getItem('selectedCase');
+    lockMEQ();
     return $.ajax({
         url: url,
         type: 'GET',
@@ -26,7 +25,7 @@ function getRequestMEQDetails() {
         $('.meq-requests-container').html(response);
         loadMEQForm('.le-request-form-details'); // '.le-request-item-holder .le-request-form-details'
         $('.le-request-brief-details .datetime > time, .le-request-note-details .datetime > time').each(function() {
-            applyTimezoneRelativeDate($(this), false);
+            applyTimezoneRelativeDateMEQ($(this), false);
         });
 
         $('.le-request-list-link > a').prop('onclick', null);
@@ -34,18 +33,19 @@ function getRequestMEQDetails() {
         $('.le-request-list-link > a').on('click', function() {
             location.href = meqSearchForm + "?displayresults=true";
         })
-        unlock();
+        unlockMEQ();
     }).fail(ajaxMEQError);
 }
 
 function loadMEQForm(formHolderClass) {
+    var VOF_FORM_WIDGET_URL = '/form/widget/';
     var formName = $(formHolderClass).data('form');
     var ref = $(formHolderClass).data('ref');
     var newtoken = $(formHolderClass).data('token');
-    var formUrl = location.protocol + '//' + location.host.replace('portal', 'form') + VOF_FORM_URL + formName + '?token=';
+    var formUrl = location.protocol + '//' + location.host.replace('portal', 'form') + VOF_FORM_WIDGET_URL + formName + '?token=';
 
     if (formName && ref) {
-        lock();
+        lockMEQ();
         if (newtoken) {
             formUrl = formUrl + newtoken + '&ref=' + ref;
         } else {
@@ -61,7 +61,7 @@ function loadMEQForm(formHolderClass) {
             .fail(function(data) {
                 $(formHolderClass).append('<div class="error-message">No details available</div>');
             });
-        unlock();
+        unlockMEQ();
     }
 }
 
@@ -92,12 +92,42 @@ function ajaxMEQError(xhr, settings, thrownError) {
         default:
             setMEQError();
     };
-    unlock();
+    unlockMEQ();
 }
 
-function setMEQError(message = DEFAULT_ERROR_MSG) {
-    hideError();
+function setMEQError(message = DEFAULT_MEQ_ERROR_MSG) {
+    hideMEQError();
     $('#errorMessage').show();
     $('#errorMessage').append(message);
-    scrollTop();
+    scrollMEQTop();
+}
+
+function hideMEQError() {
+    $('#errorMessage').html('').hide();
+    $('#errorMessage').off("click");
+}
+
+function scrollMEQTop() {
+    $("#content")[0].scrollIntoView();
+}
+
+function lockMEQ() {
+    $('.le-content .le-lock, .le-content .le-lock-msg').show();
+}
+
+function unlockMEQ() {
+    $('.le-content .le-lock, .le-content .le-lock-msg').hide();
+}
+
+function applyTimezoneRelativeDateMEQ(element, addtimeago) {
+    var datetime = element.attr('datetime');
+    var timezone = element.data('timezone');
+    var datetext = moment.tz(datetime, timezone).format(filterDateLocale['datetime.long.format']);
+
+    if (addtimeago) {
+        var daterelative = moment.tz(datetime, timezone).startOf('minute').fromNow();
+        datetext = daterelative + ' (' + datetext + ')';
+    }
+
+    element.html(datetext);
 }
