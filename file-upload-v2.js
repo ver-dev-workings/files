@@ -167,7 +167,7 @@ function setFileV2(file) {
 function processDroppedFile(response) {
     var fileError = false;
     var fileName = response.data['file_name'];
-    var file = formParams.files.find(function(file) { if (file.name === fileName) { return file; } });
+    var file = Array.from(formParams.files).find(function(file) { if (file.name === fileName) { return file; } });
     if (file.size <= formParams.maxFileSize) {
         fileError = false;
     } else {
