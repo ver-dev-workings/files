@@ -1,5 +1,8 @@
+var uploadAreaClass = 'custom_fileupload_area'
+
 var formParams = {
     file: undefined,
+    files: [],
     inputFileID: '$("#custom_fileupload_holder")',
     randomNumber: '',
     allowedFileType: '',
@@ -49,7 +52,7 @@ function do_KDF_Ready_SharepointV2(event, kdf) {
     });
     $(document).on('change', '#custom_fileupload', function() {
         var fileName = $("#custom_fileupload")[0].files[0].name;
-        var fileNameClean = fileName.split('.').pop();
+        var fileExtension = fileName.split('.').pop();
         var template_name = KDF.getVal('txt_FT_template');
 
         if (KDF.getVal('txt_FT_template') == '' || $('#dform_widget_txt_FT_template').length < 1) {
@@ -57,7 +60,7 @@ function do_KDF_Ready_SharepointV2(event, kdf) {
         }
         KDF.customdata('sharepoint_config', '', true, true, {
             txt_FT_template: template_name,
-            txt_file_format: fileNameClean
+            txt_file_format: fileExtension
         })
 
     });
@@ -84,10 +87,132 @@ function do_KDF_Ready_SharepointV2(event, kdf) {
         formParams.deleteFileSelector = $(this).closest('span').data('fieldname');
         KDF.customdata('sharepoint_token', 'imgClickEvent', true, true, {});
     })
+
+
+    // preventing page from redirecting
+    $("html").on("dragover", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $(".area-description").text("Drag here");
+    });
+
+    $("html").on("drop", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+
+    // Drag enter
+    $('.' + uploadAreaClass).on('dragenter', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        $(".area-description").text("Drop");
+    });
+
+    // Drag over
+    $('.' + uploadAreaClass).on('dragover', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        $(".area-description").text("Drop");
+    });
+
+    $('.' + uploadAreaClass).on('click', function(e) {
+        $('#custom_fileupload').click();
+    });
+
+    // Drop
+    $('.custom_fileupload_area').on('drop', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        $(".custom_fileupload_area h1").text("Upload");
+        formParams.files = e.originalEvent.dataTransfer.files;
+        var file = e.originalEvent.dataTransfer.files[0];
+        var fileName = file.name;
+        var fileExtension = fileName.split('.').pop();
+        var template_name = KDF.getVal('txt_FT_template');
+
+        if (KDF.getVal('txt_FT_template') == '' || $('#dform_widget_txt_FT_template').length < 1) {
+            template_name = 'FT_template1';
+        }
+        KDF.customdata('sharepoint_config', 'custom_fileupload_area', true, true, {
+            txt_FT_template: template_name,
+            txt_file_format: fileExtension,
+            file_name: fileName
+        });
+    });
+
+    // Open file selector on div click
+    $("#uploadfile").click(function() {
+        $("#file").click();
+    });
+
+    // file selected
+    $("#file").change(function() {
+        var fd = new FormData();
+
+        var files = $('#file')[0].files[0];
+
+        fd.append('file', files);
+
+        uploadData(fd);
+    });
+
+
 }
 
 function setFileV2(file) {
     formParams.file = file;
+}
+
+function processDroppedFile(response) {
+    var fileError = false;
+    var fileName = response.data['file_name'];
+    var file = formParams.files.find(function(file) { if (file.name === fileName) { return file; } });
+    if (file.size <= formParams.maxFileSize) {
+        fileError = false;
+    } else {
+        fileError = true;
+        KDF.showError('File size is too large');
+    }
+
+    if (!fileError) {
+        fileNames = [];
+        if (formParams.fieldNames.every(function(fieldName) { return KDF.getVal('txt_filename_' + fieldName) !== '' })) {
+            fileError = true;
+            KDF.showError('Maximum number of file uploads has been reached');
+        }
+    }
+
+    if (!fileError) {
+        for (var i = 0; i < formParams.fieldNames.length; i++) {
+            if (KDF.getVal('txt_filename_' + formParams.fieldNames[i]) == fileName) {
+                fileError = true;
+                KDF.showError('A file with this name already exists');
+                break;
+            }
+        }
+    }
+
+    if (!fileError) {
+        KDF.hideMessages();
+        setProgressV2(0);
+        setProgressV2(10);
+        $("#custom_fileupload").prop('disabled', true);
+        var reader = new FileReader();
+        reader.readAsArrayBuffer(file);
+
+        reader.onloadend = function() {
+            setFileV2(file);
+            setProgressV2(25);
+            if (!formParams.kdfSaveFlag) {
+                KDF.save();
+                document.getElementById("custom_fileupload_holder").focus();
+            } else {
+                KDF.customdata('sharepoint_token', 'imitateKdfReady', true, true, {});
+            }
+        };
+    }
+
 }
 
 function processFileV2() {
@@ -142,6 +267,7 @@ function processFileV2() {
 
 }
 
+
 function setFileThumbnailsV2(access_token) {
     formParams.fieldNames.forEach(function(name) {
         if (KDF.getVal('txt_filename_' + name) !== '') {
@@ -179,10 +305,12 @@ function do_KDF_Custom_SharepointV2(response, action) {
         }
     } else if (action == 'sharepoint_config') {
         if (response.data['pass_status']) {
-            // processFile();
-
-            if (response.data['pass_status'] == 'good') {
-                processFileV2();
+            if (response.data['pass_status'] === 'good') {
+                if (response.actionedby === uploadAreaClass) {
+                    processDroppedFile(response);
+                } else {
+                    processFileV2();
+                }
             } else {
                 KDF.showError('Incorrect file type selected.')
             }
@@ -199,7 +327,7 @@ function do_KDF_Custom_SharepointV2(response, action) {
             formParams.maxFileSizeDisplay = response.data['txt_max_filesize'];
 
             if ($('#custom_fileupload_holder').length > 0) {
-
+                // There is no reason why this html couldn't have been left on the form
                 var widget = '<div data-type="file" data-name="file_ootb" data-active="true" data-agentonly="false" class="file-progress lbe-file-gov">' +
                     '<div><label>' + sharepoint_title + '</div></label>' +
                     '<div style="position: relative;"><input id="custom_fileupload" type="file" name="uploadedFile" aria-label="Upload file">' +
@@ -211,6 +339,13 @@ function do_KDF_Custom_SharepointV2(response, action) {
 
                 $('#custom_fileupload_holder').html(widget);
             }
+
+            if ($('.' + uploadAreaClass).length > 0) {
+                $('.sharepoint_title').text(sharepoint_title);
+                $('.allowedFileType').text(formParams.allowedFileType);
+                $('.maxFileSizeDisplay').text(formParams.maxFileSizeDisplay);
+            }
+
         }
     }
 }

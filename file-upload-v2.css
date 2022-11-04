@@ -1,5 +1,18 @@
-.fileicon {
-    font-family: SpartaIcons;
-    font-size: 67px;
+#dform_container .custom_fileupload_area {
+    border: 2px dashed #d52c1e;
+    border-radius: 3px;
+    margin: 0 auto;
+    text-align: center;
+    overflow: auto;
+}
+
+#dform_container .custom_fileupload_area:hover {
     cursor: pointer;
+}
+
+#dform_container .custom_fileupload_area .area-description {
+    text-align: center;
+    font-weight: normal;
+    line-height: 50px;
+    color: #585859;
 }
