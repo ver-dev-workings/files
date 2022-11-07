@@ -368,8 +368,7 @@ function do_KDF_Save_SharepointV2() {
 
 function sharepointFileUploaderV2(access_token) {
     KDF.lock();
-    var fullFileName = $("#custom_fileupload")[0].files[0].name;
-    getUploadSessionV2(fullFileName, access_token);
+    getUploadSessionV2(access_token);
 }
 
 function sharepointFileThumbnailV2(itemID, access_token, widgetName, fieldName) {
@@ -500,8 +499,9 @@ function deleteFileV2(access_token) {
 }
 
 // create upload session and upload chunks
-function getUploadSessionV2(fileName, access_token) {
+function getUploadSessionV2(access_token) {
     //console.log("getUploadSession method called::");
+    var fileName = formParams.file.name;
     var url = formParams.fileUploadUrl + 'root:/Verint/' + formParams.full_classification + '/' + KDF.kdf().form.caseid + '/' + fileName;
 
     if (KDF.getVal('txt_case_subject') === 'MEQ' && KDF.kdf().viewmode !== "" && KDF.kdf().access !== 'citizen') {
@@ -530,7 +530,6 @@ function getUploadSessionV2(fileName, access_token) {
 
     }).fail(function(response) {
         //console.log("Could not get upload session: " + response.responseText);
-
     });
 }
 
