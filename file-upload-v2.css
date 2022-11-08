@@ -16,3 +16,8 @@
     line-height: 50px;
     color: #585859;
 }
+
+#dform_container .fileicon {
+    font-family: SpartaIcons;
+    font-size: 3em;
+}
