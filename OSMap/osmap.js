@@ -341,7 +341,7 @@ function getNearestStreet(center, radius){
         xml += '</ogc:Filter>';
 
         var wfsParams = {
-            key: 'ieYjnofhOM9Kiz4GzM2fR6gkkrGQvWwG',
+            key: 'ER0fA2XKDuJAd2Ze2xAe5Ljium4jGQQJ',
             service: 'WFS',
             request: 'GetFeature',
             version: '2.0.0',
