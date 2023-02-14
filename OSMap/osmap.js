@@ -6,7 +6,7 @@ $("head").append(s);
 var map, pinMarker, openCasesMarkers, geoJson;
 var osmapTemplateIdentifier = 'osmap_template_';
 var request_source;
-var apiKey = 'ER0fA2XKDuJAd2Ze2xAe5Ljium4jGQQJ';
+var apiKey = 'ieYjnofhOM9Kiz4GzM2fR6gkkrGQvWwG';
 var serviceUrl = 'https://api.os.uk/maps/raster/v1/zxy';
 proj4.defs([
 		[
@@ -341,13 +341,13 @@ function getNearestStreet(center, radius){
         xml += '</ogc:Filter>';
 
         var wfsParams = {
-            key: 'ER0fA2XKDuJAd2Ze2xAe5Ljium4jGQQJ',
+            key: 'ieYjnofhOM9Kiz4GzM2fR6gkkrGQvWwG',
             service: 'WFS',
             request: 'GetFeature',
             version: '2.0.0',
             typeNames: 'Highways_Street',
             outputFormat: 'GEOJSON',
-            srsName: 'urn:ogc:def:crs:EPSG::4326',
+            /*srsName: 'urn:ogc:def:crs:EPSG::4326',*/
             filter: xml,
             count: 100,
             startIndex: 0
