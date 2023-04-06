@@ -100,7 +100,7 @@ function initialiseOSMap(mapHolder) {
     (KDF.kdf().access === "agent" && KDF.kdf().viewmode !== "R") ||
     (KDF.kdf().access === "citizen" && KDF.kdf().form.readonly !== true)
   ) {
-    map.on("click", function (event) {
+    map.on("click", function (event) {/*
       KDF.setVal("txt_map_full_address", "");
       var clickedMarker = event;
       var lat = clickedMarker.latlng.lat;
@@ -130,7 +130,7 @@ function initialiseOSMap(mapHolder) {
           'You can\'t drop a pin here as it\'s outside the London Borough of Enfield. <a href="https://www.gov.uk/find-your-local-council" target="_blank">Find out which council you should contact about this problem.</a>'
         );
         pinMarker.addTo(map).bindPopup(popup).openPopup();
-      }
+      }*/
     });
   }
   $("#dform_widget_button_but_map_next")
