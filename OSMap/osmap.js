@@ -165,7 +165,7 @@ function do_KDF_Custom_OSMap(event, kdf, response, action) {
       KDF.setVal("le_gis_lat", lat);
       var center = [lon, lat];
       request_source = "property_search_source";
-      getNearestStreet(center, 0.2);
+      getNearestStreet(center, 0.1);
       if (pinMarker !== undefined) {
         map.removeLayer(pinMarker);
       }
@@ -261,7 +261,7 @@ function do_KDF_optionSelected_OSMap(event, kdf, field, label, val) {
 }
 function getNearestStreet(center, radius) {
   var point = turf.point(center);
-  var circle = turf.circle(center, radius, { steps: 1, units: "kilometers" });
+  var circle = turf.circle(center, radius, { steps: 24, units: "kilometers" });
   circle = turf.flip(circle);
   var coords = circle.geometry.coordinates[0].join(" ");
   var xml = "<ogc:Filter>";
