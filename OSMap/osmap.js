@@ -264,9 +264,13 @@ function do_KDF_optionSelected_OSMap(event, kdf, field, label, val) {
 }
 function getNearestStreet(center, radius) {
   var point = turf.point(center);
+  console.log(point);
   var circle = turf.circle(center, radius, { steps: 24, units: "kilometers" });
+  console.log(circle);
   circle = turf.flip(circle);
+  console.log(circle);
   var coords = circle.geometry.coordinates[0].join(" ");
+  console.log(coords);
   var xml = "<ogc:Filter>";
   xml += "<ogc:And>";
   xml += "<ogc:Intersects>";
