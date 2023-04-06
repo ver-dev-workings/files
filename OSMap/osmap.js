@@ -355,6 +355,9 @@ function onEachFeature(feature, layer) {
     layer.bindPopup(popupContent);
   }
 }
+
+/*attempt*/
+
 function createGeoJSONLayer(obj, style) {
   return new L.geoJson(
     {
@@ -365,6 +368,7 @@ function createGeoJSONLayer(obj, style) {
     { style: styles.street, onEachFeature: onEachFeature }
   );
 }
+
 function getUrl(params) {
   var encodedParameters = Object.keys(params)
     .map(function (paramName) {
@@ -375,35 +379,13 @@ function getUrl(params) {
 }
 
 function findNearest(point, features) {
-  var nearestFeature,
-    nearestDistance = 1;
-
-  // {Turf.js} Iterate over features in street FeatureCollection.
-  turf.featureEach(features, function (currentFeature, featureIndex) {
-    if (featureIndex === 0) nearestFeature = currentFeature;
-
-    // {Turf.js} Get all coordinates from any GeoJSON object.
-    var coords = turf.coordAll(currentFeature);
-
-    // {Turf.js} Returns the minimum distance between a Point and a LineString.
-    var distance = turf.pointToLineDistance(point, turf.lineString(coords));
-
-    // If the distance is less than that which has previously been calculated
-    // replace the nearest values with those from the current index.
-    if (distance <= nearestDistance) {
-      nearestFeature = currentFeature;
-      nearestDistance = distance;
-    }
-  });
-
+  var nearestFeature = turf.nearestPoint(point, features).feature;
   var lon = KDF.getVal("le_gis_lon");
   var lat = KDF.getVal("le_gis_lat");
   var streetName;
-  map.setView([lat, lon], 18);
-  pinMarker = new L.marker([lat, lon], {
-    interactive: true,
-  });
-  console.log("Nearest Feature: ", nearestFeature);
+
+  pinMarker.setLatLng([nearestFeature.geometry.coordinates[1], nearestFeature.geometry.coordinates[0]]);
+  map.setView([nearestFeature.geometry.coordinates[1], nearestFeature.geometry.coordinates[0]], 18);
 
   if (nearestFeature.properties.DesignatedName1 !== "") {
     streetName =
@@ -425,10 +407,7 @@ function findNearest(point, features) {
   var coor = proj4("EPSG:4326", "EPSG:27700", [lon, lat]);
   KDF.setVal("txt_easting", coor[0].toString());
   KDF.setVal("txt_northing", coor[1].toString());
-
   KDF.hideWidget("ahtm_no_location_selected");
-  //KDF.setVal('le_associated_obj_id', response.data.object_id);
-
   KDF.setVal("txt_map_usrn", nearestFeature.properties.InspireIDLocalID);
 
   KDF.customdata(
@@ -442,6 +421,7 @@ function findNearest(point, features) {
     }
   );
 }
+
 function inside(point, poly) {
   var inside = false;
   var x = point[0],
@@ -458,3 +438,6 @@ function inside(point, poly) {
   }
   return inside;
 }
+ 
+
+
