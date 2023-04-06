@@ -6,7 +6,7 @@ $("head").append(s);
 var map, pinMarker, openCasesMarkers, geoJson;
 var osmapTemplateIdentifier = 'osmap_template_';
 var request_source;
-var apiKey = 'ieYjnofhOM9Kiz4GzM2fR6gkkrGQvWwG';
+var apiKey = 'ER0fA2XKDuJAd2Ze2xAe5Ljium4jGQQJ';
 var serviceUrl = 'https://api.os.uk/maps/raster/v1/zxy';
 proj4.defs([
 		[
@@ -341,7 +341,7 @@ function getNearestStreet(center, radius){
         xml += '</ogc:Filter>';
 
         var wfsParams = {
-            key: 'ieYjnofhOM9Kiz4GzM2fR6gkkrGQvWwG',
+            key: 'ER0fA2XKDuJAd2Ze2xAe5Ljium4jGQQJ',
             service: 'WFS',
             request: 'GetFeature',
             version: '2.0.0',
@@ -438,83 +438,67 @@ function getUrl(params) {
  * @param {object} features - GeoJSON street FeatureCollection.
  */
 function findNearest(point, features) {
-    var nearestFeature, nearestDistance = 1;
+	var nearestFeature, nearestDistance = 1;
 
-    // {Turf.js} Iterate over features in street FeatureCollection.
-    turf.featureEach(features, function(currentFeature, featureIndex) {
-        if( featureIndex === 0 )
-            nearestFeature = currentFeature;
+	// {Turf.js} Iterate over features in street FeatureCollection.
+	turf.featureEach(features, function(currentFeature, featureIndex) {
+		if( featureIndex === 0 )
+			nearestFeature = currentFeature;
 
-        /*
-        // {Turf.js} Test if point centroid is within the current street feature.
-        if( turf.booleanWithin(point, currentFeature) ) {
-            nearestFeature = currentFeature;
-            nearestDistance = 0;
-            return;
-        }
+		// {Turf.js} Test if point centroid is within the current street feature.
+		if( turf.booleanWithin(point, currentFeature) ) {
+			nearestFeature = currentFeature;
+			nearestDistance = 0;
+			return;
+		}
 
-        // {Turf.js} Iterate over coordinates in current street feature.
-        turf.coordEach(currentFeature, function(currentCoord, coordIndex, featureIndex, multiFeatureIndex, geometryIndex) {
-            // {Turf.js} Calculates the distance between two points in kilometres.
-            var distance = turf.pointToLineDistance(point, turf.lineString(currentCoord));
+		// {Turf.js} Iterate over coordinates in current street feature.
+		turf.coordEach(currentFeature, function(currentCoord, coordIndex, featureIndex, multiFeatureIndex, geometryIndex) {
+			// {Turf.js} Calculates the distance between two points in kilometres.
+			var distance = turf.pointToLineDistance(point, turf.lineString(currentCoord));
 
-            // If the distance is less than that which has previously been calculated
-            // replace the nearest values with those from the current index.
-            if( distance <= nearestDistance ) {
-                nearestFeature = currentFeature;
-                nearestDistance = distance;
-                return;
-            }
-        });
-        */
+			// If the distance is less than that whch has previously been calculated
+			// replace the nearest values with those from the current index.
+			if( distance <= nearestDistance ) {
+				nearestFeature = currentFeature;
+				nearestDistance = distance;
+				return;
+			}
+		});
+	});
 
-        // {Turf.js} Get all coordinates from any GeoJSON object.
-        var coords = turf.coordAll(currentFeature);
+	var lon = KDF.getVal('le_gis_lon');
+	var lat = KDF.getVal('le_gis_lat');
+	var streetName;
+	map.setView([lat, lon], 18);
+	pinMarker = new L.marker([lat, lon], {
+				interactive: true
+	});
+	console.log('Nearest Feature: ', nearestFeature);
 
-        // {Turf.js} Returns the minimum distance between a Point and a LineString.
-        var distance = turf.pointToLineDistance(point, turf.lineString(coords));
+	if (nearestFeature.properties.DesignatedName1 !== '') {
+		streetName = nearestFeature.properties.DesignatedName1 + ', ' + nearestFeature.properties.Town1;
+	} else if (nearestFeature.properties.Descriptor1 !==''){
+		streetName = nearestFeature.properties.Descriptor1 + ', ' + nearestFeature.properties.Town1;
+	} else {
+		streetName = nearestFeature.properties.NationalRoadCode + ', ' + nearestFeature.properties.Town1;
+	}
 
-        // If the distance is less than that which has previously been calculated
-        // replace the nearest values with those from the current index.
-        if( distance <= nearestDistance ) {
-            nearestFeature = currentFeature;
-            nearestDistance = distance;
-        }
-    });
+	var coor = proj4('EPSG:4326', 'EPSG:27700', [lon, lat]);			
+	KDF.setVal('txt_easting', coor[0].toString());
+	KDF.setVal('txt_northing', coor[1].toString());
 
-    var lon = KDF.getVal('le_gis_lon');
-    var lat = KDF.getVal('le_gis_lat');
-    var streetName;
-    map.setView([lat, lon], 18);
-    pinMarker = new L.marker([lat, lon], {
-                interactive: true
-    });
-    console.log('Nearest Feature: ', nearestFeature);
+	KDF.hideWidget('ahtm_no_location_selected');
+	//KDF.setVal('le_associated_obj_id', response.data.object_id);
+	
+	KDF.setVal('txt_map_usrn', nearestFeature.properties.InspireIDLocalID);
 
-    if (nearestFeature.properties.DesignatedName1 !== '') {
-        streetName = nearestFeature.properties.DesignatedName1 + ', ' + nearestFeature.properties.Town1;
-    } else if (nearestFeature.properties.Descriptor1 !==''){
-        streetName = nearestFeature.properties.Descriptor1 + ', ' + nearestFeature.properties.Town1;
-    } else {
-        streetName = nearestFeature.properties.NationalRoadCode + ', ' + nearestFeature.properties.Town1;
-    }
-
-    var coor = proj4('EPSG:4326', 'EPSG:27700', [lon, lat]);            
-    KDF.setVal('txt_easting', coor[0].toString());
-    KDF.setVal('txt_northing', coor[1].toString());
-
-    KDF.hideWidget('ahtm_no_location_selected');
-    //KDF.setVal('le_associated_obj_id', response.data.object_id);
-    
-    KDF.setVal('txt_map_usrn', nearestFeature.properties.InspireIDLocalID);
-
-    KDF.customdata('street-search', osmapTemplateIdentifier + 'findNearest', true, true, {
-                'usrn': nearestFeature.properties.InspireIDLocalID,
-                'request_source' : request_source
-            });
+	KDF.customdata('street-search', osmapTemplateIdentifier + 'findNearest', true, true, {
+				'usrn': nearestFeature.properties.InspireIDLocalID,
+				'request_source' : request_source
+			});
 
 }
-
 
 /* 
 The MIT License (MIT)
