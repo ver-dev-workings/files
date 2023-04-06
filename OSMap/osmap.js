@@ -104,8 +104,11 @@ function initialiseOSMap(mapHolder) {
       KDF.setVal("txt_map_full_address", "");
       var clickedMarker = event;
       var lat = clickedMarker.latlng.lat;
+      console.log(lat);
       var lon = clickedMarker.latlng.lng;
+      console.log(lon);
       var center = [lon, lat];
+      console.log(center);
       if (pinMarker !== undefined) {
         map.removeLayer(pinMarker);
       }
