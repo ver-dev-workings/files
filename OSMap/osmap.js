@@ -400,15 +400,8 @@ function findNearest(point, features) {
     });
 
     // Extract coordinates from point.
-var lon, lat;
-
-if (point[0] === undefined || point[1] === undefined) {
-    lon = KDF.getVal("le_gis_lon");
-    lat = KDF.getVal("le_gis_lat");
-} else {
-    lon = point[0];
-    lat = point[1];
-}
+var lon = KDF.getVal("le_gis_lon");
+var lat = KDF.getVal("le_gis_lat");
 
 
     // Convert coordinates to British National Grid.
