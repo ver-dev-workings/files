@@ -399,25 +399,6 @@ function findNearest(point, features) {
         }
     });
 
-    // Extract street name from nearest feature.
-    var streetName = "";
-    if (nearestFeature.properties.DesignatedName1 !== "") {
-        streetName =
-            nearestFeature.properties.DesignatedName1 +
-            ", " +
-            nearestFeature.properties.Town1;
-    } else if (nearestFeature.properties.Descriptor1 !== "") {
-        streetName =
-            nearestFeature.properties.Descriptor1 +
-            ", " +
-            nearestFeature.properties.Town1;
-    } else {
-        streetName =
-            nearestFeature.properties.NationalRoadCode +
-            ", " +
-            nearestFeature.properties.Town1;
-    }
-
     // Extract coordinates from point.
     var lon = point[0];
     var lat = point[1];
