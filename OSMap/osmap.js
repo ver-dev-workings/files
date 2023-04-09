@@ -400,8 +400,16 @@ function findNearest(point, features) {
     });
 
     // Extract coordinates from point.
-    var lon = point[0];
-    var lat = point[1];
+var lon, lat;
+
+if (point[0] === undefined || point[1] === undefined) {
+    lon = KDF.getVal("le_gis_lon");
+    lat = KDF.getVal("le_gis_lat");
+} else {
+    lon = point[0];
+    lat = point[1];
+}
+
 
     // Convert coordinates to British National Grid.
     var coor = proj4("EPSG:4326", "EPSG:27700", [lon, lat]);
