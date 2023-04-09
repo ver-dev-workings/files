@@ -100,7 +100,7 @@ function initialiseOSMap(mapHolder) {
     (KDF.kdf().access === "agent" && KDF.kdf().viewmode !== "R") ||
     (KDF.kdf().access === "citizen" && KDF.kdf().form.readonly !== true)
   ) {
-    map.on("click", function (event) {/*
+    map.on("click", function (event) {
       KDF.setVal("txt_map_full_address", "");
       var clickedMarker = event;
       var lat = clickedMarker.latlng.lat;
@@ -130,7 +130,7 @@ function initialiseOSMap(mapHolder) {
           'You can\'t drop a pin here as it\'s outside the London Borough of Enfield. <a href="https://www.gov.uk/find-your-local-council" target="_blank">Find out which council you should contact about this problem.</a>'
         );
         pinMarker.addTo(map).bindPopup(popup).openPopup();
-      }*/
+      }
     });
   }
   $("#dform_widget_button_but_map_next")
@@ -377,73 +377,73 @@ function getUrl(params) {
 }
 
 function findNearest(point, features) {
-  var nearestFeature,
-    nearestDistance = 1;
-
-  // {Turf.js} Iterate over features in street FeatureCollection.
-  turf.featureEach(features, function (currentFeature, featureIndex) {
-    if (featureIndex === 0) nearestFeature = currentFeature;
-
-    // {Turf.js} Get all coordinates from any GeoJSON object.
-    var coords = turf.coordAll(currentFeature);
-
-    // {Turf.js} Returns the minimum distance between a Point and a LineString.
-    var distance = turf.pointToLineDistance(point, turf.lineString(coords));
-
-    // If the distance is less than that which has previously been calculated
-    // replace the nearest values with those from the current index.
-    if (distance <= nearestDistance) {
-      nearestFeature = currentFeature;
-      nearestDistance = distance;
+    var nearestFeature,
+      nearestDistance = Infinity;
+  
+    // {Turf.js} Iterate over features in street FeatureCollection.
+    turf.featureEach(features, function (currentFeature, featureIndex) {
+  
+      // {Turf.js} Find the nearest point on the current feature to the given point.
+      var nearestPoint = turf.nearestPointOnLine(currentFeature, point);
+  
+      // {Turf.js} Calculate the distance between the given point and the nearest point.
+      var distance = turf.distance(point, nearestPoint);
+  
+      // If the distance is less than that which has previously been calculated
+      // replace the nearest values with those from the current index.
+      if (distance <= nearestDistance) {
+        nearestFeature = currentFeature;
+        nearestDistance = distance;
+      }
+    });
+  
+    var lon = KDF.getVal("le_gis_lon");
+    var lat = KDF.getVal("le_gis_lat");
+    var streetName;
+    map.setView([lat, lon], 18);
+    pinMarker = new L.marker([lat, lon], {
+      interactive: true,
+    });
+    console.log("Nearest Feature: ", nearestFeature);
+  
+    if (nearestFeature.properties.DesignatedName1 !== "") {
+      streetName =
+        nearestFeature.properties.DesignatedName1 +
+        ", " +
+        nearestFeature.properties.Town1;
+    } else if (nearestFeature.properties.Descriptor1 !== "") {
+      streetName =
+        nearestFeature.properties.Descriptor1 +
+        ", " +
+        nearestFeature.properties.Town1;
+    } else {
+      streetName =
+        nearestFeature.properties.NationalRoadCode +
+        ", " +
+        nearestFeature.properties.Town1;
     }
-  });
-
-  var lon = KDF.getVal("le_gis_lon");
-  var lat = KDF.getVal("le_gis_lat");
-  var streetName;
-  map.setView([lat, lon], 18);
-  pinMarker = new L.marker([lat, lon], {
-    interactive: true,
-  });
-  console.log("Nearest Feature: ", nearestFeature);
-
-  if (nearestFeature.properties.DesignatedName1 !== "") {
-    streetName =
-      nearestFeature.properties.DesignatedName1 +
-      ", " +
-      nearestFeature.properties.Town1;
-  } else if (nearestFeature.properties.Descriptor1 !== "") {
-    streetName =
-      nearestFeature.properties.Descriptor1 +
-      ", " +
-      nearestFeature.properties.Town1;
-  } else {
-    streetName =
-      nearestFeature.properties.NationalRoadCode +
-      ", " +
-      nearestFeature.properties.Town1;
+  
+    var coor = proj4("EPSG:4326", "EPSG:27700", [lon, lat]);
+    KDF.setVal("txt_easting", coor[0].toString());
+    KDF.setVal("txt_northing", coor[1].toString());
+  
+    KDF.hideWidget("ahtm_no_location_selected");
+    //KDF.setVal('le_associated_obj_id', response.data.object_id);
+  
+    KDF.setVal("txt_map_usrn", nearestFeature.properties.InspireIDLocalID);
+  
+    KDF.customdata(
+      "street-search",
+      osmapTemplateIdentifier + "findNearest",
+      true,
+      true,
+      {
+        usrn: nearestFeature.properties.InspireIDLocalID,
+        request_source: request_source,
+      }
+    );
   }
-
-  var coor = proj4("EPSG:4326", "EPSG:27700", [lon, lat]);
-  KDF.setVal("txt_easting", coor[0].toString());
-  KDF.setVal("txt_northing", coor[1].toString());
-
-  KDF.hideWidget("ahtm_no_location_selected");
-  //KDF.setVal('le_associated_obj_id', response.data.object_id);
-
-  KDF.setVal("txt_map_usrn", nearestFeature.properties.InspireIDLocalID);
-
-  KDF.customdata(
-    "street-search",
-    osmapTemplateIdentifier + "findNearest",
-    true,
-    true,
-    {
-      usrn: nearestFeature.properties.InspireIDLocalID,
-      request_source: request_source,
-    }
-  );
-}
+  
 function inside(point, poly) {
   var inside = false;
   var x = point[0],
@@ -461,4 +461,3 @@ function inside(point, poly) {
   }
   return inside;
 }
-
