@@ -163,7 +163,9 @@ function do_KDF_Custom_OSMap(event, kdf, response, action) {
       ]);
       var lat, lon;
       lon = coor[0];
+      console.log(lon);
       lat = coor[1];
+      console.log(lat);
       KDF.setVal("le_gis_lon", lon);
       KDF.setVal("le_gis_lat", lat);
       var center = [lon, lat];
@@ -184,6 +186,7 @@ function do_KDF_Custom_OSMap(event, kdf, response, action) {
         KDF.setVal("le_associated_obj_id", response.data.object_id);
         KDF.setVal("txt_map_uprn", response.data.UPRN);
         KDF.setVal("txt_map_usrn", response.data.USRN);
+        console.log(response.data.description);
         KDF.setVal("txt_map_full_address", response.data.description);
       } else {
         var lon = KDF.getVal("le_gis_lon");
