@@ -1,6 +1,6 @@
 var s = document.createElement("script");
 s.type = "text/javascript";
-s.src = "https://verint-resources.github.io/lbe-prod/turf.js";
+s.src = "https://ver-dev-workings.github.io/files/turf.js";
 $("head").append(s);
 var map, pinMarker, openCasesMarkers, geoJson;
 var osmapTemplateIdentifier = "osmap_template_";
