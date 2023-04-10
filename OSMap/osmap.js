@@ -393,8 +393,8 @@ function findNearest(point, features) {
   });
 
   // Extract coordinates from point.
-  var lon = point[0];
-  var lat = point[1];
+var lon = KDF.getVal("le_gis_lon");
+var lat = KDF.getVal("le_gis_lat");
 
   // Convert coordinates to British National Grid.
   var coor = proj4("EPSG:4326", "EPSG:27700", [lon, lat]);
