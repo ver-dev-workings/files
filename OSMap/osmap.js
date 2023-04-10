@@ -408,7 +408,7 @@ var lat = KDF.getVal("le_gis_lat");
 
 
     // Convert coordinates to British National Grid.
-    var coor = proj4("EPSG:4326", "EPSG:27700", [lat, lon]);
+    var coor = proj4("EPSG:4326", "EPSG:27700", [lon, lat]);
 
     // Set values of text inputs.
     KDF.setVal("txt_easting", coor[0].toString());
@@ -452,31 +452,6 @@ var lat = KDF.getVal("le_gis_lat");
             ", " +
             nearestFeature.properties.Town1;
     }
-
-    // Convert the chosen point's coordinates to the desired projection.
-    var coor = proj4("EPSG:4326", "EPSG:27700", [lon, lat]);
-
-    // Set the easting and northing values of the chosen point.
-    KDF.setVal("txt_easting", coor[0].toString());
-    KDF.setVal("txt_northing", coor[1].toString());
-
-    // Hide the "no location selected" message.
-    KDF.hideWidget("ahtm_no_location_selected");
-
-    // Set the USRN value in the "Map USRN" field.
-    KDF.setVal("txt_map_usrn", nearestFeature.properties.InspireIDLocalID);
-
-    // Call the "street-search" custom data function with the USRN and request source.
-    KDF.customdata(
-        "street-search",
-        osmapTemplateIdentifier + "findNearest",
-        true,
-        true,
-        {
-            usrn: nearestFeature.properties.InspireIDLocalID,
-            request_source: request_source,
-        }
-    );
 }
   
 function inside(point, poly) {
