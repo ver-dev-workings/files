@@ -370,32 +370,31 @@ function getUrl(params) {
 }
 
 function findNearest(point, features) {
-  var nearestFeature, nearestDistance = Infinity;
+  var nearestFeature,
+    nearestDistance = Infinity;
 
-  // Find the nearest point on all features to the given point.
-  var nearestPoint = turf.nearestPoint(point, turf.featureCollection(features));
+  // Iterate over features in street FeatureCollection.
+  turf.featureEach(features, function (currentFeature) {
+    // Get all coordinates from any GeoJSON object.
+    var coords = turf.coordAll(currentFeature);
 
-  // Iterate over features in FeatureCollection to find the feature that contains the nearest point.
-  turf.featureEach(features, function(currentFeature) {
-    if (turf.booleanContains(currentFeature, nearestPoint)) {
-      // Find the nearest point on the LineString feature to the given point.
-      var nearestLinePoint = turf.nearestPointOnLine(currentFeature, point);
+    // Calculate nearest point on line segment to the given point.
+    var nearestPoint = turf.nearestPointOnLine(turf.lineString(coords), point);
 
-      // Compute distance between point and nearest point on line.
-      var distance = turf.distance(point, nearestLinePoint);
+    // Compute distance between point and nearest point on line.
+    var distance = turf.distance(point, nearestPoint);
 
-      // If the distance is less than that which has previously been calculated,
-      // replace the nearest values with those from the current feature.
-      if (distance < nearestDistance) {
-        nearestFeature = currentFeature;
-        nearestDistance = distance;
-      }
+    // If the distance is less than that which has previously been calculated,
+    // replace the nearest values with those from the current feature.
+    if (distance <= nearestDistance) {
+      nearestFeature = currentFeature;
+      nearestDistance = distance;
     }
   });
 
   // Extract coordinates from point.
-  var lon = KDF.getVal("le_gis_lon");
-  var lat = KDF.getVal("le_gis_lat");
+var lon = KDF.getVal("le_gis_lon");
+var lat = KDF.getVal("le_gis_lat");
 
   // Convert coordinates to British National Grid.
   var coor = proj4("EPSG:4326", "EPSG:27700", [lon, lat]);
@@ -419,22 +418,33 @@ function findNearest(point, features) {
 
   // Update map view and pin marker.
   map.setView([lat, lon], 18);
+  if (pinMarker) {
+    map.removeLayer(pinMarker);
+  }
   pinMarker = new L.marker([lat, lon], {
     interactive: true,
-  });
+  }).addTo(map);
   console.log("Nearest Feature: ", nearestFeature);
 
   // Get the street name from the nearest feature.
   var streetName;
   if (nearestFeature.properties.DesignatedName1 !== "") {
-    streetName = nearestFeature.properties.DesignatedName1 + ", " + nearestFeature.properties.Town1;
+    streetName =
+      nearestFeature.properties.DesignatedName1 +
+      ", " +
+      nearestFeature.properties.Town1;
   } else if (nearestFeature.properties.Descriptor1 !== "") {
-    streetName = nearestFeature.properties.Descriptor1 + ", " + nearestFeature.properties.Town1;
+    streetName =
+      nearestFeature.properties.Descriptor1 +
+      ", " +
+      nearestFeature.properties.Town1;
   } else {
-    streetName = nearestFeature.properties.NationalRoadCode + ", " + nearestFeature.properties.Town1;
+    streetName =
+      nearestFeature.properties.NationalRoadCode +
+      ", " +
+      nearestFeature.properties.Town1;
   }
 }
-
   
 function inside(point, poly) {
   var inside = false;
