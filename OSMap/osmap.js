@@ -403,12 +403,12 @@ function findNearest(point, features) {
     });
 
     // Extract coordinates from point.
-var lat = KDF.getVal("le_gis_lon");
-var lon = KDF.getVal("le_gis_lat");
+var lon = KDF.getVal("le_gis_lon");
+var lat = KDF.getVal("le_gis_lat");
 
 
     // Convert coordinates to British National Grid.
-    var coor = proj4("EPSG:4326", "EPSG:27700", [lon, lat]);
+    var coor = proj4("EPSG:4326", "EPSG:27700", [lat, lon]);
 
     // Set values of text inputs.
     KDF.setVal("txt_easting", coor[0].toString());
