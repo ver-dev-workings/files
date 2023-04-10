@@ -456,18 +456,15 @@ var lat = KDF.getVal("le_gis_lat");
   
 function inside(point, poly) {
   var inside = false;
-  var x = point[0],
-    y = point[1];
+  var x = point[0], y = point[1];
   var polyPoints = poly.getLatLngs();
-  console.log(polyPoints);
+
   for (var i = 0, j = polyPoints.length - 1; i < polyPoints.length; j = i++) {
-    var xi = polyPoints[i].lng,
-      yi = polyPoints[i].lat;
-    var xj = polyPoints[j].lng,
-      yj = polyPoints[j].lat;
-    var intersect =
-      yi > y != yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+    var xi = polyPoints[i].lng, yi = polyPoints[i].lat;
+    var xj = polyPoints[j].lng, yj = polyPoints[j].lat;
+    var intersect = ((yi > y) != (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
     if (intersect) inside = !inside;
   }
+
   return inside;
 }
