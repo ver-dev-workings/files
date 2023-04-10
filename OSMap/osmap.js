@@ -9,7 +9,7 @@ var apiKey = "ieYjnofhOM9Kiz4GzM2fR6gkkrGQvWwG";
 var serviceUrl = "https://api.os.uk/maps/raster/v1/zxy";
 proj4.defs([
   [
-    "EPSG:27700",
+    "EPSG:4326",
     "+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
   ],
   [
@@ -119,7 +119,7 @@ function initialiseOSMap(mapHolder) {
         KDF.setVal("le_gis_lon", lon);
         KDF.setVal("le_gis_lat", lat);
         map.setView([lat, lon], 18);
-        var coor = proj4("EPSG:27700", "EPSG:27700", [lon, lat]);
+        var coor = proj4("EPSG:4326", "EPSG:27700", [lon, lat]);
         var center = [lon, lat];
         request_source = "map_source";
         getNearestStreet(center, "0.2");
@@ -157,7 +157,7 @@ function do_KDF_Custom_OSMap(event, kdf, response, action) {
     );
     if (action === "retrieve_property") {
       KDF.hideWidget("ahtm_no_location_selected");
-      var coor = proj4("EPSG:27700", "EPSG:27700", [
+      var coor = proj4("EPSG:27700", "EPSG:4326", [
         response.data.easting,
         response.data.northing,
       ]);
@@ -191,7 +191,7 @@ function do_KDF_Custom_OSMap(event, kdf, response, action) {
       } else {
         var lon = KDF.getVal("le_gis_lon");
         var lat = KDF.getVal("le_gis_lat");
-        var coor = proj4("EPSG:27700", "EPSG:27700", [lon, lat]);
+        var coor = proj4("EPSG:4326", "EPSG:27700", [lon, lat]);
         KDF.setVal("txt_easting", coor[0].toString());
         KDF.setVal("txt_northing", coor[1].toString());
       }
@@ -278,7 +278,7 @@ function getNearestStreet(center, radius) {
   xml += "<ogc:And>";
   xml += "<ogc:Intersects>";
   xml += "<ogc:PropertyName>SHAPE</ogc:PropertyName>";
-  xml += '<gml:Polygon srsName="urn:ogc:def:crs:EPSG::27700">';
+  xml += '<gml:Polygon srsName="urn:ogc:def:crs:EPSG::4326">';
   xml += "<gml:outerBoundaryIs>";
   xml += "<gml:LinearRing>";
   xml += "<gml:coordinates>" + coords + "</gml:coordinates>";
@@ -299,7 +299,7 @@ function getNearestStreet(center, radius) {
     version: "2.0.0",
     typeNames: "Highways_Street",
     outputFormat: "GEOJSON",
-    srsName: "urn:ogc:def:crs:EPSG::27700",
+    srsName: "urn:ogc:def:crs:EPSG::4326",
     filter: xml,
     count: 100,
     startIndex: 0,
@@ -331,7 +331,7 @@ function getNearestStreet(center, radius) {
         } else if (radius == "2") {
           var lon = KDF.getVal("le_gis_lon");
           var lat = KDF.getVal("le_gis_lat");
-          var coor = proj4("EPSG:27700", "EPSG:27700", [lon, lat]);
+          var coor = proj4("EPSG:4326", "EPSG:27700", [lon, lat]);
           KDF.setVal("txt_easting", coor[0].toString());
           KDF.setVal("txt_northing", coor[1].toString());
           map.setView([lat, lon], 18);
@@ -408,7 +408,7 @@ var lat = KDF.getVal("le_gis_lat");
 
 
     // Convert coordinates to British National Grid.
-    var coor = proj4("EPSG:27700", "EPSG:27700", [lon, lat]);
+    var coor = proj4("EPSG:4326", "EPSG:27700", [lon, lat]);
 
     // Set values of text inputs.
     KDF.setVal("txt_easting", coor[0].toString());
