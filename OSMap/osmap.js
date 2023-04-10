@@ -359,7 +359,6 @@ function onEachFeature(feature, layer) {
   }
 }
 
-/*attempt*/
 function createGeoJSONLayer(obj, style) {
   return new L.geoJson(
     {
@@ -367,9 +366,10 @@ function createGeoJSONLayer(obj, style) {
       coordinates: obj.geometry.coordinates,
       properties: obj.properties,
     },
-    { style: styles.street, onEachFeature: onEachFeature }
+    { style: style, onEachFeature: onEachFeature }
   );
 }
+
 function getUrl(params) {
   var encodedParameters = Object.keys(params)
     .map(function (paramName) {
