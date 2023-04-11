@@ -160,9 +160,9 @@ function do_KDF_Custom_OSMap(event, kdf, response, action) {
       ]);
       var lat, lon;
       lon = coor[0];
-      console.log("lon:"+lon+);
+      console.log("lon:"+lon);
       lat = coor[1];
-      console.log("lat:"+lat+);
+      console.log("lat:"+lat);
       KDF.setVal("le_gis_lon", lon);
       KDF.setVal("le_gis_lat", lat);
       var center = [lon, lat];
