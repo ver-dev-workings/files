@@ -382,26 +382,24 @@ function findNearest(point, features) {
 var nearestFeature,
     nearestDistance = Infinity;
 
-// Convert MultiLineString to LineString.
-var lineString = turf.lineString([]);
-turf.featureEach(features, function (currentFeature) {
-  var line = turf.explode(currentFeature);
-  turf.featureEach(line, function (lineFeature) {
-    lineString.geometry.coordinates.push(lineFeature.geometry.coordinates);
+  // Iterate over features in street FeatureCollection.
+  turf.featureEach(features, function (currentFeature) {
+    // Get all coordinates from any GeoJSON object.
+    var coords = turf.coordAll(currentFeature);
+
+    // Calculate nearest point on line segment to the given point.
+    var nearestPoint = turf.nearestPointOnLine(turf.lineString(coords), point);
+
+    // Compute distance between point and nearest point on line.
+    var distance = turf.distance(point, nearestPoint);
+
+    // If the distance is less than that which has previously been calculated,
+    // replace the nearest values with those from the current feature.
+    if (distance <= nearestDistance) {
+      nearestFeature = currentFeature;
+      nearestDistance = distance;
+    }
   });
-});
-
-// Calculate nearest point on line segment to the given point.
-var nearestPoint = turf.nearestPoint(point, lineString);
-
-// Find nearest feature and distance from point to nearest point.
-turf.featureEach(features, function (currentFeature) {
-  var distance = turf.distance(point, currentFeature);
-  if (distance <= nearestDistance) {
-    nearestFeature = currentFeature;
-    nearestDistance = distance;
-  }
-});
 
 // Output nearest feature and distance.
 console.log("Nearest Feature: ", nearestFeature);
