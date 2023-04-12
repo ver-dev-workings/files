@@ -378,7 +378,7 @@ function getUrl(params) {
  * @param {object} point - GeoJSON point centroid.
  * @param {object} features - GeoJSON street FeatureCollection.
  */
-function findNearestFeature(point, features) {
+function findNearest(point, features) {
 turf.featureEach(features, function (currentFeature) {
     // Get all coordinates from any GeoJSON object.
     var coords = turf.coordAll(currentFeature);
