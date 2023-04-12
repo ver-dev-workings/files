@@ -218,6 +218,9 @@ function do_KDF_Custom_OSMap(event, kdf, response, action) {
     } else if (action === "street-search") {
       KDF.setVal("le_associated_obj_type", "D4");
       KDF.setVal("le_associated_obj_id", response.data["prop_search_results"]);
+      console.log("map_source:"+map_source)
+      console.log("request_source:"+request_source)
+      console.log("results_desc:"+results_desc)
       if (response.data["request_source"] == "map_source") {
         var popupContent =
           "The closest street to your chosen location is: " +
