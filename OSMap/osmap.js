@@ -384,22 +384,23 @@ function findNearest(point, features) {
 
   // Iterate over features in street FeatureCollection.
   turf.featureEach(features, function (currentFeature) {
-    // Get all coordinates from any GeoJSON object.
-    var coords = turf.coordAll(currentFeature);
+  // Get all coordinates from any GeoJSON object.
+  var coords = turf.coordAll(currentFeature);
 
-    // Calculate nearest point on line segment to the given point.
-    var nearestPoint = turf.nearestPointOnLine(turf.lineString(coords), point);
+  // Find nearest point on line to the given point.
+  var nearestPoint = turf.nearestPoint(point, coords);
 
-    // Compute distance between point and nearest point on line.
-    var distance = turf.distance(point, nearestPoint);
+  // Compute distance between point and nearest point on line.
+  var distance = turf.distance(point, nearestPoint);
 
-    // If the distance is less than that which has previously been calculated,
-    // replace the nearest values with those from the current feature.
-    if (distance <= nearestDistance) {
-      nearestFeature = currentFeature;
-      nearestDistance = distance;
-    }
-  });
+  // If the distance is less than that which has previously been calculated,
+  // replace the nearest values with those from the current feature.
+  if (distance <= nearestDistance) {
+    nearestFeature = currentFeature;
+    nearestDistance = distance;
+  }
+});
+
 
   // Extract coordinates from point.
 var lon = KDF.getVal("le_gis_lon");
