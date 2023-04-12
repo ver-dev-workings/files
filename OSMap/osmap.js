@@ -382,37 +382,24 @@ function findNearest(point, features) {
   var nearestFeature,
     nearestDistance = Infinity;
 
-  // Convert MultiLineString to LineString
-var lineString = turf.lineString(turf.getCoords(turf.combine(features)));
+  // Iterate over features in street FeatureCollection.
+  turf.featureEach(features, function (currentFeature) {
+    // Get all coordinates from any GeoJSON object.
+    var coords = turf.coordAll(currentFeature);
 
-// Find nearest point on line to given point
-var nearestPoint = turf.nearestPoint(point, lineString);
+    // Calculate nearest point on line segment to the given point.
+    var nearestPoint = turf.nearestPointOnLine(turf.lineString(coords), point);
 
-// Compute distance between point and nearest point on line
-var distance = turf.distance(point, nearestPoint);
+    // Compute distance between point and nearest point on line.
+    var distance = turf.distance(point, nearestPoint);
 
-// Initialize variables for nearest feature and distance
-var nearestFeature;
-var nearestDistance = Number.MAX_VALUE;
-
-// Iterate over features in street FeatureCollection
-turf.featureEach(features, function (currentFeature) {
-  // Get all coordinates from current feature
-  var coords = turf.coordAll(currentFeature);
-
-  // Calculate nearest point on line segment to the given point
-  var currentNearestPoint = turf.nearestPointOnLine(turf.lineString(coords), point);
-
-  // Compute distance between point and nearest point on line segment
-  var currentDistance = turf.distance(point, currentNearestPoint);
-
-  // If the distance is less than that which has previously been calculated,
-  // replace the nearest values with those from the current feature
-  if (currentDistance <= nearestDistance) {
-    nearestFeature = currentFeature;
-    nearestDistance = currentDistance;
-  }
-});
+    // If the distance is less than that which has previously been calculated,
+    // replace the nearest values with those from the current feature.
+    if (distance <= nearestDistance) {
+      nearestFeature = currentFeature;
+      nearestDistance = distance;
+    }
+  });
 
 // Log nearest feature and distance to console
 console.log("Nearest Feature: ", nearestFeature);
