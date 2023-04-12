@@ -378,28 +378,30 @@ function getUrl(params) {
  * @param {object} point - GeoJSON point centroid.
  * @param {object} features - GeoJSON street FeatureCollection.
  */
-function findNearest(point, features) {
-  var nearestFeature,
-    nearestDistance = Infinity;
+function findNearestFeature(features, point) {
+  // Convert MultiLineString to LineString
+  var lines = turf.combine(features);
+  var line = turf.lineString(lines.geometry.coordinates);
 
-  // Iterate over features in street FeatureCollection.
+  // Initialize nearest feature and distance
+  var nearestFeature = null;
+  var nearestDistance = Infinity;
+
+  // Iterate through each feature and find the nearest point on the line
   turf.featureEach(features, function (currentFeature) {
-  // Get all coordinates from any GeoJSON object.
-  var coords = turf.coordAll(currentFeature);
+    var nearestPoint = turf.nearestPointOnLine(line, point);
+    var distance = turf.distance(point, nearestPoint);
 
-  // Find nearest point on line to the given point.
-  var nearestPoint = turf.nearestPoint(point, coords);
+    // If the distance is less than the previous nearest distance, update the nearest feature
+    if (distance < nearestDistance) {
+      nearestFeature = currentFeature;
+      nearestDistance = distance;
+    }
+  });
 
-  // Compute distance between point and nearest point on line.
-  var distance = turf.distance(point, nearestPoint);
+  return nearestFeature;
+}
 
-  // If the distance is less than that which has previously been calculated,
-  // replace the nearest values with those from the current feature.
-  if (distance <= nearestDistance) {
-    nearestFeature = currentFeature;
-    nearestDistance = distance;
-  }
-});
 
 
   // Extract coordinates from point.
