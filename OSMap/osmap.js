@@ -316,6 +316,7 @@ function getNearestStreet(center, radius) {
         console.log("geoJson.features.length: "+geoJson.features.length);
         findNearest(point, geoJson);
       } else {
+        console.log("inside else geoJson.features.length");
         if (radius == "0.2") {
           getNearestStreet(center, "0.5");
         } else if (radius == "0.5") {
