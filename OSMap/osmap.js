@@ -396,7 +396,10 @@ var nearestFeature,
     console.log(coords);
 
     // Calculate nearest point on line segment to the given point.
-    var nearestPoint = turf.nearestPointOnLine(turf.lineString(coords), point);
+    var lineStringConversion = turf.lineString(coords);
+    console.log("lineStringConversion: "+lineStringConversion);
+    var nearestPoint = turf.nearestPointOnLine(lineStringConversion, point);
+    console.log("nearestPoint: "+nearestPoint);
     
     // Compute distance between point and nearest point on line.
     var distance = turf.distance(point, nearestPoint);
