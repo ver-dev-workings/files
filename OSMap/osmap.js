@@ -114,9 +114,9 @@ function initialiseOSMap(mapHolder) {
       map.removeLayer(pinMarkers);
       if (inside([lon, lat], enfield_polygon)) {
         KDF.setVal("le_gis_lon", lon);
-        console.log("lon:"+lon);
+        //console.log("lon:"+lon);
         KDF.setVal("le_gis_lat", lat);
-        console.log("lat:"+lat);
+        //console.log("lat:"+lat);
         map.setView([lat, lon], 18);
         var coor = proj4("EPSG:4326", "EPSG:27700", [lon, lat]);
         var center = [lon, lat];
@@ -218,8 +218,8 @@ function do_KDF_Custom_OSMap(event, kdf, response, action) {
     } else if (action === "street-search") {
       KDF.setVal("le_associated_obj_type", "D4");
       KDF.setVal("le_associated_obj_id", response.data["prop_search_results"]);
-      console.log("request_source:"+response.data["request_source"]);
-      console.log("results_desc:"+response.data["results_desc"]);
+      //console.log("request_source:"+response.data["request_source"]);
+      //console.log("results_desc:"+response.data["results_desc"]);
       if (response.data["request_source"] == "map_source") {
         var popupContent =
           "The closest street to your chosen location is: " +
@@ -403,8 +403,8 @@ var nearestFeature,
   });
 
 // Output nearest feature and distance.
-console.log("Nearest Feature: ", nearestFeature);
-console.log("Nearest Distance: ", nearestDistance);
+//console.log("Nearest Feature: ", nearestFeature);
+//console.log("Nearest Distance: ", nearestDistance);
 
 
 
@@ -440,7 +440,7 @@ var lat = KDF.getVal("le_gis_lat");
   pinMarker = new L.marker([lat, lon], {
     interactive: true,
   }).addTo(map);
-  console.log("Nearest Feature: ", nearestFeature);
+  //console.log("Nearest Feature: ", nearestFeature);
 
   // Get the street name from the nearest feature.
   var streetName;
