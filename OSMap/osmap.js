@@ -264,7 +264,6 @@ function do_KDF_optionSelected_OSMap(event, kdf, field, label, val) {
   }
 }
 function getNearestStreet(center, radius) {
-  console.log("inside getNearestStreet");
   var point = turf.point(center);
   var circle = turf.circle(center, radius, { steps: 30, units: "kilometers" });
   circle = turf.flip(circle);
@@ -303,6 +302,7 @@ function getNearestStreet(center, radius) {
   geoJson.features.length = 0;
   function fetchWhile(resultsRemain) {
     if (resultsRemain) {
+      console.log("inside if resultsRemain");
       $.ajax({ url: getUrl(wfsParams) }).done(function (data) {
         wfsParams.startIndex += wfsParams.count;
         geoJson.features.push.apply(geoJson.features, data.features);
