@@ -114,9 +114,9 @@ function initialiseOSMap(mapHolder) {
       map.removeLayer(pinMarkers);
       if (inside([lon, lat], enfield_polygon)) {
         KDF.setVal("le_gis_lon", lon);
-        //console.log("lon:"+lon);
+        //console.log("lon is:"+lon);
         KDF.setVal("le_gis_lat", lat);
-        //console.log("lat:"+lat);
+        //console.log("lat is:"+lat);
         map.setView([lat, lon], 18);
         var coor = proj4("EPSG:4326", "EPSG:27700", [lon, lat]);
         var center = [lon, lat];
