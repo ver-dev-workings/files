@@ -392,6 +392,8 @@ var nearestFeature,
     console.log(currentFeature);
     // Get all coordinates from any GeoJSON object.
     var coords = turf.coordAll(currentFeature);
+    
+    console.log(coords);
 
     // Calculate nearest point on line segment to the given point.
     var nearestPoint = turf.nearestPointOnLine(turf.lineString(coords), point);
