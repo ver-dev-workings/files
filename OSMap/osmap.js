@@ -106,6 +106,7 @@ function initialiseOSMap(mapHolder) {
       var lat = clickedMarker.latlng.lat;
       var lon = clickedMarker.latlng.lng;
       var center = [lon, lat];
+      console.log("LON/LAT: "+center);
       if (pinMarker !== undefined) {
         map.removeLayer(pinMarker);
       }
