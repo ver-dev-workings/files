@@ -307,6 +307,7 @@ function getNearestStreet(center, radius) {
         wfsParams.startIndex += wfsParams.count;
         geoJson.features.push.apply(geoJson.features, data.features);
         resultsRemain = data.features.length < wfsParams.count ? false : true;
+        console.log("resultsRemain: "+resultsRemain);
         fetchWhile(resultsRemain);
       });
     } else {
