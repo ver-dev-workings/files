@@ -389,12 +389,13 @@ var nearestFeature,
 
   // Iterate over features in street FeatureCollection.
   turf.featureEach(features, function (currentFeature) {
-    console.log(currentFeature);
+    
     // Get all coordinates from any GeoJSON object.
     var coords = turf.coordAll(currentFeature);
 
     // Calculate nearest point on line segment to the given point.
     var nearestPoint = turf.nearestPointOnLine(turf.lineString(coords), point);
+    console.log("nearestPoint: "+nearestPoint);
 
     // Compute distance between point and nearest point on line.
     var distance = turf.distance(point, nearestPoint);
