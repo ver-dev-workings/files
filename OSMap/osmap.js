@@ -389,7 +389,7 @@ var nearestFeature,
 
   // Iterate over features in street FeatureCollection.
   turf.featureEach(features, function (currentFeature) {
-    
+    console.log(currentFeature);
     // Get all coordinates from any GeoJSON object.
     var coords = turf.coordAll(currentFeature);
 
