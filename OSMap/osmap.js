@@ -394,6 +394,13 @@ var nearestFeature,
     // Get all coordinates from any GeoJSON object.
     var coords = turf.coordAll(currentFeature);
     
+  // Flip the latitude and longitude values of each coordinate.
+  for (var i = 0; i < coords.length; i++) {
+    var temp = coords[i][0];
+    coords[i][0] = coords[i][1];
+    coords[i][1] = temp;
+  }
+    
     console.log(coords);
 
     // Calculate nearest point on line segment to the given point.
