@@ -349,7 +349,9 @@ _app.addFavicons();
 $(document).ready(function() {
     _app.init();
 	_app.customMember();
-	console.log(document.querySelector("head > meta:nth-child(3)").content);
+	var csrfToken = $('meta[name="_csrf_token"]').attr('content');
+	console.log(csrfToken);
+	console.log("test");
 });
 
 /*var addGTM = '<!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N36QQRP" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><!-- End Google Tag Manager (noscript) -->';
