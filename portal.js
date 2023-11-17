@@ -352,8 +352,9 @@ $(document).ready(function() {
     _app.init();
 	_app.customMember();
 	var csrfToken = $('meta[name="_csrf_token"]').attr('content');
+	document.cookie = "csrf=" + csrfToken + "; path=/; domain=lobe-dev-web01.squiz.cloud";
 	console.log(csrfToken);
-	console.log("12");
+	console.log("13");
 });
 
 /*var addGTM = '<!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N36QQRP" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><!-- End Google Tag Manager (noscript) -->';
