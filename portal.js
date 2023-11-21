@@ -341,18 +341,9 @@ CSRFCookie: function(){
 		  // If the cookie doesn't exist, make a GET request
 		const csrfToken = $('meta[name="_csrf_token"]').attr('content');
 		  const url = `https://lobe-dev-web01.squiz.cloud/ssandbox/testing/bilal/testserver?csrf=${csrfToken}`;
-		  const xhr = new XMLHttpRequest();
-		  xhr.open("GET", url, true);
-		  xhr.onreadystatechange = function () {
-			      if (xhr.readyState == 4 && xhr.status == 200) {
-			      // Handle the response if needed
-			      console.log("GET request successful:", xhr.responseText);
-				document.cookie = "csrf=1";
-			    } else if (xhr.readyState == 4 && xhr.status != 200) {
-			      console.error("GET request failed. Status:", xhr.status);
-			      }
-		  };
-		  xhr.send();
+		window.open(url, "squizWindow", "toolbar=no,scrollbars=no,resizable=no,status=1,width=350,height=150");
+		console.log("GET request successful");
+		document.cookie = "csrf=1";
 	}
 
 },
