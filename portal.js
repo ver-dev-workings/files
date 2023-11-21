@@ -327,6 +327,35 @@ var _app = {
 */	
         _app.funnelBack.init();
     },
+checkCSRFCookie: function() {
+	// Get all cookies as an array
+	const cookiesArray = document.cookie.split('; ');
+	// Check if the "csrf" cookie exists
+	const csrfCookieExists = cookiesArray.some(cookie => cookie.startsWith('csrf='));
+	return csrfCookieExists;
+	},
+CSRFCookie: function(){
+	if(_app.checkCSRFCookie()){
+		  console.log("CSRF cookie exists. Doing nothing.");
+		} else {
+		  // If the cookie doesn't exist, make a GET request
+		const csrfToken = $('meta[name="_csrf_token"]').attr('content');
+		  const url = `https://lobe-dev-web01.squiz.cloud/ssandbox/testing/bilal/testserver?csrf=${csrfToken}`;
+		  const xhr = new XMLHttpRequest();
+		  xhr.open("GET", url, true);
+		  xhr.onreadystatechange = function () {
+			      if (xhr.readyState == 4 && xhr.status == 200) {
+			      // Handle the response if needed
+			      console.log("GET request successful:", xhr.responseText);
+				document.cookie = "csrf=1";
+			    } else if (xhr.readyState == 4 && xhr.status != 200) {
+			      console.error("GET request failed. Status:", xhr.status);
+			      }
+		  };
+		  xhr.send();
+	}
+
+},
     addFavicons: function() {
         var c = '#c41508',
             d = document;
@@ -351,10 +380,10 @@ _app.addFavicons();
 $(document).ready(function() {
     _app.init();
 	_app.customMember();
-	var csrfToken = $('meta[name="_csrf_token"]').attr('content');
-	document.cookie = "csrf=" + csrfToken ;
-	console.log(csrfToken);
-	console.log("15");
+	_app.CSRFCookie();
+	//var csrfToken = $('meta[name="_csrf_token"]').attr('content');
+	//console.log(csrfToken);
+	console.log("16");
 });
 
 /*var addGTM = '<!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N36QQRP" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><!-- End Google Tag Manager (noscript) -->';
