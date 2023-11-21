@@ -279,7 +279,7 @@ var _app = {
     },
     setMatrixLoggedIn: function() { document.cookie = "MATRIX_LOGGED_IN=1; path=/"; },
     loginToMatrix: function() {
-        var squizWindow = window.open(_appConfig.squizDomain + '/_webservices/esi/verint-login?auth=true', "squizWindow", "toolbar=no,scrollbars=no,resizable=no,status=1,width=350,height=150");
+        var squizWindow = window.open(_appConfig.squizDomain + '/_webservices/esi/verint-login?auth=true' +'&csrf='+ _appConfig.getCsrfToken() , "squizWindow", "toolbar=no,scrollbars=no,resizable=no,status=1,width=350,height=150");
         if (!squizWindow || squizWindow.closed || typeof squizWindow.closed == 'undefined') {
             _app.informUser(1, _app.alerts.popupBlocked);
         } else {
