@@ -379,7 +379,7 @@ $(document).ready(function() {
 	//_app.CSRFCookie();
 	//var csrfToken = $('meta[name="_csrf_token"]').attr('content');
 	//console.log(csrfToken);
-	console.log("17");
+	console.log("18");
 });
 
 /*var addGTM = '<!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N36QQRP" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><!-- End Google Tag Manager (noscript) -->';
