@@ -251,7 +251,7 @@ var _app = {
             var ref = document.createElement("a");
             ref.href = document.referrer;
             ref = ref.host;
-           // if (_appConfig.squizDomains.indexOf(ref) > -1) _app.setMatrixLoggedIn();
+           if (_appConfig.squizDomains.indexOf(ref) > -1) _app.setMatrixLoggedIn();
 
             if (_app.isMatrixLoggedIn() !== "1") _app.loginToMatrix();
 
@@ -327,30 +327,10 @@ var _app = {
 */	
         _app.funnelBack.init();
     },
-checkCSRFCookie: function() {
-	// Get all cookies as an array
-	const cookiesArray = document.cookie.split('; ');
-	// Check if the "csrf" cookie exists
-	const csrfCookieExists = cookiesArray.some(cookie => cookie.startsWith('csrf='));
-	return csrfCookieExists;
-	},
 logoutFunction: function(){
-	document.cookie = "MATRIX_LOGGED_IN=0; path=/";
+	//document.cookie = "MATRIX_LOGGED_IN=0; path=/";
 	var dynamicLink = _appConfig.squizDomain + '/_webservices/esi/logout-popup?csrf='+ _appConfig.getCsrfToken() +'+&redirectUri='+encodeURIComponent(location.href);
 	return dynamicLink;
-},
-CSRFCookie: function(){
-	if(_app.checkCSRFCookie()){
-		  console.log("CSRF cookie exists. Doing nothing.");
-		} else {
-		  // If the cookie doesn't exist, make a GET request
-		const csrfToken = $('meta[name="_csrf_token"]').attr('content');
-		  const url = `https://lobe-dev-web01.squiz.cloud/ssandbox/testing/bilal/testserver?csrf=${csrfToken}`;
-		window.open(url, "squizWindow", "toolbar=no,scrollbars=no,resizable=no,status=1,width=350,height=150");
-		console.log("GET request successful");
-		document.cookie = "csrf=1";
-	}
-
 },
     addFavicons: function() {
         var c = '#c41508',
@@ -379,7 +359,7 @@ $(document).ready(function() {
 	//_app.CSRFCookie();
 	//var csrfToken = $('meta[name="_csrf_token"]').attr('content');
 	//console.log(csrfToken);
-	console.log("18");
+	console.log("19");
 });
 
 /*var addGTM = '<!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N36QQRP" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><!-- End Google Tag Manager (noscript) -->';
