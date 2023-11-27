@@ -251,7 +251,7 @@ var _app = {
             var ref = document.createElement("a");
             ref.href = document.referrer;
             ref = ref.host;
-            if (_appConfig.squizDomains.indexOf(ref) > -1) _app.setMatrixLoggedIn();
+           // if (_appConfig.squizDomains.indexOf(ref) > -1) _app.setMatrixLoggedIn();
 
             if (_app.isMatrixLoggedIn() !== "1") _app.loginToMatrix();
 
