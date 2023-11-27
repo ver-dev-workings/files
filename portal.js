@@ -360,7 +360,7 @@ $(document).ready(function() {
 	//_app.CSRFCookie();
 	//var csrfToken = $('meta[name="_csrf_token"]').attr('content');
 	//console.log(csrfToken);
-	console.log("25");
+	console.log("26");
 });
 
 
