@@ -360,12 +360,7 @@ $(document).ready(function() {
 	//_app.CSRFCookie();
 	//var csrfToken = $('meta[name="_csrf_token"]').attr('content');
 	//console.log(csrfToken);
-	// Listen for messages from Domain A
-window.addEventListener('message', function(event) {
-    if (event.origin === 'https://lobe-dev-web01.squiz.cloud' && event.data.type === 'setMatrixLogout') {
-        _app.logoutFunction(event);
-    }});
-	console.log("27");
+	console.log("28");
 });
 
 
