@@ -334,10 +334,16 @@ logoutFunction: function(event){
 	window.location.href = dynamicLink;
 },
 checkSquiz: function(){
-fetch('https://lobe-dev-web01.squiz.cloud/ssandbox/testing/bilal/trigger-system')
-  .then(response => response.json())
-  .then(resultObj => {
-    // Check the values 
+	
+$.ajax({
+  url: _appConfig.squizDomain + '/ssandbox/testing/bilal/trigger-system',
+  type: 'GET',
+  dataType: 'json',
+  xhrFields: {
+    withCredentials: true
+  },
+  success: function(resultObj) {
+    // Check the values based on your criteria
     if (resultObj.combinedLogin === 1) {
       // Do nothing if combinedLogin is 1
       console.log('Combined login is 1. Doing nothing.');
@@ -354,8 +360,12 @@ fetch('https://lobe-dev-web01.squiz.cloud/ssandbox/testing/bilal/trigger-system'
         }
       }
     }
-  })
-  .catch(error => console.error('Error fetching logic:', error));
+  },
+  error: function(jqXHR, textStatus, errorThrown) {
+    console.error('Error fetching logic:', textStatus, errorThrown);
+  }
+});
+
 },
     addFavicons: function() {
         var c = '#c41508',
