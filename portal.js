@@ -333,6 +333,30 @@ logoutFunction: function(event){
 	var dynamicLink = _appConfig.squizDomain + '/_webservices/esi/logout-popup?csrf='+ _appConfig.getCsrfToken() +'+&redirectUri='+encodeURIComponent(location.href);
 	window.location.href = dynamicLink;
 },
+checkSquiz: function(){
+fetch('https://lobe-dev-web01.squiz.cloud/ssandbox/testing/bilal/trigger-system')
+  .then(response => response.json())
+  .then(resultObj => {
+    // Check the values 
+    if (resultObj.combinedLogin === 1) {
+      // Do nothing if combinedLogin is 1
+      console.log('Combined login is 1. Doing nothing.');
+    } else {
+      // Combined login is 0, check if either Matrix or Verint is not logged in
+      if (resultObj.matrixFlag === 0 || resultObj.verintFlag === 0) {
+        if (resultObj.matrixFlag === 0) {
+          // Do something if Matrix is not logged in
+          console.log('Matrix is not logged in. Doing something.');
+        }
+        if (resultObj.verintFlag === 0) {
+          // Do something else if Verint is not logged in
+          console.log('Verint is not logged in. Doing something else.');
+        }
+      }
+    }
+  })
+  .catch(error => console.error('Error fetching logic:', error));
+},
     addFavicons: function() {
         var c = '#c41508',
             d = document;
@@ -360,7 +384,8 @@ $(document).ready(function() {
 	//_app.CSRFCookie();
 	//var csrfToken = $('meta[name="_csrf_token"]').attr('content');
 	//console.log(csrfToken);
-	console.log("28");
+	_app.checkSquiz();
+	console.log("29");
 });
 
 
