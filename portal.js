@@ -368,10 +368,10 @@ $(document).ready(function() {
 	//_app.CSRFCookie();
 	//var csrfToken = $('meta[name="_csrf_token"]').attr('content');
 	//console.log(csrfToken);
-	if (_app.checkSquiz('logout') === 'true') {
+	if (_app.checkSquiz('squizLog') === 'true') {
 		_app.logoutFunction();
 	}
-	console.log("31");
+	console.log("32");
 });
 
 
