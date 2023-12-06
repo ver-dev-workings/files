@@ -369,9 +369,9 @@ $(document).ready(function() {
 	//var csrfToken = $('meta[name="_csrf_token"]').attr('content');
 	//console.log(csrfToken);
 	if (_app.checkSquiz('squizLog') === 'true') {
-		_app.logoutFunction();
+		_app.logoutFunction(event);
 	}
-	console.log("32");
+	console.log("33");
 });
 
 
