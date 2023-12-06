@@ -341,12 +341,6 @@ checkSquiz: function(name){
 	if (!results[2]) return '';
 	return decodeURIComponent(results[2].replace(/\+/g, ' '));
   },
-  error: function(jqXHR, textStatus, errorThrown) {
-    console.error('Error fetching logic:', textStatus, errorThrown);
-  }
-});
-
-},
     addFavicons: function() {
         var c = '#c41508',
             d = document;
@@ -377,7 +371,7 @@ $(document).ready(function() {
 	if (_app.checkSquiz('logout') === 'true') {
 		_app.logoutFunction();
 	}
-	console.log("30");
+	console.log("31");
 });
 
 
