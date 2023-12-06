@@ -374,9 +374,9 @@ $(document).ready(function() {
 	//var csrfToken = $('meta[name="_csrf_token"]').attr('content');
 	//console.log(csrfToken);
 	if (_app.checkSquiz('squizLog') === 'true') {
-		_app.MatrixlogoutFunctio();
+		_app.MatrixlogoutFunction();
 	}
-	console.log("34");
+	console.log("35");
 });
 
 
