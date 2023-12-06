@@ -333,6 +333,11 @@ logoutFunction: function(event){
 	var dynamicLink = _appConfig.squizDomain + '/_webservices/esi/logout-popup?csrf='+ _appConfig.getCsrfToken() +'+&redirectUri='+encodeURIComponent(location.href);
 	window.location.href = dynamicLink;
 },
+MatrixlogoutFunction: function(event){
+	document.cookie = "MATRIX_LOGGED_IN=0; path=/";
+	var dynamicLink = _appConfig.squizDomain + '/_webservices/esi/logout-popup?csrf='+ _appConfig.getCsrfToken() +'+&redirectUri='+encodeURIComponent(location.href);
+	window.location.href = dynamicLink;
+},	
 checkSquiz: function(name){
 	name = name.replace(/[[]]/g, "\\$&");
 	var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
@@ -369,9 +374,9 @@ $(document).ready(function() {
 	//var csrfToken = $('meta[name="_csrf_token"]').attr('content');
 	//console.log(csrfToken);
 	if (_app.checkSquiz('squizLog') === 'true') {
-		_app.logoutFunction(event);
+		_app.MatrixlogoutFunctio();
 	}
-	console.log("33");
+	console.log("34");
 });
 
 
