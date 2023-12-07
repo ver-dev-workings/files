@@ -339,7 +339,7 @@ MatrixlogoutFunction: function(){
 },	
 checkSquiz: function(name) {
     var referrer = document.referrer || '';
-    if (referrer === _appConfig.squizDomain) {
+    if (referrer === _appConfig.squizDomain || referrer + '/' === _appConfig.squizDomain) {
         name = name.replace(/[[\]]/g, "\\$&");
         var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
         var results = regex.exec(window.location.href);
@@ -383,7 +383,7 @@ $(document).ready(function() {
 	if (_app.checkSquiz('squizLog') === 'true') {
 		_app.MatrixlogoutFunction();
 	}
-	console.log("36");
+	console.log("37");
 });
 
 
