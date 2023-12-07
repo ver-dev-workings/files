@@ -333,19 +333,26 @@ logoutFunction: function(event){
 	var dynamicLink = _appConfig.squizDomain + '/_webservices/esi/logout-popup?csrf='+ _appConfig.getCsrfToken() +'+&redirectUri='+encodeURIComponent(location.href);
 	window.location.href = dynamicLink;
 },
-MatrixlogoutFunction: function(event){
+MatrixlogoutFunction: function(){
 	document.cookie = "MATRIX_LOGGED_IN=0; path=/";
-	var dynamicLink = _appConfig.squizDomain + '/_webservices/esi/logout-popup?csrf='+ _appConfig.getCsrfToken() +'+&redirectUri='+encodeURIComponent(location.href);
-	window.location.href = dynamicLink;
+	document.getElementById('nav_logout').submit();
 },	
-checkSquiz: function(name){
-	name = name.replace(/[[]]/g, "\\$&");
-	var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-	results = regex.exec(window.location.href);
-	if (!results) return null;
-	if (!results[2]) return '';
-	return decodeURIComponent(results[2].replace(/\+/g, ' '));
-  },
+checkSquiz: function(name) {
+    var referrer = document.referrer || '';
+    if (referrer === _appConfig.squizDomain) {
+        name = name.replace(/[[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+        var results = regex.exec(window.location.href);
+        if (!results) {
+            return null;
+        }
+        if (!results[2]) {
+            return '';
+        }
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+    return null; 
+},
     addFavicons: function() {
         var c = '#c41508',
             d = document;
@@ -376,7 +383,7 @@ $(document).ready(function() {
 	if (_app.checkSquiz('squizLog') === 'true') {
 		_app.MatrixlogoutFunction();
 	}
-	console.log("35");
+	console.log("36");
 });
 
 
