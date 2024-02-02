@@ -1669,7 +1669,7 @@ background-color: #f4f4f4;
 }
 /* Summary Table - End */
 
-/* Table - Start
+/* Table - Start */
 #dform_container .table_style table td {
 	border: 1px solid #636463;
 	border-collapse: collapse;
@@ -1690,7 +1690,7 @@ background-color: #f4f4f4;
 #dform_container table.t01 tr:hover td {
     background-color: unset;
 }
-Table - End */
+/* Table - End */
 
 #dform_container button, #dform_container input, #dform_container select, #dform_container textarea {
 	/*text-decoration: underline !important;*/
