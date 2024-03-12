@@ -152,6 +152,7 @@ function initialiseOSMap(mapHolder) {
 }
 
 function getLocation(e){
+    console.log("inside get location");
     var keyCode = (window.event) ? event.which : event.keyCode;;
     if (keyCode === 13) {
         e.preventDefault();
