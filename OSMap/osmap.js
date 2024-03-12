@@ -175,13 +175,13 @@ function success(pos) {
     const crd = pos.coords;
     var apiurl = "https://api.os.uk/search/places/v1/nearest?dataset=LPI&output_srs=EPSG:4326&srs=EPSG:4326&point=" + crd.latitude + ',' + crd.longitude;
     console.log("inside success "+apiurl);
-    /* fetch(apiurl, {
+    fetch(apiurl, {
             method: "GET",
             })
         .then(response => response.json())
         .then(data => {
             let content = 'Nothing found';
-            submitButton = currentLocationButton.siblings(".submitButton");
+            /*submitButton = currentLocationButton.siblings(".submitButton");
             submitButton.text("Search");
             mySelected = currentLocationButton.siblings(".prefetch").children(".mySelect");
             mySelected.empty();
@@ -208,8 +208,8 @@ function success(pos) {
                 }else{
                     $(`<p class="sq-form-error">This service is only available within the London Borough of Enfield.</p>`).insertAfter(currentLocationButton.closest(".findMy")); 
                 }
-            }
-        });*/
+            }*/
+        });
 }
 
 function error(err) {
