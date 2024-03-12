@@ -172,7 +172,7 @@ function getLocation(e){
 }
 
 function success(pos) {
-    console.log("inside success");
+    //console.log("inside success");
     const crd = pos.coords;
     /*var apiurl = "https://www.enfield.gov.uk/_design/integrations/ordnance-survey/places-nearest?query=" + `${crd.latitude}` + ',' + `${crd.longitude}`;
      fetch(apiurl, {
@@ -213,7 +213,7 @@ function success(pos) {
 }
 
 function error(err) {
-    console.log("inside error");
+    //console.log("inside error");
     /*if(currentLocationButton.closest(".findMy").siblings(".sq-form-error")[0])
         currentLocationButton.closest(".findMy").siblings(".sq-form-error").remove();
     if (`${err.code}` === "1")
