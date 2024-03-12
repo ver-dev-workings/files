@@ -172,10 +172,10 @@ function getLocation(e){
 }
 
 function success(pos) {
-    console.log("inside success");
     const crd = pos.coords;
-    /*var apiurl = "https://www.enfield.gov.uk/_design/integrations/ordnance-survey/places-nearest?query=" + `${crd.latitude}` + ',' + `${crd.longitude}`;
-     fetch(apiurl, {
+    var apiurl = "https://www.enfield.gov.uk/_design/integrations/ordnance-survey/places-nearest?query=" + `${crd.latitude}` + ',' + `${crd.longitude}`;
+    console.log("inside success "+apiurl);
+    /* fetch(apiurl, {
             method: "GET",
             })
         .then(response => response.json())
