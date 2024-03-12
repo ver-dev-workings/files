@@ -174,7 +174,7 @@ function getLocation(e){
 function success(pos) {
     const crd = pos.coords;
     //var apiurl = "https://api.os.uk/search/places/v1/nearest?dataset=LPI&output_srs=EPSG:4326&srs=EPSG:4326&point" + `${crd.latitude}` + ',' + `${crd.longitude}`;
-    console.log("inside success "+crd);
+    console.log("inside success "+crd.latitude+", "+crd.longitude);
     /* fetch(apiurl, {
             method: "GET",
             })
