@@ -173,14 +173,14 @@ function getLocation(e){
 
 function success(pos) {
     const crd = pos.coords;
-    var apiurl = "https://www.enfield.gov.uk/_design/integrations/ordnance-survey/places-nearest?query=" + `${crd.latitude}` + ',' + `${crd.longitude}`;
+    /*var apiurl = "https://www.enfield.gov.uk/_design/integrations/ordnance-survey/places-nearest?query=" + `${crd.latitude}` + ',' + `${crd.longitude}`;
      fetch(apiurl, {
             method: "GET",
             })
         .then(response => response.json())
         .then(data => {
             let content = 'Nothing found';
-            /*submitButton = currentLocationButton.siblings(".submitButton");
+            submitButton = currentLocationButton.siblings(".submitButton");
             submitButton.text("Search");
             mySelected = currentLocationButton.siblings(".prefetch").children(".mySelect");
             mySelected.empty();
