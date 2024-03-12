@@ -190,25 +190,25 @@ function success(pos) {
             myInput.val('');
             myInput.prop('disabled','');
             myInput.css("display","initial");
-            submitButton.off('click').on("click", formSubmit);
+            submitButton.off('click').on("click", formSubmit);*/
             if( data.header.totalresults > 0 ) {
-                if(currentLocationButton.closest(".findMy").siblings(".sq-form-error")[0])
-                    currentLocationButton.closest(".findMy").siblings(".sq-form-error").remove();
+                /*if(currentLocationButton.closest(".findMy").siblings(".sq-form-error")[0])
+                    currentLocationButton.closest(".findMy").siblings(".sq-form-error").remove();*/
                 let result = data.results[0]['LPI'];
-                if(`${result.LOCAL_CUSTODIAN_CODE_DESCRIPTION}` == "ENFIELD"){
-                    myInput.val(`${result.ADDRESS}`);
-                    myInput.prop('disabled','disabled');
-                    submitButton.off('click').on('click', resetfunc);
-                    submitButton.text("Search again");
-                    selectedOptionX = `${result.LAT}`;
-                    selectedOptionY = `${result.LNG}`;
-                    if (addressLookupFor == "2"){
+                if(result.LOCAL_CUSTODIAN_CODE_DESCRIPTION == "ENFIELD"){
+                    console.log(result.ADDRESS);
+                    //myInput.prop('disabled','disabled');
+                    //submitButton.off('click').on('click', resetfunc);
+                    //submitButton.text("Search again");
+                    //selectedOptionX = `${result.LAT}`;
+                    //selectedOptionY = `${result.LNG}`;
+                    /*if (addressLookupFor == "2"){
                         dropPin();
-                    }
+                    }*/
                 }else{
-                    $(`<p class="sq-form-error">This service is only available within the London Borough of Enfield.</p>`).insertAfter(currentLocationButton.closest(".findMy")); 
+                    //$(`<p class="sq-form-error">This service is only available within the London Borough of Enfield.</p>`).insertAfter(currentLocationButton.closest(".findMy")); 
                 }
-            }*/
+            }
         });
 }
 
