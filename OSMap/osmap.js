@@ -4,7 +4,7 @@ s.src = "https://ver-dev-workings.github.io/files/turf.js";
 $("head").append(s);
 var map, pinMarker, openCasesMarkers, geoJson;
 var osmapTemplateIdentifier = "osmap_template_";
-var request_source;
+var request_source, currentLocationButton;
 var apiKey = "ieYjnofhOM9Kiz4GzM2fR6gkkrGQvWwG";
 var serviceUrl = "https://api.os.uk/maps/raster/v1/zxy";
 proj4.defs([
@@ -32,6 +32,7 @@ function initialiseOSMap(mapHolder) {
   $(mapHolder).attr("data-mapready", true);
   if($(window).width() <= 1024)
         $("#dform_widget_search_ps_property_search_map").after('<button type="button" class="getMyLocation" id="getMyLocation0"><svg width="36px" height="36px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M19 12C19 15.866 15.866 19 12 19M19 12C19 8.13401 15.866 5 12 5M19 12H21M12 19C8.13401 19 5 15.866 5 12M12 19V21M5 12C5 8.13401 8.13401 5 12 5M5 12H3M12 5V3M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z" stroke="#C41508" stroke-width="1.08" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>Use my location</button>');
+  $(".getMyLocation").on('click', getLocation);
   map = L.map("map").setView([51.653046, -0.08958], 12);
   var baseLayer = L.tileLayer(
     serviceUrl + "/Outdoor_3857/{z}/{x}/{y}.png?key=" + apiKey,
@@ -149,6 +150,75 @@ function initialiseOSMap(mapHolder) {
       }
     });
 }
+
+function getLocation(e){
+    var keyCode = (window.event) ? event.which : event.keyCode;;
+    if (keyCode === 13) {
+        e.preventDefault();
+        return false;
+    }
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+    //currentLocationButton = $(e.target);
+    //myInput = currentLocationButton.siblings(".prefetch").children(".myText");
+    const options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0,
+    };
+    navigator.geolocation.getCurrentPosition(success, error, options);
+}
+
+function success(pos) {
+    const crd = pos.coords;
+    var apiurl = "https://www.enfield.gov.uk/_design/integrations/ordnance-survey/places-nearest?query=" + `${crd.latitude}` + ',' + `${crd.longitude}`;
+     fetch(apiurl, {
+            method: "GET",
+            })
+        .then(response => response.json())
+        .then(data => {
+            let content = 'Nothing found';
+            /*submitButton = currentLocationButton.siblings(".submitButton");
+            submitButton.text("Search");
+            mySelected = currentLocationButton.siblings(".prefetch").children(".mySelect");
+            mySelected.empty();
+            mySelected.prop('disabled', '');
+            mySelected.css("display","none");
+            myInput.val('');
+            myInput.prop('disabled','');
+            myInput.css("display","initial");
+            submitButton.off('click').on("click", formSubmit);
+            if( data.header.totalresults > 0 ) {
+                if(currentLocationButton.closest(".findMy").siblings(".sq-form-error")[0])
+                    currentLocationButton.closest(".findMy").siblings(".sq-form-error").remove();
+                let result = data.results[0]['LPI'];
+                if(`${result.LOCAL_CUSTODIAN_CODE_DESCRIPTION}` == "ENFIELD"){
+                    myInput.val(`${result.ADDRESS}`);
+                    myInput.prop('disabled','disabled');
+                    submitButton.off('click').on('click', resetfunc);
+                    submitButton.text("Search again");
+                    selectedOptionX = `${result.LAT}`;
+                    selectedOptionY = `${result.LNG}`;
+                    if (addressLookupFor == "2"){
+                        dropPin();
+                    }
+                }else{
+                    $(`<p class="sq-form-error">This service is only available within the London Borough of Enfield.</p>`).insertAfter(currentLocationButton.closest(".findMy")); 
+                }
+            }*/
+        });
+}
+
+function error(err) {
+    /*if(currentLocationButton.closest(".findMy").siblings(".sq-form-error")[0])
+        currentLocationButton.closest(".findMy").siblings(".sq-form-error").remove();
+    if (`${err.code}` === "1")
+        $(`<p class="sq-form-error">Please enable location service in your browser setting.</p>`).insertAfter(currentLocationButton.closest(".findMy"));
+    else
+        $(`<p class="sq-form-error">${err.message}.</p>`).insertAfter(currentLocationButton.closest(".findMy"));*/
+}
+
 function do_KDF_Custom_OSMap(event, kdf, response, action) {
   var isOSMapTemplate = false;
   if (response.actionedby.indexOf(osmapTemplateIdentifier) === 0) {
