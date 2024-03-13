@@ -161,8 +161,7 @@ function getLocation(e){
     e.preventDefault();
     e.stopPropagation();
     e.stopImmediatePropagation();
-    //currentLocationButton = $(e.target);
-    //myInput = currentLocationButton.siblings(".prefetch").children(".myText");
+    currentLocationButton = $(e.target);
     const options = {
         enableHighAccuracy: true,
         timeout: 5000,
@@ -206,7 +205,7 @@ function success(pos) {
                         dropPin();
                     }*/
                 }else{
-                    //$(`<p class="sq-form-error">This service is only available within the London Borough of Enfield.</p>`).insertAfter(currentLocationButton.closest(".findMy")); 
+                    $('<p class="sq-form-error">This service is only available within the London Borough of Enfield.</p>').insertAfter(currentLocationButton); 
                 }
             }
         });
