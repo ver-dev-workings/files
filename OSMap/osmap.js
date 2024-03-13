@@ -110,7 +110,7 @@ function initialiseOSMap(mapHolder) {
       var lat = clickedMarker.latlng.lat;
       var lon = clickedMarker.latlng.lng;
       var center = [lon, lat];
-      console.log("LON/LAT: "+center);
+      //console.log("LON/LAT: "+center);
       if (pinMarker !== undefined) {
         map.removeLayer(pinMarker);
       }
@@ -202,8 +202,8 @@ function success(pos) {
                     KDF.setVal("le_gis_lat", selectedOptionX);
                     var center = [selectedOptionY, selectedOptionX];
                     getNearestStreet(center, 0.2);
-                    var popup = L.popup().setContent(result.ADDRESS);
-                    pinMarker.addTo(map).bindPopup(popup).openPopup();
+                    //var popup = L.popup().setContent(result.ADDRESS);
+                    //pinMarker.addTo(map).bindPopup(popup).openPopup();
                 }else{
                     $('<p class="sq-form-error">This service is only available within the London Borough of Enfield.</p>').insertAfter(currentLocationButton); 
                 }
@@ -222,6 +222,7 @@ function error(err) {
 }
 
 function do_KDF_Custom_OSMap(event, kdf, response, action) {
+  console.log("inside do_KDF_Custom_OSMap");
   var isOSMapTemplate = false;
   if (response.actionedby.indexOf(osmapTemplateIdentifier) === 0) {
     isOSMapTemplate = true;
@@ -379,21 +380,21 @@ function getNearestStreet(center, radius) {
   geoJson.features.length = 0;
   function fetchWhile(resultsRemain) {
     if (resultsRemain) {
-      console.log("inside if resultsRemain");
+      //console.log("inside if resultsRemain");
       $.ajax({ url: getUrl(wfsParams) }).done(function (data) {
         wfsParams.startIndex += wfsParams.count;
         geoJson.features.push.apply(geoJson.features, data.features);
         resultsRemain = data.features.length < wfsParams.count ? false : true;
-        console.log("resultsRemain: "+resultsRemain);
+        //console.log("resultsRemain: "+resultsRemain);
         fetchWhile(resultsRemain);
       });
     } else {
-      console.log("inside else resultsRemain");
+      //console.log("inside else resultsRemain");
       if (geoJson.features.length) {
-        console.log("geoJson.features.length: "+geoJson.features.length);
+        //console.log("geoJson.features.length: "+geoJson.features.length);
         findNearest(point, geoJson);
       } else {
-        console.log("inside else geoJson.features.length");
+        //console.log("inside else geoJson.features.length");
         if (radius == "0.2") {
           getNearestStreet(center, "0.5");
         } else if (radius == "0.5") {
