@@ -191,8 +191,8 @@ function success(pos) {
             myInput.css("display","initial");
             submitButton.off('click').on("click", formSubmit);*/
             if( data.header.totalresults > 0 ) {
-                /*if(currentLocationButton.closest(".findMy").siblings(".sq-form-error")[0])
-                    currentLocationButton.closest(".findMy").siblings(".sq-form-error").remove();*/
+                if(currentLocationButton.siblings(".sq-form-error")[0])
+                    currentLocationButton.siblings(".sq-form-error").remove();
                 let result = data.results[0]['LPI'];
                 if(result.LOCAL_CUSTODIAN_CODE_DESCRIPTION == "ENFIELD"){
                     console.log(result.ADDRESS);
@@ -218,7 +218,7 @@ function error(err) {
     if (err.code === "1")
         $('<p class="sq-form-error">Please enable location service in your browser setting.</p>').insertAfter(currentLocationButton);
     else
-        $('<p class="sq-form-error">'+err.message+'.</p').insertAfter(currentLocationButton);
+        $('<p class="sq-form-error">'+err.message+'.</p>').insertAfter(currentLocationButton);
 }
 
 function do_KDF_Custom_OSMap(event, kdf, response, action) {
