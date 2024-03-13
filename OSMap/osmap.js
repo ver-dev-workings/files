@@ -316,6 +316,7 @@ function do_KDF_Custom_OSMap(event, kdf, response, action) {
           var location = $(
             "#dform_widget_ps_property_search_map_id option:selected"
           ).text();
+        }
       }
       var popup = L.popup().setContent(popupContent);
       pinMarker.addTo(map).bindPopup(popup).openPopup();
