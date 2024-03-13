@@ -202,6 +202,8 @@ function success(pos) {
                     KDF.setVal("le_gis_lat", selectedOptionX);
                     var center = [selectedOptionY, selectedOptionX];
                     getNearestStreet(center, 0.2);
+                    var popup = L.popup().setContent(result.ADDRESS);
+                    pinMarker.addTo(map).bindPopup(popup).openPopup();
                 }else{
                     $('<p class="sq-form-error">This service is only available within the London Borough of Enfield.</p>').insertAfter(currentLocationButton); 
                 }
@@ -475,7 +477,7 @@ var nearestFeature,
     coords[i][1] = temp;
   }
     
-    console.log(coords);
+    //console.log(coords);
 
     // Calculate nearest point on line segment to the given point.
     var lineStringConversion = turf.lineString(coords);
@@ -483,7 +485,7 @@ var nearestFeature,
     
    var distance = turf.pointToLineDistance(point, lineStringConversion, {units: 'miles'});
     // Compute distance between point and nearest point on line.
-    console.log("distance: "+distance);
+    //console.log("distance: "+distance);
 
     // If the distance is less than that which has previously been calculated,
     // replace the nearest values with those from the current feature.
