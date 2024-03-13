@@ -4,7 +4,7 @@ s.src = "https://ver-dev-workings.github.io/files/turf.js";
 $("head").append(s);
 var map, pinMarker, openCasesMarkers, geoJson;
 var osmapTemplateIdentifier = "osmap_template_";
-var request_source, currentLocationButton;
+var request_source, currentLocationButton, result;
 var apiKey = "ieYjnofhOM9Kiz4GzM2fR6gkkrGQvWwG";
 var serviceUrl = "https://api.os.uk/maps/raster/v1/zxy";
 proj4.defs([
@@ -192,7 +192,7 @@ function success(pos) {
                 if(currentLocationButton.siblings(".sq-form-error")[0]){
                     currentLocationButton.siblings(".sq-form-error").remove();
                 }
-                let result = data.results[0]['LPI'];
+                result = data.results[0]['LPI'];
                 if(result.LOCAL_CUSTODIAN_CODE_DESCRIPTION == "ENFIELD"){
                     console.log(result.ADDRESS);
                     var selectedOptionX, selectedOptionY;
@@ -304,12 +304,18 @@ function do_KDF_Custom_OSMap(event, kdf, response, action) {
           response.data["results_desc"];
         var location = response.data["results_desc"];
       } else {
-        var popupContent =
-          "You have selected: " +
-          $("#dform_widget_ps_property_search_map_id option:selected").text();
-        var location = $(
-          "#dform_widget_ps_property_search_map_id option:selected"
-        ).text();
+        if($("#dform_widget_ps_property_search_map_id option:selected").text() === "No results..."){
+            var popupContent =      
+              "You have selected: " +
+              result.ADDRESS;
+            var location = result.ADDRESS;
+        }else{
+          var popupContent =
+            "You have selected: " +
+            $("#dform_widget_ps_property_search_map_id option:selected").text();
+          var location = $(
+            "#dform_widget_ps_property_search_map_id option:selected"
+          ).text();
       }
       var popup = L.popup().setContent(popupContent);
       pinMarker.addTo(map).bindPopup(popup).openPopup();
