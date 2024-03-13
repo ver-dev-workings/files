@@ -222,7 +222,7 @@ function error(err) {
 }
 
 function do_KDF_Custom_OSMap(event, kdf, response, action) {
-  console.log("inside do_KDF_Custom_OSMap");
+  console.log("inside do_KDF_Custom_OSMap "+action);
   var isOSMapTemplate = false;
   if (response.actionedby.indexOf(osmapTemplateIdentifier) === 0) {
     isOSMapTemplate = true;
