@@ -212,7 +212,7 @@ function success(pos) {
 }
 
 function error(err) {
-    console.log("inside error");
+    console.log("inside error "+err.message);
     if(currentLocationButton.siblings(".sq-form-error")[0])
         currentLocationButton.siblings(".sq-form-error").remove();
     if (err.code === "1")
