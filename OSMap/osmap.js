@@ -191,8 +191,10 @@ function success(pos) {
             myInput.css("display","initial");
             submitButton.off('click').on("click", formSubmit);*/
             if( data.header.totalresults > 0 ) {
-                if(currentLocationButton.siblings(".sq-form-error")[0])
+                if(currentLocationButton.siblings(".sq-form-error")[0]){
+                    console.log("inside form error");
                     currentLocationButton.siblings(".sq-form-error").remove();
+                }
                 let result = data.results[0]['LPI'];
                 if(result.LOCAL_CUSTODIAN_CODE_DESCRIPTION == "ENFIELD"){
                     console.log(result.ADDRESS);
