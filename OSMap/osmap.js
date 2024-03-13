@@ -213,12 +213,12 @@ function success(pos) {
 
 function error(err) {
     console.log("inside error");
-    /*if(currentLocationButton.closest(".findMy").siblings(".sq-form-error")[0])
-        currentLocationButton.closest(".findMy").siblings(".sq-form-error").remove();
-    if (`${err.code}` === "1")
-        $(`<p class="sq-form-error">Please enable location service in your browser setting.</p>`).insertAfter(currentLocationButton.closest(".findMy"));
+    if(currentLocationButton.siblings(".sq-form-error")[0])
+        currentLocationButton.siblings(".sq-form-error").remove();
+    if (err.code === "1")
+        $('<p class="sq-form-error">Please enable location service in your browser setting.</p>').insertAfter(currentLocationButton);
     else
-        $(`<p class="sq-form-error">${err.message}.</p>`).insertAfter(currentLocationButton.closest(".findMy"));*/
+        $('<p class="sq-form-error">'+err.message+'.</p').insertAfter(currentLocationButton);
 }
 
 function do_KDF_Custom_OSMap(event, kdf, response, action) {
