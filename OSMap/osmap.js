@@ -18,7 +18,6 @@ proj4.defs([
   ],
 ]);
 function do_KDF_pageChange_OSMap(event, kdf, currentpageid, targetpageid) {
-  console.log("test message 2");
   $('.dform_page[data-pos="' + targetpageid + '"] div[id="map"]').each(
     function () {
       initialiseOSMap(this);
@@ -152,7 +151,6 @@ function initialiseOSMap(mapHolder) {
 }
 
 function getLocation(e){
-    console.log("inside get location");
     var keyCode = (window.event) ? event.which : event.keyCode;;
     if (keyCode === 13) {
         e.preventDefault();
@@ -192,20 +190,18 @@ function success(pos) {
             submitButton.off('click').on("click", formSubmit);*/
             if( data.header.totalresults > 0 ) {
                 if(currentLocationButton.siblings(".sq-form-error")[0]){
-                    console.log("inside form error");
                     currentLocationButton.siblings(".sq-form-error").remove();
                 }
                 let result = data.results[0]['LPI'];
                 if(result.LOCAL_CUSTODIAN_CODE_DESCRIPTION == "ENFIELD"){
                     console.log(result.ADDRESS);
-                    //myInput.prop('disabled','disabled');
-                    //submitButton.off('click').on('click', resetfunc);
-                    //submitButton.text("Search again");
-                    //selectedOptionX = `${result.LAT}`;
-                    //selectedOptionY = `${result.LNG}`;
-                    /*if (addressLookupFor == "2"){
-                        dropPin();
-                    }*/
+                    var selectedOptionX, selectedOptionY;
+                    selectedOptionX = result.LAT;
+                    selectedOptionY = result.LNG;
+                    KDF.setVal("le_gis_lon", selectedOptionY);
+                    KDF.setVal("le_gis_lat", selectedOptionX);
+                    var center = [selectedOptionY, selectedOptionX];
+                    getNearestStreet(center, 0.2);
                 }else{
                     $('<p class="sq-form-error">This service is only available within the London Borough of Enfield.</p>').insertAfter(currentLocationButton); 
                 }
