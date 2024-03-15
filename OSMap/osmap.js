@@ -485,7 +485,7 @@ var nearestFeature,
     coords[i][1] = temp;
   }
     
-    //console.log(coords);
+    console.log(coords);
 
     // Calculate nearest point on line segment to the given point.
     var lineStringConversion = turf.lineString(coords);
