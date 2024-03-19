@@ -1,5 +1,5 @@
 var currentLocationButton, result;
-
+console.log("inside current location");
 window.addEventListener("load", locationHandler());
 
 function locationHandler() {
