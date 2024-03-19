@@ -1,5 +1,5 @@
 var currentLocationButton, result;
-$(window).on('load', locationHandler());
+//$(window).on('load', locationHandler());
 
 function locationHandler() {
   setTimeout(function() {
