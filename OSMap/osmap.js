@@ -29,7 +29,6 @@ function initialiseOSMap(mapHolder) {
     return;
   
   $(mapHolder).attr("data-mapready", true);
-  locationHandler();
   map = L.map("map").setView([51.653046, -0.08958], 12);
   var baseLayer = L.tileLayer(
     serviceUrl + "/Outdoor_3857/{z}/{x}/{y}.png?key=" + apiKey,
