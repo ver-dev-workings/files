@@ -2,7 +2,7 @@ var s = document.createElement("script");
 s.type = "text/javascript";
 s.src = "https://ver-dev-workings.github.io/files/turf.js";
 $("head").append(s);
-var map, pinMarker, openCasesMarkers, geoJson;
+var map, pinMarker, pinMarkers, openCasesMarkers, geoJson;
 var osmapTemplateIdentifier = "osmap_template_";
 var request_source;
 var apiKey = "ieYjnofhOM9Kiz4GzM2fR6gkkrGQvWwG";
