@@ -230,19 +230,12 @@ function do_KDF_Custom_OSMap(event, kdf, response, action) {
           response.data["results_desc"];
         var location = response.data["results_desc"];
       } else {
-        if($("#dform_widget_ps_property_search_map_id option:selected").text() === "No results..."){
-            var popupContent =      
-              "You have selected: " +
-              result.ADDRESS;
-            var location = result.ADDRESS;
-        }else{
-          var popupContent =
+         var popupContent =
             "You have selected: " +
             $("#dform_widget_ps_property_search_map_id option:selected").text();
           var location = $(
             "#dform_widget_ps_property_search_map_id option:selected"
           ).text();
-        }
       }
       var popup = L.popup().setContent(popupContent);
       pinMarker.addTo(map).bindPopup(popup).openPopup();
