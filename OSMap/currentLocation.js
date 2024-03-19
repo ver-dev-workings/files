@@ -1,6 +1,6 @@
 var currentLocationButton, result;
 
-//window.addEventListener("load", locationHandler());
+window.addEventListener("load", locationHandler());
 
 function locationHandler() {
   console.log("inside location handler");
