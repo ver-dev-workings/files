@@ -1,13 +1,4 @@
 var currentLocationButton, result;
-//$(window).on('load', locationHandler());
-
-function locationHandler() {
-  setTimeout(function() {
-    $("#dform_widget_search_ps_property_search_map").after('<button type="button" class="getMyLocation" id="getMyLocation1"><svg width="36px" height="36px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M19 12C19 15.866 15.866 19 12 19M19 12C19 8.13401 15.866 5 12 5M19 12H21M12 19C8.13401 19 5 15.866 5 12M12 19V21M5 12C5 8.13401 8.13401 5 12 5M5 12H3M12 5V3M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z" stroke="#C41508" stroke-width="1.08" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>Use my location</button>');
-    $(".getMyLocation").on('click', getLocation);
-    console.log("inside location handler");
-  }, 5000);
-}
 
 function getLocation(e){
     var keyCode = (window.event) ? event.which : event.keyCode;;
@@ -37,16 +28,6 @@ function success(pos) {
         .then(response => response.json())
         .then(data => {
             let content = 'Nothing found';
-            /*submitButton = currentLocationButton.siblings(".submitButton");
-            submitButton.text("Search");
-            mySelected = currentLocationButton.siblings(".prefetch").children(".mySelect");
-            mySelected.empty();
-            mySelected.prop('disabled', '');
-            mySelected.css("display","none");
-            myInput.val('');
-            myInput.prop('disabled','');
-            myInput.css("display","initial");
-            submitButton.off('click').on("click", formSubmit);*/
             if( data.header.totalresults > 0 ) {
                 if(currentLocationButton.siblings(".sq-form-error")[0]){
                     currentLocationButton.siblings(".sq-form-error").remove();
@@ -60,7 +41,16 @@ function success(pos) {
                     KDF.setVal("le_gis_lon", selectedOptionY);
                     KDF.setVal("le_gis_lat", selectedOptionX);
                     var center = [selectedOptionY, selectedOptionX];
-                    getNearestStreet(center, 0.2);
+                    if(pinMarkers != undefined && pinMarkers != ""){
+                        map.removeLayer(pinMarkers);
+                        pinMarkers = null;
+                    }
+                  pinMarker = new L.marker([selectedOptionX, selectedOptionY],{ interactive: true });
+                  pinMarkers = L.layerGroup([pinMarker]);
+                  var popup = L.popup().setContent(result.ADDRESS);
+                  pinMarker.addTo(map).bindPopup(popup).openPopup();
+                  map.setView([selectedOptionX, selectedOptionY], 18);
+                    //getNearestStreet(center, 0.2);
                     //var popup = L.popup().setContent(result.ADDRESS);
                     //pinMarker.addTo(map).bindPopup(popup).openPopup();
                 }else{
