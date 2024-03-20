@@ -58,3 +58,24 @@ button#getMyLocation1 {
     animation: dotPulse 1.5s infinite linear;
     animation-delay: .25s;
 }
+.dot-pulse::before, .dot-pulse::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 0.3125rem;
+    background-color: #c41508;
+    color: #c41508;
+}
+.dot-pulse::before {
+    box-shadow: 624rem 0 0 -0.3125rem #c41508;
+    animation: dotPulseBefore 1.5s infinite linear;
+    animation-delay: 0s;
+}
+.dot-pulse::after {
+    box-shadow: 625.875rem 0 0 -0.3125rem #c41508;
+    animation: dotPulseAfter 1.5s infinite linear;
+    animation-delay: .5s;
+}
