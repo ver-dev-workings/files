@@ -43,6 +43,9 @@ function success(pos) {
                         map.removeLayer(pinMarkers);
                         pinMarkers = null;
                     }
+                    if (pinMarker !== undefined) {
+                        map.removeLayer(pinMarker);
+                    }
                   pinMarker = new L.marker([selectedOptionX, selectedOptionY],{ interactive: true });
                   pinMarkers = L.layerGroup([pinMarker]);
                   var popup = L.popup().setContent(result.ADDRESS);
