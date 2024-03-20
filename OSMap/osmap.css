@@ -41,3 +41,20 @@ button#getMyLocation1 {
     align-items: center;
     padding: 20px 0px;
 }
+.snippetPulse {
+    left: 50%;
+    position: relative;
+    top: .625rem;
+}
+.dot-pulse {
+    position: relative;
+    left: -624.9375rem;
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 0.3125rem;
+    background-color: #c41508;
+    color: #c41508;
+    box-shadow: 624.9375rem 0 0 -0.3125rem #c41508;
+    animation: dotPulse 1.5s infinite linear;
+    animation-delay: .25s;
+}
