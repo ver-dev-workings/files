@@ -107,7 +107,6 @@ function initialiseOSMap(mapHolder) {
       var lat = clickedMarker.latlng.lat;
       var lon = clickedMarker.latlng.lng;
       var center = [lon, lat];
-      //console.log("LON/LAT: "+center);
       if (pinMarker !== undefined) {
         map.removeLayer(pinMarker);
       }
@@ -116,9 +115,7 @@ function initialiseOSMap(mapHolder) {
       map.removeLayer(pinMarkers);
       if (inside([lon, lat], enfield_polygon)) {
         KDF.setVal("le_gis_lon", lon);
-        //console.log("lon is:"+lon);
         KDF.setVal("le_gis_lat", lat);
-        //console.log("lat is:"+lat);
         map.setView([lat, lon], 18);
         var coor = proj4("EPSG:4326", "EPSG:27700", [lon, lat]);
         var center = [lon, lat];
@@ -148,7 +145,6 @@ function initialiseOSMap(mapHolder) {
 }
 
 function do_KDF_Custom_OSMap(event, kdf, response, action) {
-  console.log("inside do_KDF_Custom_OSMap "+action+ response.data["request_source"]);
   var isOSMapTemplate = false;
   if (response.actionedby.indexOf(osmapTemplateIdentifier) === 0) {
     isOSMapTemplate = true;
@@ -222,8 +218,6 @@ function do_KDF_Custom_OSMap(event, kdf, response, action) {
     } else if (action === "street-search") {
       KDF.setVal("le_associated_obj_type", "D4");
       KDF.setVal("le_associated_obj_id", response.data["prop_search_results"]);
-      //console.log("request_source:"+response.data["request_source"]);
-      //console.log("results_desc:"+response.data["results_desc"]);
       if (response.data["request_source"] == "map_source") {
         var popupContent =
           "The closest street to your chosen location is: " +
@@ -306,21 +300,16 @@ function getNearestStreet(center, radius) {
   geoJson.features.length = 0;
   function fetchWhile(resultsRemain) {
     if (resultsRemain) {
-      //console.log("inside if resultsRemain");
       $.ajax({ url: getUrl(wfsParams) }).done(function (data) {
         wfsParams.startIndex += wfsParams.count;
         geoJson.features.push.apply(geoJson.features, data.features);
         resultsRemain = data.features.length < wfsParams.count ? false : true;
-        //console.log("resultsRemain: "+resultsRemain);
         fetchWhile(resultsRemain);
       });
     } else {
-      //console.log("inside else resultsRemain");
       if (geoJson.features.length) {
-        //console.log("geoJson.features.length: "+geoJson.features.length);
         findNearest(point, geoJson);
       } else {
-        //console.log("inside else geoJson.features.length");
         if (radius == "0.2") {
           getNearestStreet(center, "0.5");
         } else if (radius == "0.5") {
@@ -393,7 +382,6 @@ var nearestFeature,
 
   // Iterate over features in street FeatureCollection.
   turf.featureEach(features, function (currentFeature) {
-    //console.log(currentFeature);
     // Get all coordinates from any GeoJSON object.
     var coords = turf.coordAll(currentFeature);
     
@@ -403,17 +391,13 @@ var nearestFeature,
     coords[i][0] = coords[i][1];
     coords[i][1] = temp;
   }*/
-    
-    console.log(coords);
 
     // Calculate nearest point on line segment to the given point.
     var lineStringConversion = turf.lineString(coords);
-    //console.log("lineStringConversion: "+JSON.stringify(lineStringConversion, null, 4));
     
    var distance = turf.pointToLineDistance(point, lineStringConversion, {units: 'miles'});
     // Compute distance between point and nearest point on line.
-    //console.log("distance: "+distance);
-
+    
     // If the distance is less than that which has previously been calculated,
     // replace the nearest values with those from the current feature.
     if (distance <= nearestDistance) {
@@ -423,9 +407,6 @@ var nearestFeature,
   });
 
 // Output nearest feature and distance.
-//console.log("Nearest Feature: ", nearestFeature);
-//console.log("Nearest Distance: ", nearestDistance);
-
 
 
   // Extract coordinates from point.
@@ -460,8 +441,7 @@ var lat = KDF.getVal("le_gis_lat");
   pinMarker = new L.marker([lat, lon], {
     interactive: true,
   }).addTo(map);
-  //console.log("Nearest Feature: ", nearestFeature);
-
+  
   // Get the street name from the nearest feature.
   var streetName;
   if (nearestFeature.properties.DesignatedName1 !== "") {
