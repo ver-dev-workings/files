@@ -21,7 +21,6 @@ function getLocation(e){
 function success(pos) {
     const crd = pos.coords;
     var apiurl = "https://api.os.uk/search/places/v1/nearest?key=HoK2lZTKfaYRjSnYgDO2cV01ynxxIudQ&dataset=LPI&output_srs=EPSG:4326&srs=EPSG:4326&point=" + crd.latitude + ',' + crd.longitude;
-    console.log("inside success "+apiurl);
     fetch(apiurl, {
             method: "GET",
             })
@@ -34,7 +33,6 @@ function success(pos) {
                 }
                 result = data.results[0]['LPI'];
                 if(result.LOCAL_CUSTODIAN_CODE_DESCRIPTION == "ENFIELD"){
-                    console.log(result.ADDRESS);
                     var selectedOptionX, selectedOptionY;
                     selectedOptionX = result.LAT;
                     selectedOptionY = result.LNG;
@@ -61,7 +59,6 @@ function success(pos) {
 }
 
 function error(err) {
-    console.log("inside error "+err.message);
     if(currentLocationButton.siblings(".sq-form-error")[0])
         currentLocationButton.siblings(".sq-form-error").remove();
     if (err.code === "1")
