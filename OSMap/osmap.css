@@ -79,3 +79,41 @@ button#getMyLocation1 {
     animation: dotPulseAfter 1.5s infinite linear;
     animation-delay: .5s;
 }
+@keyframes dotPulseBefore {
+    0% {
+      box-shadow: pxToRem(9984) 0 0 pxToRem(-5) $main-color;
+    }
+    30% {
+      box-shadow: pxToRem(9984) 0 0 pxToRem(2) $main-color;
+    }
+    60%,
+    100% {
+      box-shadow: pxToRem(9984) 0 0 pxToRem(-5) $main-color;
+    }
+}
+  
+@keyframes dotPulse {
+    0% {
+      box-shadow: pxToRem(9999) 0 0 pxToRem(-5) $main-color;
+    }
+    30% {
+      box-shadow: pxToRem(9999) 0 0 pxToRem(2) $main-color;
+    }
+    60%,
+    100% {
+      box-shadow: pxToRem(9999) 0 0 pxToRem(-5) $main-color;
+    }
+}
+  
+@keyframes dotPulseAfter {
+    0% {
+      box-shadow: pxToRem(10014) 0 0 pxToRem(-5) $main-color;
+    }
+    30% {
+      box-shadow: pxToRem(10014) 0 0 pxToRem(2) $main-color;
+    }
+    60%,
+    100% {
+      box-shadow: pxToRem(10014) 0 0 pxToRem(-5) $main-color;
+    }
+}
