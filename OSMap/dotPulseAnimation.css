@@ -1,1 +1,77 @@
+.snippetPulse {
+    left: 50%;
+    position: relative;
+    top: .625rem;
+}
+.dot-pulse {
+    position: relative;
+    left: -624.9375rem;
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 0.3125rem;
+    background-color: #c41508;
+    color: #c41508;
+    box-shadow: 624.9375rem 0 0 -0.3125rem #c41508;
+    animation: dotPulse 1.5s infinite linear;
+    animation-delay: .25s;
+}
+.dot-pulse::before, .dot-pulse::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 0.3125rem;
+    background-color: #c41508;
+    color: #c41508;
+}
+.dot-pulse::before {
+    box-shadow: 624rem 0 0 -0.3125rem #c41508;
+    animation: dotPulseBefore 1.5s infinite linear;
+    animation-delay: 0s;
+}
+.dot-pulse::after {
+    box-shadow: 625.875rem 0 0 -0.3125rem #c41508;
+    animation: dotPulseAfter 1.5s infinite linear;
+    animation-delay: .5s;
+}
+@keyframes dotPulseBefore {
+    0% {
+      box-shadow: 9984px 0 0 -5px #c41508;
+    }
+    30% {
+      box-shadow: 9984px 0 0 2px #c41508;
+    }
+    60%,
+    100% {
+      box-shadow: 9984px 0 0 -5px #c41508;
+    }
+}
+  
+@keyframes dotPulse {
+    0% {
+      box-shadow: 9999px 0 0 -5px #c41508;
+    }
+    30% {
+      box-shadow: 9999px 0 0 2px #c41508;
+    }
+    60%,
+    100% {
+      box-shadow: 9999px 0 0 -5px #c41508;
+    }
+}
+  
+@keyframes dotPulseAfter {
+    0% {
+      box-shadow: 10014px 0 0 -5px #c41508;
+    }
+    30% {
+      box-shadow: 10014px 0 0 2px #c41508;
+    }
+    60%,
+    100% {
+      box-shadow: 10014px 0 0 -5px #c41508;
+    }
+}
 
