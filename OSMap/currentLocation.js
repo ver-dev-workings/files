@@ -1,4 +1,4 @@
-var currentLocationButton, result;
+var currentLocationButton, result, pulse;
 
 function getLocation(e){
     var keyCode = (window.event) ? event.which : event.keyCode;;
@@ -10,6 +10,8 @@ function getLocation(e){
     e.stopPropagation();
     e.stopImmediatePropagation();
     currentLocationButton = $(e.target);
+    pulse = currentLocationButton.siblings(".snippetPulse");
+    pulse.css("display","initial");
     const options = {
         enableHighAccuracy: true,
         timeout: 50000,
