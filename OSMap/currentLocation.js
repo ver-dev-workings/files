@@ -48,16 +48,15 @@ function success(pos) {
                     if (pinMarker !== undefined) {
                         map.removeLayer(pinMarker);
                     }
-                  pinMarker = new L.marker([selectedOptionX, selectedOptionY],{ interactive: true });
-                  pinMarkers = L.layerGroup([pinMarker]);
-                  var popup = L.popup().setContent(result.ADDRESS);
-                  pinMarker.addTo(map).bindPopup(popup).openPopup();
-                  map.setView([selectedOptionX, selectedOptionY], 18);
-                    //getNearestStreet(center, 0.2);
-                    //var popup = L.popup().setContent(result.ADDRESS);
-                    //pinMarker.addTo(map).bindPopup(popup).openPopup();
+                    pinMarker = new L.marker([selectedOptionX, selectedOptionY],{ interactive: true });
+                    pinMarkers = L.layerGroup([pinMarker]);
+                    var popup = L.popup().setContent(result.ADDRESS);
+                    pinMarker.addTo(map).bindPopup(popup).openPopup();
+                    map.setView([selectedOptionX, selectedOptionY], 18);
+                    pulse.css("display","none");
                 }else{
                     $('<p class="sq-form-error">This service is only available within the London Borough of Enfield.</p>').insertAfter(currentLocationButton); 
+                    pulse.css("display","none");
                 }
             }
         });
@@ -70,5 +69,6 @@ function error(err) {
         $('<p class="sq-form-error">Please enable location service in your browser setting.</p>').insertAfter(currentLocationButton);
     else
         $('<p class="sq-form-error">'+err.message+'.</p>').insertAfter(currentLocationButton);
+    pulse.css("display","none");
 }
 
