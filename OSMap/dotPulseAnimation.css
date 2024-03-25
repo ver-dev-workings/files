@@ -1,8 +1,7 @@
 .snippetPulse {
     left: 50%;
     position: relative;
-    top: .625rem;
-    margin-bottom: 30px;
+    bottom: 20px;
 }
 .dot-pulse {
     position: relative;
