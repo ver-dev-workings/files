@@ -42,3 +42,8 @@ button#getMyLocation1 {
     padding: 5px;
     margin-bottom: 10px;
 }
+
+.sq-form-error{
+    color: #c41508;
+    font-weight: bold;
+}
