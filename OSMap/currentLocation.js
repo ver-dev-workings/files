@@ -54,6 +54,8 @@ function success(pos) {
                     pinMarker.addTo(map).bindPopup(popup).openPopup();
                     map.setView([selectedOptionX, selectedOptionY], 18);
                     pulse.css("display","none");
+                    KDF.setVal("txt_map_full_address", result.ADDRESS);
+                    KDF.setVal("txt_subs_address", result.ADDRESS);
                 }else{
                     $('<p class="sq-form-error">This service is only available within the London Borough of Enfield.</p>').insertAfter(currentLocationButton); 
                     pulse.css("display","none");
