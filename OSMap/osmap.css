@@ -43,7 +43,7 @@ button#getMyLocation1 {
     margin-bottom: 10px;
 }
 
-button#getMyLocation1 .sq-form-error{
+button#getMyLocation1+.sq-form-error{
     color: #c41508;
     font-weight: bold;
 }
