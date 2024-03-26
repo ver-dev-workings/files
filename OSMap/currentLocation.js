@@ -50,7 +50,7 @@ function success(pos) {
                     }
                     pinMarker = new L.marker([selectedOptionX, selectedOptionY],{ interactive: true });
                     pinMarkers = L.layerGroup([pinMarker]);
-                    var popup = L.popup().setContent(result.ADDRESS);
+                    var popup = L.popup().setContent("You are near: " +result.ADDRESS);
                     pinMarker.addTo(map).bindPopup(popup).openPopup();
                     map.setView([selectedOptionX, selectedOptionY], 18);
                     pulse.css("display","none");
