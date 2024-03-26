@@ -65,7 +65,7 @@ function success(pos) {
 function error(err) {
     if(currentLocationButton.siblings(".sq-form-error")[0])
         currentLocationButton.siblings(".sq-form-error").remove();
-    if (err.code === "1")
+    if (err.code === 1)
         $('<p class="sq-form-error">Please enable location service in your browser setting.</p>').insertAfter(currentLocationButton);
     else
         $('<p class="sq-form-error">'+err.message+": "+err.code+'.</p>').insertAfter(currentLocationButton);
