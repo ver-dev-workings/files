@@ -46,4 +46,5 @@ button#getMyLocation1 {
 button#getMyLocation1+.sq-form-error{
     color: #c41508;
     font-weight: bold;
+    margin-top: 0px;
 }
