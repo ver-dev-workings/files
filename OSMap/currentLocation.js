@@ -68,7 +68,7 @@ function error(err) {
     if (err.code === 1)
         $('<p class="sq-form-error">Please enable location service in your browser setting.</p>').insertAfter(currentLocationButton);
     else
-        $('<p class="sq-form-error">'+err.message+": "+err.code+'.</p>').insertAfter(currentLocationButton);
+        $('<p class="sq-form-error">'+err.message+'.</p>').insertAfter(currentLocationButton);
     pulse.css("display","none");
 }
 
