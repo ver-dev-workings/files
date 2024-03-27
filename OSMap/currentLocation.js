@@ -34,7 +34,7 @@ function success(pos) {
                     currentLocationButton.siblings(".sq-form-error").remove();
                 }
                 result = data.results[0]['LPI'];
-                if(result.LOCAL_CUSTODIAN_CODE_DESCRIPTION == "ENFIELD"){
+                if(result.LOCAL_CUSTODIAN_CODE_DESCRIPTION !== ""){
                     var selectedOptionX, selectedOptionY;
                     selectedOptionX = result.LAT;
                     selectedOptionY = result.LNG;
