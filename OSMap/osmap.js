@@ -155,6 +155,7 @@ function do_KDF_Custom_OSMap(event, kdf, response, action) {
       ""
     );
     if (action === "retrieve_property") {
+      console.log("inside retrieve property");
       KDF.hideWidget("ahtm_no_location_selected");
       var coor = proj4("EPSG:27700", "EPSG:4326", [
         response.data.easting,
@@ -172,6 +173,7 @@ function do_KDF_Custom_OSMap(event, kdf, response, action) {
         map.removeLayer(pinMarker);
       }
     } else if (action === "reverse_geocode") {
+      console.log("inside reverse_geocode");
       KDF.setVal("txt_map_uprn", "");
       KDF.setVal("txt_map_usrn", "");
       KDF.setVal("txt_map_full_address", "");
@@ -195,6 +197,7 @@ function do_KDF_Custom_OSMap(event, kdf, response, action) {
       pinMarker.addTo(map).bindPopup(popup).openPopup();
       KDF.setVal("txt_subs_address", response.data.description);
     } else if (action === "get_open_case_marker") {
+      console.log("inside get_open_case_marker");
       var markers = [];
       if (openCasesMarkers !== undefined) {
         openCasesMarkers.clearLayers();
@@ -216,6 +219,7 @@ function do_KDF_Custom_OSMap(event, kdf, response, action) {
       });
       openCasesMarkers = L.layerGroup(markers).addTo(map);
     } else if (action === "street-search") {
+      console.log("inside street-search");
       KDF.setVal("le_associated_obj_type", "D4");
       KDF.setVal("le_associated_obj_id", response.data["prop_search_results"]);
       if (response.data["request_source"] == "map_source") {
