@@ -255,6 +255,7 @@ function do_KDF_CustomError_OSMap(
   }
 }
 function do_KDF_optionSelected_OSMap(event, kdf, field, label, val) {
+  console.log("inside do_KDF_optionSelected_OSMap");
   if (field === "ps_property_search_map_id" && val !== null && val !== "") {
     KDF.customdata(
       "retrieve_property",
