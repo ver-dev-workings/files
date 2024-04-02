@@ -58,6 +58,8 @@ function success(pos) {
                     KDF.setVal("txt_subs_address", result.ADDRESS);
                     KDF.setVal("txt_map_usrn", result.USRN);
                     KDF.setVal("txt_map_uprn", result.UPRN);
+                    KDF.setVal("le_gis_lon", result.LNG);
+                    KDF.setVal("le_gis_lat", result.LAT);
                 }else{
                     $('<p class="sq-form-error">This service is only available within the London Borough of Enfield.</p>').insertAfter(currentLocationButton); 
                     pulse.css("display","none");
