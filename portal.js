@@ -253,7 +253,7 @@ var _app = {
             ref = ref.host;
            if (_appConfig.squizDomains.indexOf(ref) > -1) _app.setMatrixLoggedIn();
 
-            if (_app.isMatrixLoggedIn() !== "1") _app.loginToMatrix();
+            //if (_app.isMatrixLoggedIn() !== "1") _app.loginToMatrix();
 
             /*keepAlive=setInterval(function(){
             	$.ajax({
