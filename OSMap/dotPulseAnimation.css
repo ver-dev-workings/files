@@ -10,7 +10,7 @@
     height: 0.625rem;
     border-radius: 0.3125rem;
     background-color: #c41508;
-    color: #c41508;
+    color: #c41508 !important;
     box-shadow: 624.9375rem 0 0 -0.3125rem #c41508;
     animation: dotPulse 1.5s infinite linear;
     animation-delay: .25s;
@@ -24,7 +24,7 @@
     height: 0.625rem;
     border-radius: 0.3125rem;
     background-color: #c41508;
-    color: #c41508;
+    color: #c41508 !important;
 }
 .dot-pulse::before {
     box-shadow: 624rem 0 0 -0.3125rem #c41508;
