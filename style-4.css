@@ -944,9 +944,9 @@ KS: gov checkbox Start
 /*KS: Customizes the helptext */
 .chk-gov > div .helptext {
     font-size: 1rem;
-    position: absolute;
+    /*position: absolute;
     top: 32px;
-    left:0px;
+    left:0px;*/
 }
 /*KS: Removes the title/legend */
 .no-legend > div > label {
