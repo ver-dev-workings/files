@@ -276,9 +276,9 @@ function setFileThumbnailsV2(access_token) {
     });
 }
 
-function do_KDF_Custom_Sharepoint(response, action) {
+/*function do_KDF_Custom_Sharepoint(response, action) {
     do_KDF_Custom_SharepointV2(response, action);
-}
+}*/
 
 function do_KDF_Custom_SharepointV2(response, action) {
     if (action === 'sharepoint_token') {
