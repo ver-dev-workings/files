@@ -215,8 +215,8 @@ function do_KDF_Custom_Sharepoint(response, action) {
             } else {
                 sharepoint_title = 'Please upload up to two photos of the problem (optional)';
             }
-            if ($('#dform_widget_txt_sharepoint_description').length > 0) {
-                sharepoint_description = KDF.getVal('txt_sharepoint_description')+'</br>';
+            if ($('#dform_widget_txta_sharepoint_description').length > 0) {
+                sharepoint_description = KDF.getVal('txta_sharepoint_description')+'</br>';
             } else {
                 sharepoint_description = '';
             }
