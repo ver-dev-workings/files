@@ -209,10 +209,16 @@ function do_KDF_Custom_Sharepoint(response, action) {
             }
         } else {
             var sharepoint_title = '';
+            var sharepoint_description = '';
             if ($('#dform_widget_txt_sharepoint_title').length > 0) {
                 sharepoint_title = KDF.getVal('txt_sharepoint_title');
             } else {
                 sharepoint_title = 'Please upload up to two photos of the problem (optional)';
+            }
+            if ($('#dform_widget_txt_sharepoint_description').length > 0) {
+                sharepoint_description = KDF.getVal('txt_sharepoint_description')+'</br>';
+            } else {
+                sharepoint_description = '';
             }
             var txt_file_types = response.data['txt_file_types'];
             formParams.allowedFileType = txt_file_types.replace(/'/g, '').replace('(', '').replace(')', '').replace(/,/g, ', ');
@@ -224,7 +230,7 @@ function do_KDF_Custom_Sharepoint(response, action) {
                     '<div><label>' + sharepoint_title + '</div></label>' +
                     '<div style="position: relative;"><input id="custom_fileupload" type="file" name="uploadedFile">' +
                     '<span class="file-gov-icon"><span class="file-gov-icon-a"></span><span class="file-gov-icon-b"></span><label class="file-gov-text">Upload file</label></span>' +
-                    '<div class="helptext">Accepted file types are ' + formParams.allowedFileType + ' up to ' + formParams.maxFileSizeDisplay + ' MB in size</div>' +
+                    '<div class="helptext">' + sharepoint_description + 'Accepted file types are ' + formParams.allowedFileType + ' up to ' + formParams.maxFileSizeDisplay + ' MB in size</div>' +
                     '<div class="dform_fileupload_progressbar" id="custom_fileupload_progressbar"></div>' +
                     '<div class="filenames" id="custom_fileupload_files"></div><br><br></div>' +
                     ' </div>';
