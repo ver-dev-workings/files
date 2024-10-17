@@ -474,7 +474,7 @@ KS: file-gov Start
 .file-progress .dform_fileupload_progressbar{
     visibility: visible;
     height: 22px !important;
-    margin: 5px !important;
+    margin: 8px 0px !important;
     width: 300px !important;
     border: 2px solid #00529b !important;/*Verint blue*/ 
 }
