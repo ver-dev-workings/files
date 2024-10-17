@@ -463,7 +463,8 @@ KS: file-gov Start
         left: 165px;
     }*/
     .file-gov input, .file-gov-icon{
-        width:188px !important;
+        width: auto;
+        padding: 0px 20px 0px 0px;
     }
 }
 
