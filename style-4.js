@@ -116,7 +116,7 @@ function defineDefaultStyle() {
 	replaceHeader('header5','h5');
 	replaceHeader('header6','h6');
 	
-	updateCPETitle();
+	//updateCPETitle();
 	addAutoComplete();
 	toggleNavigation();
 	
