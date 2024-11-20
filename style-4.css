@@ -341,7 +341,11 @@ KS: sel Start
     font-family: "IBM Plex Sans", "Arial", sans-serif;
     font-size: 17px !important;
     color: #000;
-	padding: 8px;
+    padding: 8px;
+}
+
+.dform_widget_type_select .select2-container--default .select2-selection--single .select2-selection__placeholder {
+    color: #000;
 }
 
 .dform_widget_type_select .select2-container--default .select2-selection--single:before {
