@@ -332,14 +332,14 @@ KS: sel Start
 
 /* Style Members forms Select field*/
 .dform_widget_type_select .select2-container--default .select2-selection--single {
-    border: 2px solid black !important;
+    border: 2px solid black;
     border-radius: 0px;
     height: auto;
 }
 
 .dform_widget_type_select .select2-container--default .select2-selection--single .select2-selection__rendered {
     font-family: "IBM Plex Sans", "Arial", sans-serif;
-    font-size: 17px !important;
+    font-size: 17px;
     color: #000;
     padding: 8px;
 }
@@ -353,8 +353,13 @@ KS: sel Start
 }
 
 .dform_widget_type_select .select2-container--default .select2-selection--single:focus {
-    box-shadow: 0 0 0 3px #FFBF47 !important;
-    border-color: black !important;
+    box-shadow: 0 0 0 3px #FFBF47;
+    border-color: black;
+}
+
+.dform_widget_type_select .select2-container--default .select2-results>.select2-results__options {
+    font-family: "IBM Plex Sans", "Arial", sans-serif;
+    font-size: 17px;
 }
 
 /*sel-fill-------------------------------------*/
