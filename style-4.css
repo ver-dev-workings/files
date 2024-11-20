@@ -332,7 +332,7 @@ KS: sel Start
 
 /* Style Members forms Select field*/
 .dform_widget_type_select .select2-container--default .select2-selection--single {
-    border: 2px solid black;
+    border: 2px solid black !important;
     border-radius: 0px;
     height: auto;
 }
@@ -353,8 +353,8 @@ KS: sel Start
 }
 
 .dform_widget_type_select .select2-container--default .select2-selection--single:focus {
-    box-shadow: 0 0 0 3px #FFBF47;
-    border-color: black;
+    box-shadow: 0 0 0 3px #FFBF47 !important;
+    border-color: black !important;
 }
 
 .dform_widget_type_select .select2-container--default .select2-results>.select2-results__options {
