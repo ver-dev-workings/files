@@ -331,6 +331,12 @@ KS: sel Start
 }
 
 
+.dform_widget_type_select .select2-container--default .select2-selection--single {
+    border: 2px solid black !important;
+    border-radius: 0px;
+    height: auto;
+}
+
 /*sel-fill-------------------------------------*/
 
 .sel-fill select{
