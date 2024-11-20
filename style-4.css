@@ -330,11 +330,27 @@ KS: sel Start
     font-weight: bold !important;
 }
 
-
+/* Style Members forms Select field*/
 .dform_widget_type_select .select2-container--default .select2-selection--single {
     border: 2px solid black !important;
     border-radius: 0px;
     height: auto;
+}
+
+.dform_widget_type_select .select2-container--default .select2-selection--single .select2-selection__rendered {
+    font-family: "IBM Plex Sans", "Arial", sans-serif;
+    font-size: 17px !important;
+    color: #000;
+	padding: 8px;
+}
+
+.dform_widget_type_select .select2-container--default .select2-selection--single:before {
+   border-color: #000 transparent transparent transparent;
+}
+
+.dform_widget_type_select .select2-container--default .select2-selection--single:focus {
+    box-shadow: 0 0 0 3px #FFBF47 !important;
+    border-color: black !important;
 }
 
 /*sel-fill-------------------------------------*/
