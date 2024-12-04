@@ -298,6 +298,7 @@ function getNearestStreet(center, radius) {
     outputFormat: "GEOJSON",
     srsName: "urn:ogc:def:crs:EPSG::4326",
     filter: xml,
+    count: 100,
     startIndex: 0,
   };
   var resultsRemain = true;
