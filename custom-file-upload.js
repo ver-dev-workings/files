@@ -29,7 +29,7 @@ function do_KDF_Ready_Sharepoint(event, kdf) {
     if (KDF.getVal('txt_max_filesize') == '' || $('#dform_widget_txt_max_filesize').length < 1) {
         max_file_size = 'maxFileSize';
     }
-    
+    console.log("max file size: "+max_file_size);
     KDF.customdata('sharepoint_config', '', true, true, {
         ft_operation: 'file_list',
         txt_FT_template: template_name,
