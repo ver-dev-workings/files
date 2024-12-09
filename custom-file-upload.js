@@ -14,6 +14,7 @@ var formParams = {
 }
 
 function do_KDF_Ready_Sharepoint(event, kdf) {
+    console.log("inside ready");
     var hostURL = window.location.href;
     if (hostURL.includes("https://lbe.")) {
         formParams.fileUploadUrl = 'https://graph.microsoft.com/v1.0/sites/enfield365.sharepoint.com,0abdd322-1a3a-4fa5-8a3c-9e021152aab7,c82bbb33-b259-4604-9365-42c364d6172b/drive/items/'
