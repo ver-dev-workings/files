@@ -23,9 +23,16 @@ function do_KDF_Ready_Sharepoint(event, kdf) {
     if (KDF.getVal('txt_FT_template') == '' || $('#dform_widget_txt_FT_template').length < 1) {
         template_name = 'FT_template1';
     }
+
+    var max_file_size = KDF.getVal('txt_max_filesize');
+    if (KDF.getVal('txt_max_filesize') == '' || $('#dform_widget_txt_max_filesize').length < 1) {
+        max_file_size = 'maxFileSize';
+    }
+    
     KDF.customdata('sharepoint_config', '', true, true, {
         ft_operation: 'file_list',
-        txt_FT_template: template_name
+        txt_FT_template: template_name,
+        txt_max_filesize: max_file_size
     })
 
     if ((KDF.kdf().form.readonly && KDF.kdf().access == 'citizen') || (KDF.kdf().viewmode == 'R')) {
@@ -47,13 +54,17 @@ function do_KDF_Ready_Sharepoint(event, kdf) {
         var fileName = $("#custom_fileupload")[0].files[0].name;
         var fileNameClean = fileName.split('.').pop();
         var template_name = KDF.getVal('txt_FT_template');
-
         if (KDF.getVal('txt_FT_template') == '' || $('#dform_widget_txt_FT_template').length < 1) {
             template_name = 'FT_template1';
         }
+        var max_file_size = KDF.getVal('txt_max_filesize');
+        if (KDF.getVal('txt_max_filesize') == '' || $('#dform_widget_txt_max_filesize').length < 1) {
+            max_file_size = 'maxFileSize';
+        }
         KDF.customdata('sharepoint_config', '', true, true, {
             txt_FT_template: template_name,
-            txt_file_format: fileNameClean
+            txt_file_format: fileNameClean,
+            txt_max_filesize: max_file_size
         })
 
 
