@@ -168,6 +168,7 @@ function processFile() {
 }
 
 function do_KDF_Custom_Sharepoint(response, action) {
+    console.log("inside custom");
     if (action === 'sharepoint_token') {
         var access_token = response.data['access_token'];
         if (!KDF.kdf().form.readonly && formParams.deleteFileSelector == '') {
