@@ -102,7 +102,7 @@ function processFile() {
     var fileError = false;
     var fileName = $("#custom_fileupload")[0].files[0].name;
     var fileNameClean = fileName.split('.').pop();
-    console.log("allowed file size "+formParams);
+    console.log("allowed file size "+JSON.stringify(formParams));
     if ($("#custom_fileupload")[0].files[0].size <= formParams.maxFileSize) {
         fileError = false;
     } else {
