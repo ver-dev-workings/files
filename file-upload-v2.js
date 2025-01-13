@@ -168,6 +168,7 @@ function processDroppedFile(response) {
     var fileError = false;
     var fileName = response.data['file_name'];
     var file = Array.from(formParams.files).find(function(file) { if (file.name === fileName) { return file; } });
+    console.log("allowed file size "+JSON.stringify(formParams));
     if (file.size <= formParams.maxFileSize) {
         fileError = false;
     } else {
