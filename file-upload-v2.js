@@ -1,6 +1,6 @@
 var uploadAreaClass = 'custom_fileupload_area'
 
-var formParams = {
+var sharepointParams = {
     file: undefined,
     files: [],
     inputFileID: '$("#custom_fileupload_holder")',
@@ -17,14 +17,14 @@ var formParams = {
 }
 
 function setFiledNames(fieldnames) {
-    formParams.fieldNames = fieldnames;
+    sharepointParams.fieldNames = fieldnames;
 }
 
 function do_KDF_Ready_SharepointV2(event, kdf) {
     console.log("inside ready v2");
     var hostURL = window.location.href;
     if (hostURL.indexOf("https://lbe.") > -1) {
-        formParams.fileUploadUrl = 'https://graph.microsoft.com/v1.0/sites/enfield365.sharepoint.com,0abdd322-1a3a-4fa5-8a3c-9e021152aab7,c82bbb33-b259-4604-9365-42c364d6172b/drive/items/'
+        sharepointParams.fileUploadUrl = 'https://graph.microsoft.com/v1.0/sites/enfield365.sharepoint.com,0abdd322-1a3a-4fa5-8a3c-9e021152aab7,c82bbb33-b259-4604-9365-42c364d6172b/drive/items/'
     }
 
     var template_name = KDF.getVal('txt_FT_template');
@@ -69,7 +69,7 @@ function do_KDF_Ready_SharepointV2(event, kdf) {
     $('body').on('click', 'img', function() {
         if ($(this).data('fieldname')) {
             if (KDF.kdf().form.readonly) {
-                formParams.imgClickSelector = $(this).data('fieldname');
+                sharepointParams.imgClickSelector = $(this).data('fieldname');
                 KDF.customdata('sharepoint_token', 'imgClickEvent', true, true, {});
             }
         }
@@ -78,14 +78,14 @@ function do_KDF_Ready_SharepointV2(event, kdf) {
     $('body').on('click', '.fileicon', function() {
         if ($(this).data('fieldname')) {
             if (KDF.kdf().form.readonly) {
-                formParams.imgClickSelector = $(this).data('fieldname');
+                sharepointParams.imgClickSelector = $(this).data('fieldname');
                 KDF.customdata('sharepoint_token', 'imgClickEvent', true, true, {});
             }
         }
     })
 
     $('body').on('click', '.delete_file', function() {
-        formParams.deleteFileSelector = $(this).closest('span').data('fieldname');
+        sharepointParams.deleteFileSelector = $(this).closest('span').data('fieldname');
         KDF.customdata('sharepoint_token', 'imgClickEvent', true, true, {});
     })
 
@@ -126,7 +126,7 @@ function do_KDF_Ready_SharepointV2(event, kdf) {
         e.preventDefault();
 
         $(".custom_fileupload_area h1").text("Upload");
-        formParams.files = e.originalEvent.dataTransfer.files;
+        sharepointParams.files = e.originalEvent.dataTransfer.files;
         var file = e.originalEvent.dataTransfer.files[0];
         var fileName = file.name;
         var fileExtension = fileName.split('.').pop();
@@ -162,15 +162,15 @@ function do_KDF_Ready_SharepointV2(event, kdf) {
 }
 
 function setFileV2(file) {
-    formParams.file = file;
+    sharepointParams.file = file;
 }
 
 function processDroppedFile(response) {
     var fileError = false;
     var fileName = response.data['file_name'];
-    var file = Array.from(formParams.files).find(function(file) { if (file.name === fileName) { return file; } });
-    console.log("allowed file size "+JSON.stringify(formParams));
-    if (file.size <= formParams.maxFileSize) {
+    var file = Array.from(sharepointParams.files).find(function(file) { if (file.name === fileName) { return file; } });
+    console.log("allowed file size "+JSON.stringify(sharepointParams));
+    if (file.size <= sharepointParams.maxFileSize) {
         fileError = false;
     } else {
         fileError = true;
@@ -179,15 +179,15 @@ function processDroppedFile(response) {
 
     if (!fileError) {
         fileNames = [];
-        if (formParams.fieldNames.every(function(fieldName) { return KDF.getVal('txt_filename_' + fieldName) !== '' })) {
+        if (sharepointParams.fieldNames.every(function(fieldName) { return KDF.getVal('txt_filename_' + fieldName) !== '' })) {
             fileError = true;
             KDF.showError('Maximum number of file uploads has been reached');
         }
     }
 
     if (!fileError) {
-        for (var i = 0; i < formParams.fieldNames.length; i++) {
-            if (KDF.getVal('txt_filename_' + formParams.fieldNames[i]) == fileName) {
+        for (var i = 0; i < sharepointParams.fieldNames.length; i++) {
+            if (KDF.getVal('txt_filename_' + sharepointParams.fieldNames[i]) == fileName) {
                 fileError = true;
                 KDF.showError('A file with this name already exists');
                 break;
@@ -206,7 +206,7 @@ function processDroppedFile(response) {
         reader.onloadend = function() {
             setFileV2(file);
             setProgressV2(25);
-            if (!formParams.kdfSaveFlag) {
+            if (!sharepointParams.kdfSaveFlag) {
                 KDF.save();
                 document.getElementById("custom_fileupload_holder").focus();
             } else {
@@ -221,8 +221,8 @@ function processFileV2() {
     var fileError = false;
     var fileName = $("#custom_fileupload")[0].files[0].name;
     var fileNameClean = fileName.split('.').pop();
-    console.log("allowed file size "+JSON.stringify(formParams));
-    if ($("#custom_fileupload")[0].files[0].size <= formParams.maxFileSize) {
+    console.log("allowed file size "+JSON.stringify(sharepointParams));
+    if ($("#custom_fileupload")[0].files[0].size <= sharepointParams.maxFileSize) {
         fileError = false;
     } else {
         fileError = true;
@@ -231,15 +231,15 @@ function processFileV2() {
 
     if (!fileError) {
         fileNames = [];
-        if (formParams.fieldNames.every(function(fieldName) { return KDF.getVal('txt_filename_' + fieldName) !== '' })) {
+        if (sharepointParams.fieldNames.every(function(fieldName) { return KDF.getVal('txt_filename_' + fieldName) !== '' })) {
             fileError = true;
             KDF.showError('Maximum number of file uploads has been reached');
         }
     }
 
     if (!fileError) {
-        for (var i = 0; i < formParams.fieldNames.length; i++) {
-            if (KDF.getVal('txt_filename_' + formParams.fieldNames[i]) == fileName) {
+        for (var i = 0; i < sharepointParams.fieldNames.length; i++) {
+            if (KDF.getVal('txt_filename_' + sharepointParams.fieldNames[i]) == fileName) {
                 fileError = true;
                 KDF.showError('A file with this name already exists');
                 break;
@@ -258,7 +258,7 @@ function processFileV2() {
         reader.onloadend = function() {
             setFileV2($("#custom_fileupload")[0].files[0]);
             setProgressV2(25);
-            if (!formParams.kdfSaveFlag) {
+            if (!sharepointParams.kdfSaveFlag) {
                 KDF.save();
                 document.getElementById("custom_fileupload_holder").focus();
             } else {
@@ -271,7 +271,7 @@ function processFileV2() {
 
 
 function setFileThumbnailsV2(access_token) {
-    formParams.fieldNames.forEach(function(name) {
+    sharepointParams.fieldNames.forEach(function(name) {
         if (KDF.getVal('txt_filename_' + name) !== '') {
             sharepointFileThumbnailV2(KDF.getVal('txt_sharepointID_' + name), access_token, 'txt_filename_' + name, name);
         }
@@ -285,28 +285,28 @@ function setFileThumbnailsV2(access_token) {
 function do_KDF_Custom_SharepointV2(response, action) {
     if (action === 'sharepoint_token') {
         var access_token = response.data['access_token'];
-        if (!KDF.kdf().form.readonly && formParams.deleteFileSelector == '') {
+        if (!KDF.kdf().form.readonly && sharepointParams.deleteFileSelector == '') {
 
-            if (KDF.kdf().viewmode == 'U' && !formParams.file) {
+            if (KDF.kdf().viewmode == 'U' && !sharepointParams.file) {
                 setFileThumbnailsV2(access_token);
-            } else if (formParams.file) {
+            } else if (sharepointParams.file) {
 
-                if (!formParams.kdfSaveFlag) {
-                    formParams.kdfSaveFlag = true;
-                    formParams.full_classification = response.data['full_classification'];
+                if (!sharepointParams.kdfSaveFlag) {
+                    sharepointParams.kdfSaveFlag = true;
+                    sharepointParams.full_classification = response.data['full_classification'];
                 }
 
                 sharepointFileUploaderV2(access_token);
             }
 
 
-        } else if (!KDF.kdf().form.readonly && formParams.deleteFileSelector !== '') {
+        } else if (!KDF.kdf().form.readonly && sharepointParams.deleteFileSelector !== '') {
             deleteFileV2(access_token);
         }
 
-        if (KDF.kdf().form.readonly && formParams.imgClickSelector == '') {
+        if (KDF.kdf().form.readonly && sharepointParams.imgClickSelector == '') {
             setFileThumbnailsV2(access_token);
-        } else if (KDF.kdf().form.readonly && formParams.imgClickSelector !== '') {
+        } else if (KDF.kdf().form.readonly && sharepointParams.imgClickSelector !== '') {
             sharepointDownloadFileV2(access_token)
         }
     } else if (action == 'sharepoint_config') {
@@ -329,8 +329,8 @@ function do_KDF_Custom_SharepointV2(response, action) {
                 sharepoint_title = 'Please upload files';
             }
             var txt_file_types = response.data['txt_file_types'];
-            formParams.allowedFileType = txt_file_types.replace(/'/g, '').replace('(', '').replace(')', '').replace(/,/g, ', ');
-            formParams.maxFileSizeDisplay = response.data['txt_max_filesize'];
+            sharepointParams.allowedFileType = txt_file_types.replace(/'/g, '').replace('(', '').replace(')', '').replace(/,/g, ', ');
+            sharepointParams.maxFileSizeDisplay = response.data['txt_max_filesize'];
 
             if ($('#custom_fileupload_holder').length > 0) {
                 // There is no reason why this html couldn't have been left on the form
@@ -338,7 +338,7 @@ function do_KDF_Custom_SharepointV2(response, action) {
                     '<div><label>' + sharepoint_title + '</div></label>' +
                     '<div style="position: relative;"><input id="custom_fileupload" type="file" name="uploadedFile" aria-label="Upload file">' +
                     '<span class="file-gov-icon"><span class="file-gov-icon-a"></span><span class="file-gov-icon-b"></span><label class="file-gov-text">Upload file</label></span>' +
-                    '<div class="helptext">Accepted file types are ' + formParams.allowedFileType + ' up to ' + formParams.maxFileSizeDisplay + ' MB in size</div>' +
+                    '<div class="helptext">Accepted file types are ' + sharepointParams.allowedFileType + ' up to ' + sharepointParams.maxFileSizeDisplay + ' MB in size</div>' +
                     '<div class="dform_fileupload_progressbar" id="custom_fileupload_progressbar"></div>' +
                     '<div class="filenames" id="custom_fileupload_files"></div><br><br></div>' +
                     ' </div>';
@@ -348,8 +348,8 @@ function do_KDF_Custom_SharepointV2(response, action) {
 
             if ($('.' + uploadAreaClass).length > 0) {
                 $('.sharepoint_title').text(sharepoint_title);
-                $('.allowedFileType').text(formParams.allowedFileType);
-                $('.maxFileSizeDisplay').text(formParams.maxFileSizeDisplay);
+                $('.allowedFileType').text(sharepointParams.allowedFileType);
+                $('.maxFileSizeDisplay').text(sharepointParams.maxFileSizeDisplay);
             }
 
         }
@@ -358,12 +358,12 @@ function do_KDF_Custom_SharepointV2(response, action) {
 
 function do_KDF_Save_SharepointV2() {
 
-    if (!formParams.file) {
+    if (!sharepointParams.file) {
         $('#custom_fileupload').focus();
     }
 
-    if (!formParams.kdfSaveFlag) {
-        if (formParams.file) {
+    if (!sharepointParams.kdfSaveFlag) {
+        if (sharepointParams.file) {
             $('#custom_fileupload').focus();
             $('#dform_successMessage').remove();
             //formParams.kdfSaveFlag = true;
@@ -378,7 +378,7 @@ function sharepointFileUploaderV2(access_token) {
 }
 
 function sharepointFileThumbnailV2(itemID, access_token, widgetName, fieldName) {
-    var getThumbnailURL = formParams.fileUploadUrl + itemID + '/thumbnails';
+    var getThumbnailURL = sharepointParams.fileUploadUrl + itemID + '/thumbnails';
 
     $.ajax({
         url: getThumbnailURL,
@@ -389,14 +389,14 @@ function sharepointFileThumbnailV2(itemID, access_token, widgetName, fieldName) 
     }).done(function(response) {
         var thumbnailURL = (response.value[0]) ? response.value[0].medium['url'] : undefined;
         if (!KDF.kdf().form.readonly) {
-            if (KDF.kdf().viewmode === 'U' && !formParams.file) {
+            if (KDF.kdf().viewmode === 'U' && !sharepointParams.file) {
                 if (fieldName) {
                     KDF.setVal('txt_filename_' + fieldName + '_thumb', thumbnailURL);
                 }
                 addFileContainerV2(fieldName);
-            } else if (formParams.file) {
-                for (var i = 0; i < formParams.fieldNames.length; i++) {
-                    var name = formParams.fieldNames[i];
+            } else if (sharepointParams.file) {
+                for (var i = 0; i < sharepointParams.fieldNames.length; i++) {
+                    var name = sharepointParams.fieldNames[i];
                     if (KDF.getVal('txt_filename_' + name + '_thumb') == '') {
                         KDF.setVal('txt_filename_' + name + '_thumb', thumbnailURL);
                         break;
@@ -432,12 +432,12 @@ function addFileContainerV2(fieldName) {
     var fileThumbnail;
     var widgetName = 'txt_filename_' + fieldName;
 
-    if (KDF.kdf().viewmode == 'U' && !formParams.file) {
+    if (KDF.kdf().viewmode == 'U' && !sharepointParams.file) {
         fileName = KDF.getVal(widgetName);
         fileThumbnail = KDF.getVal(widgetName + '_thumb');
-    } else if (formParams.file) {
-        for (var i = 0; i < formParams.fieldNames.length; i++) {
-            fieldName = formParams.fieldNames[i];
+    } else if (sharepointParams.file) {
+        for (var i = 0; i < sharepointParams.fieldNames.length; i++) {
+            fieldName = sharepointParams.fieldNames[i];
             if ($('.filenames .txt_filename_' + fieldName).length < 1) {
                 fileName = KDF.getVal('txt_filename_' + fieldName);
                 fileThumbnail = KDF.getVal('txt_filename_' + fieldName + '_thumb');
@@ -463,8 +463,8 @@ function getImage(fileThumbnail, widgetName, fileName, fieldName) {
 
 
 function sharepointDownloadFileV2(access_token) {
-    var sharepointID = KDF.getVal('txt_sharepointID_' + formParams.imgClickSelector);
-    var getFileURL = formParams.fileUploadUrl + sharepointID + '/preview';
+    var sharepointID = KDF.getVal('txt_sharepointID_' + sharepointParams.imgClickSelector);
+    var getFileURL = sharepointParams.fileUploadUrl + sharepointID + '/preview';
 
     $.ajax({
         url: getFileURL,
@@ -473,16 +473,16 @@ function sharepointDownloadFileV2(access_token) {
     }).done(function(response) {
         window.open(response.getUrl);
     }).fail(function() {});
-    formParams.imgClickSelector = '';
+    sharepointParams.imgClickSelector = '';
 }
 
 function deleteFileV2(access_token) {
     setProgressV2(0);
 
-    var selector = formParams.deleteFileSelector;
+    var selector = sharepointParams.deleteFileSelector;
 
     var fileID = KDF.getVal('txt_sharepointID_' + selector);
-    var deleteURL = formParams.fileUploadUrl + fileID;
+    var deleteURL = sharepointParams.fileUploadUrl + fileID;
 
 
     $.ajax({
@@ -501,17 +501,17 @@ function deleteFileV2(access_token) {
         KDF.showError('Delete file has failed, please try again');
     });
 
-    formParams.deleteFileSelector = '';
+    sharepointParams.deleteFileSelector = '';
 }
 
 // create upload session and upload chunks
 function getUploadSessionV2(access_token) {
     //console.log("getUploadSession method called::");
-    var fileName = formParams.file.name;
-    var url = formParams.fileUploadUrl + 'root:/Verint/' + formParams.full_classification + '/' + KDF.kdf().form.caseid + '/' + fileName;
+    var fileName = sharepointParams.file.name;
+    var url = sharepointParams.fileUploadUrl + 'root:/Verint/' + sharepointParams.full_classification + '/' + KDF.kdf().form.caseid + '/' + fileName;
 
     if (KDF.getVal('txt_case_subject') === 'MEQ' && KDF.kdf().viewmode !== "" && KDF.kdf().access !== 'citizen') {
-        url = formParams.fileUploadUrl + 'root:/Verint/' + KDF.getVal('txt_lead_classification') + '/' + KDF.getVal('txt_lead_id') + '/' + fileName;
+        url = sharepointParams.fileUploadUrl + 'root:/Verint/' + KDF.getVal('txt_lead_classification') + '/' + KDF.getVal('txt_lead_id') + '/' + fileName;
     }
 
     const body = {
@@ -532,7 +532,7 @@ function getUploadSessionV2(access_token) {
         //console.log(response);
         setProgressV2(30);
         var uploadUrl = response.uploadUrl;
-        uploadChunksV2(formParams.file, uploadUrl, access_token);
+        uploadChunksV2(sharepointParams.file, uploadUrl, access_token);
 
     }).fail(function(response) {
         //console.log("Could not get upload session: " + response.responseText);
@@ -584,8 +584,8 @@ async function uploadChunksV2(file, uploadUrl, access_token) {
                     sharepointFileThumbnailV2(res.json.id, access_token)
                     setProgressV2(60)
 
-                    for (var i = 0; i < formParams.fieldNames.length; i++) {
-                        var name = formParams.fieldNames[i];
+                    for (var i = 0; i < sharepointParams.fieldNames.length; i++) {
+                        var name = sharepointParams.fieldNames[i];
                         if (KDF.getVal('txt_sharepointID_' + name) == '') {
                             KDF.setVal('txt_sharepointID_' + name, res.json.id);
                             KDF.setVal('txt_filename_' + name, res.json.name);
