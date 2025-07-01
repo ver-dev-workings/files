@@ -14,7 +14,7 @@ var formParams = {
 }
 
 function do_KDF_Ready_Sharepoint(event, kdf) {
-    console.log("inside ready");
+    //console.log("inside ready");
     var hostURL = window.location.href;
     if (hostURL.includes("https://lbe.")) {
         formParams.fileUploadUrl = 'https://graph.microsoft.com/v1.0/sites/enfield365.sharepoint.com,0abdd322-1a3a-4fa5-8a3c-9e021152aab7,c82bbb33-b259-4604-9365-42c364d6172b/drive/items/'
@@ -102,7 +102,7 @@ function processFile() {
     var fileError = false;
     var fileName = $("#custom_fileupload")[0].files[0].name;
     var fileNameClean = fileName.split('.').pop();
-    console.log("allowed file size "+JSON.stringify(formParams));
+    //console.log("allowed file size "+JSON.stringify(formParams));
     if ($("#custom_fileupload")[0].files[0].size <= formParams.maxFileSize) {
         fileError = false;
     } else {
@@ -168,7 +168,7 @@ function processFile() {
 }
 
 function do_KDF_Custom_Sharepoint(response, action) {
-    console.log("inside custom");
+    //console.log("inside custom");
     if (action === 'sharepoint_token') {
         var access_token = response.data['access_token'];
         if (!KDF.kdf().form.readonly && formParams.deleteFileSelector == '') {
@@ -233,7 +233,7 @@ function do_KDF_Custom_Sharepoint(response, action) {
             }
             var txt_file_types = response.data['txt_file_types'];
             formParams.allowedFileType = txt_file_types.replace(/'/g, '').replace('(', '').replace(')', '').replace(/,/g, ', ');
-            console.log("reponse.data[filesize]: "+response.data['txt_max_filesize']);
+            //console.log("reponse.data[filesize]: "+response.data['txt_max_filesize']);
             formParams.maxFileSizeDisplay = response.data['txt_max_filesize'];
 
             if ($('#custom_fileupload_holder').length > 0) {
